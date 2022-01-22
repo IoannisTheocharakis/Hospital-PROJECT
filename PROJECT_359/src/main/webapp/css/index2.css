@@ -1,0 +1,387 @@
+*{
+    box-sizing: border-box;
+  } /*gia na orizei to orio tou box oso einai to box akoma kai an kaneis paddding*/
+body{
+    background-image:url("../img/1282794.jpg");
+    height: 100vh;
+    background-size:cover;
+	background-position: center;
+    font-family: sans-serif;
+}
+.messages-for-login{
+    display:flex;
+    flex-direction: column;
+}
+.error-message{
+    margin:0;
+    display:none;
+    color:red;
+}
+.login-page{
+    background-color: rgb(255, 255, 255,0.8);
+    margin:auto;
+    border-radius: 5px;
+    width: 30%;
+    padding: 25px ;
+    margin-top: 8%;
+}
+.login-page h2{
+    text-align: center;
+}
+.login-page .register-form .elements{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.register-form{
+    display:none;
+} 
+.elements .element-box{
+    width: calc(100% / 2 - 20px); /*kanei dieresh to width pou dikaioute dhladh ta 720 px kai kratame kai space akoma alla -30px*/
+    
+}
+
+.elements .element-box input ,.elements .element-box textarea{
+    width: 100%; /* poso megethos pianei to input text */
+}
+.elements .element-box select{
+    width: 100%;
+}
+.elements .element-box #start {
+    width: 100%;
+}
+.elements .address .add-name{
+    width: 81%;
+}
+
+.elements .address .add-num{
+    width: 17%;
+   
+    text-align: center;
+}
+.elements .address .add-name-num{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.register-form .date-of-birth{
+    text-align: center;
+    width: 100%;
+}
+.register-form .date-of-birth input{
+    width: 100%;
+    text-align: center;
+  
+}
+
+
+input[type="radio"]{
+    margin-right:10px;
+    margin-left: 0px;
+}
+
+.login-page  .elements-blood-h-w{
+    width: 100%;
+}
+
+.login-page  .elements-blood-h-w .height input,.login-page  .elements-blood-h-w .weight input{
+    width: 60px;
+    text-align: right;
+}
+.login-page  .elements-blood-h-w .height input:focus,.login-page  .elements-blood-h-w .weight input:focus{
+    text-align: center;
+    
+}
+.login-page  .elements-blood-h-w{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+.register-form .element-box{
+    margin-top:15px;
+}
+.register-form .element-box .check-box input{
+    margin-left:0px;
+}
+
+.register-form .element-box .submit-box input , .login-submit input{
+    width: 100%;
+    height: 30px;
+    color:white;
+    background-color: rgb(57, 168, 57);
+    outline: none;
+    border:none;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.element-box input, .element-box select,.element-box textarea  {
+    border-radius:5px;
+    border:1px solid green;
+}
+
+
+#user-blood{
+    text-align: center;
+    width: 60px;
+}
+/*-------------------asssignment2*/
+.fa{
+    width: 20px;
+    position: absolute;
+    right: 0%;
+    bottom: 0%;
+}
+.eye{
+    position: relative;
+}
+#open-eye,#open2-eye{
+    display :none;
+}
+.pass-error-msg{
+    color:red;
+    width: 100%;
+    font-size: 13px;
+    display: none;
+}
+.pass-strength-bar{
+    display: none;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    background: rgb(223, 223, 223);
+    height: 15px;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+.pass-strength-bar span:nth-child(1){
+    font-size: 11px;
+    position: relative;
+    height: auto;
+    top :-20%;
+    z-index: 2;/*deixnei oti einai megaluterhs protereothtas*/
+    font-weight: 600;
+
+}
+.pass-strength-bar span:nth-child(2){
+    position: absolute;
+    top : 0px;
+    left:0px;
+    height: 100%;
+    z-index :1;
+    border-radius: 10px;
+    transition: all 400ms ease-in-out; /*specifies a transition effect with a slow start and end*/
+    background: yellow;
+}
+.element-box select{
+    text-align: center;
+}
+.element-box textarea{
+    max-width: 100%;
+    min-width: 100%;
+}
+.elements-blood-h-w input{
+    width: 100%;
+}
+#doctor-information{
+    display: none;
+}
+.register-form .gender {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; 
+    width: 100%;
+}
+.register-form .gender .gender-radio{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.register-form .gender .gender-radio div{
+    display: flex;
+}
+
+.register-form .blood-volunteer {
+    width: 100%;  
+    display: flex;
+    flex-wrap: wrap; 
+}
+.register-form .blood-volunteer .blood-volunteer-radio{
+    width: 30%;
+    display: flex;
+    justify-content:space-between;
+    flex-wrap: wrap;
+}
+.register-form .blood-volunteer .blood-volunteer-radio div{
+    display: flex;
+}
+
+
+.address-buttons button{
+    width: calc(100% / 2 - 20px);
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 1px;
+}
+.address-buttons button .image{
+    display: flex;
+    align-self: center;
+    width: 13%;
+    margin-right: 5px;
+}
+.address-buttons button .button-label{
+    display: flex;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+.address-buttons{
+    display: flex;
+    
+    overflow: hidden;
+    justify-content: space-between;
+    width: 100%;
+}
+.address-buttons .button-label{
+    text-align: left;
+}
+
+.button-label{
+    align-self: center;
+    font-size:1.2em;
+}
+.button-icon{
+    width: 50%;
+    display: flex;
+    align-self: center;
+}
+
+.address-buttons .button-map{
+    background-color: white;
+    border-radius: 5px;
+    border:2px solid green;
+}
+.address-buttons .button-map:hover {
+    background-color: rgb(169, 255, 188,0.8);
+    cursor:pointer;
+}
+.address-buttons .check-answer{
+    display: none;
+}
+
+.register-form .map,.register-form  #map{
+    display: none;
+    width: 100%;
+    height: 300px;
+}
+
+@media only screen and (max-width: 1600px){
+    .login-page {
+        width: 40%;
+    }
+}
+@media only screen and (max-width: 1150px){
+    .login-page {
+        width: 50%;
+    }
+}
+@media only screen and (max-width: 1160px){
+    .login-page {
+        width: 60%;
+    }
+    .button-label{
+        align-self: center;
+        font-size:1em;
+    }
+}
+@media only screen and (max-width: 800px){
+    .login-page {
+        width: 70%;
+    }
+    
+}
+@media only screen and (max-width: 700px){
+    .login-page .register-form .elements{
+        width: 100%;
+        display: block;
+    }
+    .elements .element-box{
+        width: 100%;
+    }
+    .login-page .elements-blood-h-w {
+        display: block;
+    }
+    .register-form .gender{
+        display: block;
+    }
+    .register-form .gender .gender-radio{
+        width: 100%;
+        margin-top: 5px;
+    }
+    .register-form .blood-volunteer .blood-volunteer-radio{
+        width: 30%;
+        align-self: center;
+        justify-content: space-between;
+        
+        
+    }
+    
+    .login-page .elements-blood-h-w .element-box{
+        width: 100%;
+        display: flex;
+        
+    }
+    .login-page .elements-blood-h-w .element-box label{
+        width: 41%;
+        display: flex;
+        
+    }
+    .login-page .elements-blood-h-w .element-box input,.login-page .elements-blood-h-w select{
+        display: flex;
+        align-self: center;
+        margin:0 auto;
+    }
+    
+    
+}
+@media only screen and (max-width: 410px){
+    .register-form .gender .gender-radio{
+        display: block;
+        
+    }
+    .register-form .gender .gender-radio div{
+        display: flex;
+
+        width: 50%;
+        margin:0 auto;
+        
+    }
+    
+}
+
+.login-form .elements {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.login-form .elements .element-box{
+    width: calc(100% / 2 - 20px);
+}
+.login-form .elements .login-submit {
+    width : 100%;
+
+}
+.login-form .elements .login-submit input {
+
+    margin : 20px 0 ;
+}
+
+.message{
+    margin : 10px 0 0 0 ;
+}
