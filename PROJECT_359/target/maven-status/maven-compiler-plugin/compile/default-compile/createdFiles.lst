@@ -18,5 +18,6 @@ mainClasses\SimpleUser.class
 database\tables\EditTreatmentTable.class
 mainClasses\Randevouz.class
 database\tables\EditMessageTable.class
+.netbeans_automatic_build
 database\init\InitDatabase.class
 servlets\MyServlet.class

@@ -20,3 +20,47 @@
 .rantevou-container{
     margin-top: 2vh;
 }
+.login-submit{
+    margin-top: 1vh;
+}
+
+#time{
+    width: 100%;
+}
+.elements .element-box{
+    width: 100%;
+    margin: 0.5vh 0 ;
+}
+.elements .date-of-birth{
+    width: 100%;
+}
+.add-rantevou .elements .element-box input{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.add-rantevou .elements .element-box input{
+    width: 100%;
+
+}
+.elements .element-box select,.add-rantevou .elements .element-box .hour-min input{
+    width: 15%;
+}
+.elements{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.hour-min{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.app-type-label{
+    display: flex;
+    justify-content: center;
+    margin: 1vh 0;
+}

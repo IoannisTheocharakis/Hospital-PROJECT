@@ -298,7 +298,7 @@ function LogIn(){
     $("#main-menu-body").load("login.html");
 }
 function HomePage(){
-    $("#main-menu-body").load("homecontent.html");
+    $("#content").load("homecontent.html");
 }
 
 function DoctorAppointments(){
