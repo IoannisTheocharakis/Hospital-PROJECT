@@ -1,0 +1,60 @@
+<div class="rantevou">
+
+
+    <div class="add-view">
+        <div class="add" onclick="AddApp()">
+            Add Appointment
+        </div>
+        <div class="view" onclick="ViewApp()">
+            View Appointments
+        </div>
+    </div>
+    <div class="rantevou-container">
+        <div class="add-rantevou">
+            <form action="">
+                <div class="elements">
+                    <div class="element-box">
+                        <label>Username</label>
+                        <input type="text" id="name" name="username" placeholder="username">
+                    </div>
+
+                    <div class="add-rant-submit">
+                        <input type="submit" value="Add" class="btn" name="Add"></input>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="view-rantevou">
+
+        </div>
+    </div>
+
+
+    <br>
+</div>
+<script>
+    function ViewApp(){
+        document.querySelector(".view-rantevou").style.display="block";
+        document.querySelector(".add-rantevou").style.display="none";
+        document.querySelector(".view").style.border="1px solid black";
+        document.querySelector(".add").style.border="0px";
+    }
+    function AddApp(){
+        document.querySelector(".view-rantevou").style.display="none";
+        document.querySelector(".add-rantevou").style.display="block";
+        document.querySelector(".add").style.border="1px solid black";
+        document.querySelector(".view").style.border="0px";
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="css/docApp.css">
+<link rel="stylesheet" href="css/index2.css">

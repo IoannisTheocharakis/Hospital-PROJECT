@@ -29,8 +29,15 @@ function sendAjaxPost2(){
         if (xhr.readyState === 4 && xhr.status === 200) {
             document.querySelector('.error-message').innerText="";
             document.querySelector('.error-message').style.display="none";
-            $("#ajaxContent").load("htmlpaths/profilepage.html");
             UserJson = JSON.parse(xhr.responseText);
+            $("#ajaxContent").load("htmlpaths/user/userpage.html");
+            UserJson = JSON.parse(xhr.responseText);
+            /*elegxei an einai giatros autos pou kanei log in */
+            if(UserJson.hasOwnProperty('doctor_id')){
+                $("#ajaxContent").load("htmlpaths/doc/docpage.html");
+            }else{
+                $("#ajaxContent").load("htmlpaths/user/userpage.html");
+            }
             setTimeout(function () {
                 
                 document.querySelector('.user-name label').innerText=UserJson.username;
@@ -57,7 +64,7 @@ function LogOut(){
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            $("#ajaxContent").load("index1official.html");
+            $("#ajaxContent").load("mainmenu.html");
         } else if (xhr.status !== 200) {
             alert('Request failed. Returned status of ' + xhr.status);
         }
@@ -78,9 +85,12 @@ function isLoggedIn() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            
-            $("#ajaxContent").load("htmlpaths/profilepage.html");
             UserJson = JSON.parse(xhr.responseText);
+            if(UserJson.hasOwnProperty('doctor_id')){
+                $("#ajaxContent").load("htmlpaths/doc/docpage.html");
+            }else{
+                $("#ajaxContent").load("htmlpaths/user/userpage.html");
+            }
             setTimeout(function () {
                 
                 document.querySelector('.user-name label').innerText=UserJson.username;
@@ -88,7 +98,7 @@ function isLoggedIn() {
             
         } else if (xhr.status !== 200) {
 
-             $("#ajaxContent").load("index1official.html");
+             $("#ajaxContent").load("mainmenu.html");
         }
     };
     xhr.open('GET', 'LogIn');
@@ -279,4 +289,18 @@ function loadFrom(){
     document.changeprofile.password.value=UserJson.password;
     document.changeprofile.telephone.value=UserJson.telephone;
     document.changeprofile.weight.value=Number(UserJson.weight);
+}
+
+
+/*project-------- */
+
+function LogIn(){
+    $("#main-menu-body").load("login.html");
+}
+function HomePage(){
+    $("#main-menu-body").load("homecontent.html");
+}
+
+function DoctorAppointments(){
+    $("#content").load("htmlpaths/doc/docAppointments.html");
 }

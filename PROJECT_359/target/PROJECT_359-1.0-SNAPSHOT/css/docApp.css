@@ -1,0 +1,22 @@
+.rantevou{
+    width: 80%;
+    height: 80%;
+}
+.add-view{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+}
+.add , .view{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.add{
+    border: 1px solid black;
+}
+.rantevou-container{
+    margin-top: 2vh;
+}
