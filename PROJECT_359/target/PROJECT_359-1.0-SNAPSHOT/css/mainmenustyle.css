@@ -1,0 +1,65 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  } /*gia na orizei to orio tou box oso einai to box akoma kai an kaneis paddding*/
+body{
+    background-image:url("../img/1282794.jpg");
+    height: 100vh;
+    background-size:cover;
+	background-position: center;
+    font-family: sans-serif;
+}
+
+nav{
+    display:flex;
+    width:100%;
+    background-color: green;
+    justify-content: space-between;
+    align-items: center;
+    height :7vh;
+    color : white;
+    font-size: 2vw;
+}
+.main-body{
+    width: 80%;
+    margin : 6vh auto ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 1vw;
+    background-color: rgb(255, 255, 255,0.8);
+    padding-bottom:6vh;
+    padding:20px 0;
+    margin-bottom:6vh;
+}
+
+.menu{
+    display: flex;
+    width: 33%;
+    padding: 0 2vw ;
+    justify-content: space-between;
+    height: 90%;
+}
+.LogIn{
+    width: 15%;
+    display: flex;
+    padding: 0 2vw;
+    justify-content: space-between;
+    height: 90%;
+}
+
+
+.menu div ,.LogIn div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1vw;
+
+}
+.menu div:hover,.LogIn div:hover{
+    background-color: rgba(235, 235, 235, 0.863);
+    border-radius: 1vw;
+    color:black;
+}

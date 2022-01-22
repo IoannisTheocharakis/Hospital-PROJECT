@@ -1,0 +1,102 @@
+<div class="rantevou">
+
+
+    <div class="add-view">
+        <div class="add" onclick="AddApp()">
+            Add Appointment
+        </div>
+        <div class="view" onclick="ViewApp()">
+            View Appointments
+        </div>
+    </div>
+    <div class="rantevou-container">
+        <div class="add-rantevou">
+            <form action="">
+                <div class="elements">
+                    <div class="element-box date-of-birth">
+                        <label for="start" class="app-type-label">Date</label>
+                        <input type="date" id="start" name="date" value="2022-02-01" min="2022-02-01" max="2023-12-31"
+                            required>
+                    </div>
+
+                    <div class="element-box ">
+                        <label for="time" id="time" class="app-type-label">Time / Price</label>
+                        <div class="hour-min">
+
+                            <label>Hour :</label>
+                            <select id="hour" name="hour" required>
+                                <option value="8" selected="selected">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                            </select>
+                            <label>Minutes :</label>
+                            <select id="minutes" name="minutes" required>
+                                <option value="0" selected="selected">00</option>
+                                <option value="30" selected="selected">30</option>
+                            </select>
+                            <label>
+                                Appointment Price
+                            </label>
+                            <input type="number" name="price" min="10.0" max="80" placeholder="€" step="0.01" required>
+                            <label>
+                                €
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="login-submit">
+                    <div class="add-rant-submit">
+                        <input type="submit" value="Add Appointment" class="btn" name="Add Appointment"></input>
+                    </div>
+                </div>
+
+                <div class="msg-add-app">
+                    
+                </div>
+            </form>
+        </div>
+        <div class="view-rantevou">
+
+        </div>
+    </div>
+
+
+    <br>
+</div>
+<script>
+    function ViewApp() {
+        document.querySelector(".view-rantevou").style.display = "block";
+        document.querySelector(".add-rantevou").style.display = "none";
+        document.querySelector(".view").style.border = "1px solid black";
+        document.querySelector(".add").style.border = "0px";
+    }
+    function AddApp() {
+        document.querySelector(".view-rantevou").style.display = "none";
+        document.querySelector(".add-rantevou").style.display = "block";
+        document.querySelector(".add").style.border = "1px solid black";
+        document.querySelector(".view").style.border = "0px";
+    }
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="css/index2.css">
+<link rel="stylesheet" href="css/docApp.css">
