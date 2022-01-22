@@ -29,7 +29,7 @@
 }
 .elements .element-box{
     width: 100%;
-    margin: 0.5vh 0 ;
+    margin: 1.5vh 0 ;
 }
 .elements .date-of-birth{
     width: 100%;
@@ -62,5 +62,80 @@
 .app-type-label{
     display: flex;
     justify-content: center;
-    margin: 1vh 0;
+    margin: 3vh 0;
+}
+.view-rantevou{
+    display: none;
+}
+.done img,.cancel img,.pdf img{
+    width: 4vh;
+    height: 4vh;
+    cursor: pointer;
+}
+
+.days{
+    width: 100%;
+    height: 100%;
+}
+.day{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.day-pdf{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 2vh;
+}
+.day-pdf p{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pdf{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.day-pdf .pdf img{
+    width: 4vh;
+    height: 4vh;
+}
+
+.users{
+    width: 100%;
+    height:auto;
+
+}
+.user{
+    margin:1vh 0.5vh;
+    padding: 1vh 0.3vh;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.patient-info{
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.choices{
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.choices .done,.choices .cancel{
+    margin : 0 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
