@@ -33,14 +33,13 @@ function sendAjaxPost2(){
             $("#ajaxContent").load("htmlpaths/user/userpage.html");
             UserJson = JSON.parse(xhr.responseText);
             /*elegxei an einai giatros autos pou kanei log in */
-            if(UserJson.hasOwnProperty('doctor_id')){
+            if (UserJson.hasOwnProperty('doctor_id')) {
                 $("#ajaxContent").load("htmlpaths/doc/docpage.html");
             }else{
                 $("#ajaxContent").load("htmlpaths/user/userpage.html");
             }
             setTimeout(function () {
-                
-                document.querySelector('.user-name label').innerText=UserJson.username;
+                document.querySelector('.user-name label').innerText = UserJson.username;
             }, 200);
             
         } else if (xhr.status !== 200) {
@@ -303,4 +302,30 @@ function HomePage(){
 
 function DoctorAppointments(){
     $("#content").load("htmlpaths/doc/docAppointments.html");
+}
+
+
+function AddAppointment() {
+    var today = new Date();
+    var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + " " + time;
+
+
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Your schedule was successfully created.", dateTime);
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    var data = $('#AddAppointment-form').serialize();
+    xhr.open('POST', 'AddAppointment');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data + "&status=free" + "&doctor_id=" + UserJson.doctor_id + "&CurrentTime=" + dateTime);
 }

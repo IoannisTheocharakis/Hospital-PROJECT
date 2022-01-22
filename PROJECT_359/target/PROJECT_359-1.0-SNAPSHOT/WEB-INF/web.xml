@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>MyServlet</servlet-name>
-        <servlet-class>servlets.MyServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SignIn</servlet-name>
         <servlet-class>servlets.SignIn</servlet-class>
     </servlet>
@@ -24,10 +20,10 @@
         <servlet-name>ChangeProfileData</servlet-name>
         <servlet-class>servlets.ChangeProfileData</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>MyServlet</servlet-name>
-        <url-pattern>/MyServlet</url-pattern>
-    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddAppointment</servlet-name>
+        <servlet-class>servlets.AddAppointment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
@@ -47,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>ChangeProfileData</servlet-name>
         <url-pattern>/ChangeProfileData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddAppointment</servlet-name>
+        <url-pattern>/AddAppointment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
