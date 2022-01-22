@@ -92,9 +92,6 @@ public class AddAppointment extends HttpServlet {
         rand.setUser_info("null");
         EditRandevouzTable TreatTable = new EditRandevouzTable();
         try (PrintWriter out = response.getWriter()) {
-            System.out.println(date);
-            System.out.println(CurrentTime);
-            System.out.println(date.compareTo(CurrentTime));
             if (date.compareTo(CurrentTime) <= 0) {
                 response.setStatus(403);
             } else {
