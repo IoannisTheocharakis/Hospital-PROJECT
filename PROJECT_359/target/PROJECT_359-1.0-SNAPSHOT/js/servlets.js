@@ -30,8 +30,6 @@ function sendAjaxPost2(){
             document.querySelector('.error-message').innerText="";
             document.querySelector('.error-message').style.display="none";
             UserJson = JSON.parse(xhr.responseText);
-            $("#ajaxContent").load("htmlpaths/user/userpage.html");
-            UserJson = JSON.parse(xhr.responseText);
             /*elegxei an einai giatros autos pou kanei log in */
             if(UserJson.hasOwnProperty('doctor_id')){
                 $("#ajaxContent").load("htmlpaths/doc/docpage.html");
@@ -141,12 +139,13 @@ function createTableFromJSON(data) {
 
     if(data.certified){
         var html = "<div id='doctors-table'><div> <table><tr><th>Category</th><th>Value</th></tr>";
+
         for (const x in data) {
             
             if(x==="firstname" || x==="lastname" || x==="address" || x==="city" ||x==="doctor_info" || x==="specialty" || x==="telephone"){
                 var category = x;
                 var value = data[x];
-        
+                
                 html += "<tr><td>" + category + "</td><td>" + value + "</td></tr>";
             }
         
