@@ -304,7 +304,7 @@ function DoctorAppointments(){
     $("#content").load("htmlpaths/doc/docAppointments.html");
 }
 
-
+/*new*/
 function AddAppointment() {
     var today = new Date();
     var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
@@ -328,4 +328,45 @@ function AddAppointment() {
     xhr.open('POST', 'AddAppointment');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(data + "&status=free" + "&doctor_id=" + UserJson.doctor_id + "&CurrentTime=" + dateTime);
+}
+
+var DocPatientsJson;
+function GetPatientID() {
+    ViewApp();
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            DocPatientsJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
+            console.log(DocPatientsJson);
+//            alert(DocPatientsJson.patient_id);
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+//    var data = $('#AddAppointment-form').serialize();
+    xhr.open('POST', 'GetPatientID');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&doctor_id=" + UserJson.doctor_id);
+}
+
+
+function CreateNewTreatment() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Your schedule was successfully created.");
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    var data = $('#NewTreatment').serialize();
+    xhr.open('POST', 'CreateNewTreatment');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data + "&doctor_id=" + UserJson.doctor_id + "&user_id=" + DocPatientsJson[1].user_id);
 }

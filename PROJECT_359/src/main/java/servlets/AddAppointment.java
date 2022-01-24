@@ -90,12 +90,12 @@ public class AddAppointment extends HttpServlet {
         rand.setStatus(status);
         rand.setUser_id(0);
         rand.setUser_info("null");
-        EditRandevouzTable TreatTable = new EditRandevouzTable();
+        EditRandevouzTable RandTable = new EditRandevouzTable();
         try (PrintWriter out = response.getWriter()) {
             if (date.compareTo(CurrentTime) <= 0) {
                 response.setStatus(403);
             } else {
-                TreatTable.createNewRandevouz(rand);
+                RandTable.createNewRandevouz(rand);
                 response.setStatus(200);
             }
 

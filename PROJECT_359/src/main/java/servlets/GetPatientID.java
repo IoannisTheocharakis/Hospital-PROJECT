@@ -6,7 +6,8 @@ package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import database.tables.EditDoctorTable;
+import database.tables.EditRandevouzTable;
+import database.tables.EditSimpleUserTable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,13 +18,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mainClasses.Doctor;
+import mainClasses.SimpleUser;
 
 /**
  *
- * @author Theo
+ * @author kosta
  */
-public class ReturnDoctors extends HttpServlet {
+public class GetPatientID extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +43,10 @@ public class ReturnDoctors extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReturnDoctors</title>");            
+            out.println("<title>Servlet GetPatientID</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ReturnDoctors at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet GetPatientID at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,36 +64,7 @@ public class ReturnDoctors extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EditDoctorTable doc = new EditDoctorTable();
-
-        ArrayList<Doctor> doctors = null;
-        try {
-            doctors = doc.databaseToDoctors();
-        } catch (SQLException ex) {
-            Logger.getLogger(ReturnDoctors.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ReturnDoctors.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-        try (PrintWriter out = response.getWriter()) {
-
-            if(doctors.isEmpty()){
-                response.setStatus(404);
-            }
-            else{
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                Gson gson = gsonBuilder.create();
-                String doctorsToJson = gson.toJson(doctors);
-                out.println(doctorsToJson);
-                response.setStatus(200);
-            }
-        }
-        
-        
-        
-        
-              
+        processRequest(request, response);
     }
 
     /**
@@ -104,9 +76,33 @@ public class ReturnDoctors extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int docID = (Integer.parseInt(request.getParameter("doctor_id")));
+        EditRandevouzTable ERTUserID = new EditRandevouzTable();
+        EditSimpleUserTable simpleuser = new EditSimpleUserTable();
+
+
+        try (PrintWriter out = response.getWriter()) {
+            ArrayList<SimpleUser> IDz = null;
+            IDz = ERTUserID.GetUserFromID(docID);
+
+            if (IDz.isEmpty()) {
+                System.out.println("FAILED");
+                response.setStatus(403);
+            } else {
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                Gson gson = gsonBuilder.create();
+                String json = gson.toJson(IDz);
+                out.println(json);
+                response.setStatus(200);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GetPatientID.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GetPatientID.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        response.setStatus(403);
     }
 
     /**
