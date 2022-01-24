@@ -5,18 +5,17 @@
         <div class="add" onclick="AddApp()">
             Add Appointment
         </div>
-        <div class="view" onclick="ViewApp()">
+        <div class="view" onclick="GetPatientID()">
             View Appointments
         </div>
     </div>
     <div class="rantevou-container">
         <div class="add-rantevou">
-            <form action="">
+            <form id="AddAppointment-form" action="" onsubmit='AddAppointment();return false;'>
                 <div class="elements">
                     <div class="element-box date-of-birth">
                         <label for="start" class="app-type-label">Date</label>
-                        <input type="date" id="start" name="date" value="2022-02-01" min="2022-02-01" max="2023-12-31"
-                            required>
+                        <input type="date" id="start" name="date" value="2022-01-01" min="2022-01-01" max="2023-12-31" required>
                     </div>
 
                     <div class="element-box ">
@@ -70,8 +69,6 @@
         <div class="view-rantevou">
             <div class="appointments">
                 <div class="days">
-
-
                     <div class="day day1">
                         <div class="day-pdf">
                             <p>
@@ -148,23 +145,23 @@
                                         <div class="title">
                                             New Treatment
                                         </div>
-                                        <form action="">
+                                        <form id="NewTreatment" action="" onsubmit='CreateNewTreatment();return false;'>
                                             <div class="new-start-date">
-                                                <label for="">Start Date</label>
+                                                <label>Start Date</label>
                                                 <input  type="date" id="startdate" name="startdate" value="2022-01-01"
                     min="1920-01-01" max="20055-12-31" required>
                                             </div>
                                             <div class="new-final-date">
-                                                <label for="">Last Date</label>
+                                                <label>Last Date</label>
                                                 <input  type="date" id="lastdate" name="lastdate" value="2022-01-01"
                     min="1920-01-01" max="20055-12-31" required>
                                             </div>
                                             <div class="new-info">
-                                                <label for="">Info</label>
-                                                <input type="textarea" name="" id="" placeholder="info">
+                                                <label>Info</label>
+                                                <input type="text" name="treatmentText" id="treatmentText" placeholder="info">
                                             </div>
                                             <div class="sbmt">
-                                                <input type="submit" name="" id="">
+                                                <input type="submit" name="submit" id="submit">
                                             </div>
                                         </form>
                                        

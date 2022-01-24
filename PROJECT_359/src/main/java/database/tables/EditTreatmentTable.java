@@ -8,14 +8,12 @@ package database.tables;
 import com.google.gson.Gson;
 import database.tables.EditBloodTestTable;
 import database.DB_Connection;
-import database.tables.EditMessageTable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mainClasses.Message;
 import mainClasses.Treatment;
 
 /**
@@ -90,7 +88,6 @@ public class EditTreatmentTable {
     public void createNewTreatment(Treatment tr) throws ClassNotFoundException {
         try {
             Connection con = DB_Connection.getConnection();
-
             Statement stmt = con.createStatement();
 
             String insertQuery = "INSERT INTO "
