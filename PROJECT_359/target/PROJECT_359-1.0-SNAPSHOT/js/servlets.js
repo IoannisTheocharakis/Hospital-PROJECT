@@ -154,9 +154,8 @@ function createTableFromJSON(data) {
         }
         html += "</table> </div></div>";
         html +=`
-        <div class="select-doc" onclick="selectDoc(`+data.doctor_id +`)">
+        <div class="select-doc" onclick="selectDoc(`+data.doctor_id+`)">
             Select
-        
         </div>
         `;
         return html;
