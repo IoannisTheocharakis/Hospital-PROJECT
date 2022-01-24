@@ -1,5 +1,91 @@
-<div class="rantevou">
+<div class="app">
+    <div class="add-view">
+        <div class="add" onclick="AddAppoint()">
+            View appointments
+        </div>
+        <div class="view" onclick="ViewAppoint()">
+            Book an appointment
+        </div>
+    </div>
+    <div class="add-rantevou">
+        <div class="sorting">
+            <label>Sorting by :</label>
+            <select id="sorting" name="sort" required>
+                <option value="distance-by-car">Distance by car</option>
+                <option value="distance-from-home" selected>Distance from home </option>
+                <option value="price">Low Price</option>
 
+            </select>
+        </div>
+        <div id="print-doc" class="print-doc">
+
+        </div>
+    </div>
+    <div class="view-rantevou">
+        <div class="booked-title">
+            Booked Appointments
+        </div>
+        <div class="booked">
+            <div class="book">
+                <div class="name-doc">
+                    <p>
+                        Name
+                    </p>
+                    <p>
+                        Giannis
+                    </p>
+                </div>
+                <div class="date-time">
+                    <p>
+                        Date-time
+                    </p>
+                    <p>
+                        2021-10-29 15:00:00
+                    </p>
+                </div>
+                <div class="price">
+                    <p>
+                        price
+                    </p>
+                    <p>
+                        50 $
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+        <div class="done-title">
+            Complete Appointments
+        </div>
+        <div class="done-s">
+            <div class="done">
+                <div class="name-doc">
+                    <p>
+                        Name
+                    </p>
+                    <p>
+                        Giannis
+                    </p>
+                </div>
+                <div class="date-time">
+                    <p>
+                        Date-time
+                    </p>
+                    <p>
+                        2021-10-29 15:00:00
+                    </p>
+                </div>
+                <div class="price">
+                    <p>
+                        price
+                    </p>
+                    <p>
+                        50 $
+                    </p> 
+                </div>
+            </div>
+        </div>
+    </div>
     <br>
 </div>
 
@@ -7,22 +93,21 @@
 
 
 <script>
-    function ViewApp() {
+    function ViewAppoint() {
         document.querySelector(".view-rantevou").style.display = "block";
         document.querySelector(".add-rantevou").style.display = "none";
         document.querySelector(".view").style.border = "1px solid black";
         document.querySelector(".add").style.border = "0px";
     }
-    function AddApp() {
+    function AddAppoint() {
         document.querySelector(".view-rantevou").style.display = "none";
         document.querySelector(".add-rantevou").style.display = "block";
         document.querySelector(".add").style.border = "1px solid black";
         document.querySelector(".view").style.border = "0px";
     }
-    function showmore(){
-        document.querySelector(".user-info").style.display="flex";
+    function showmore() {
+        document.querySelector(".user-info").style.display = "flex";
     }
 </script>
 
-<link rel="stylesheet" href="css/index2.css">
-<link rel="stylesheet" href="css/docApp.css">
+<link rel="stylesheet" href="css/userApp.css">

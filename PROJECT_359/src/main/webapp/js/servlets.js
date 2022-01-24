@@ -106,9 +106,11 @@ function isLoggedIn() {
 
 
 function DoctorsTable() {
+    $("#content").load("htmlpaths/user/userAppontments.html");
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("GIS");
             
            let doctors_toJson=JSON.parse(xhr.responseText);
 
@@ -123,9 +125,9 @@ function DoctorsTable() {
                x+=createTableFromJSON(one_doctor);
                i++;
            }
-           document.querySelector('#content').innerHTML=x;
+           document.querySelector('#print-doc').innerHTML=x;
         } else if (xhr.status !== 200) {
-           document.querySelector('#content').innerHTML ="Failed to show dotors.";
+           document.querySelector('#print-doc').innerHTML ="Failed to show dotors.";
         }
     };
 
@@ -151,6 +153,12 @@ function createTableFromJSON(data) {
         
         }
         html += "</table> </div></div>";
+        html +=`
+        <div class="select-doc" onclick="selectDoc(`+data.doctor_id +`)">
+            Select
+        
+        </div>
+        `;
         return html;
     }
     html += "";
@@ -302,4 +310,7 @@ function HomePage(){
 
 function DoctorAppointments(){
     $("#content").load("htmlpaths/doc/docAppointments.html");
+}
+function selectDoc(id){
+    console.log("einai " + id);
 }

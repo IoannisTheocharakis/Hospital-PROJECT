@@ -1,0 +1,86 @@
+.app{
+    width: 80%;
+    height: 80%;
+}
+
+.add-view{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+}
+
+.add , .view{
+    width: calc(100% / 2 - 20px); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add{
+    border: 1px solid black;
+}
+.sorting{
+    width: 100%;
+    margin : 3vh 0 1vh 0;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+.sorting select{
+    width: 68%;
+    text-align: center;
+}
+.sorting label{
+    width: 29%;
+}
+.print-doc table{
+    width: 100%;
+    margin: 4vh;
+}
+.print-doc table tr{
+    width: 50%;
+}
+.print-doc table td{
+    width: 50%;
+}
+
+.select-doc{
+    margin: 1vh 0 ;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+    color:white;
+    background-color: green;
+}
+
+.booked{
+    margin : 1vh 0 ;
+    width: 100%;
+}
+.book{
+    margin : 1vh 0 ;
+    width: 100%;
+    display: flex;
+    padding: 0.5vh;
+    border: 1px solid black;
+    justify-content: space-between;
+}
+.done-s{
+    margin : 1vh 0 ;
+    width: 100%;
+}
+.done{
+    margin : 1vh 0 ;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    padding: 0.5vh;
+}
+.booked-title , .done-title{
+
+    margin : 3vh 0 ;
+    font-weight: bold;
+    text-align: center;
+}
