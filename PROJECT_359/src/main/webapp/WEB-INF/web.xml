@@ -36,6 +36,10 @@
         <servlet-name>CreateNewTreatment</servlet-name>
         <servlet-class>servlets.CreateNewTreatment</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ActiveTreatments</servlet-name>
+        <servlet-class>servlets.ActiveTreatments</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>CreateNewTreatment</servlet-name>
         <url-pattern>/CreateNewTreatment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActiveTreatments</servlet-name>
+        <url-pattern>/ActiveTreatments</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

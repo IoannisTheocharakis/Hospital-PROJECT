@@ -13,7 +13,7 @@
                 <div class="blood-test" onclick="goBloodTest()">
                     <label class="">Blood Test</label>
                 </div>
-                <div class="active-treatments" onclick="goTreatments()">
+                <div class="active-treatments" onclick="User_ActiveTreatments();return false;">
                     <label class="">Treatments</label>
                 </div>
             </div>
@@ -35,9 +35,6 @@
         <link rel="stylesheet" href="css/userpage.css">
 
         <script>
-            function goTreatments(){
-                $("#content").load("htmlpaths/user/userTreatments.html");
-            }
             function goBloodTest(){
                 $("#content").load("htmlpaths/user/userBloodTest.html");
             }
