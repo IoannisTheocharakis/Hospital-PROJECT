@@ -85,7 +85,7 @@ public class GetPatientID extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             ArrayList<SimpleUser> IDz = null;
             IDz = ERTUserID.GetUserFromID(docID);
-
+            
             if (IDz.isEmpty()) {
                 System.out.println("FAILED");
                 response.setStatus(403);

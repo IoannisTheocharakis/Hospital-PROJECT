@@ -1,0 +1,36 @@
+.close-rantevou{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.rantevou{
+    width: 90%;
+    height: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5vh;
+    margin:1vh;
+    border:1px solid black;
+}
+.elem{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.close{
+    margin: 0.4vh;
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:  0.4vh;
+    background-color: green;
+    color:white;
+    border-radius: 2px;
+}
+div h4 {
+    text-align: center;
+}
