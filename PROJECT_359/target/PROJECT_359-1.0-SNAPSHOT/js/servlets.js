@@ -126,6 +126,7 @@ function DoctorsTable() {
                 x += createTableFromJSON(one_doctor);
                 i++;
             }
+            API_doctors_dest();
             if (document.querySelector('#print-doc')) {
                 document.querySelector('#print-doc').innerHTML = x;
             } else {
@@ -359,22 +360,12 @@ function GetPatientID() {
             console.log(DocPatientsJson);
             let x = "";
             x += createDocViewAppointments(DocPatientsJson);
-            // while (DocPatientsJson[i] !== undefined) {
-
-            //     one_doctor_patient = DocPatientsJson[i];
-
-            //     x += createDocViewAppointments(one_doctor_patient);
-            //     i++;
-            // }
-            if (document.querySelector('.test1')) {
-                document.querySelector('.test1').innerHTML = x;
+            if (document.querySelector('.days')) {
+                document.querySelector('.days').innerHTML = x;
             } else {
                 console.log("den brethike")
                 //document.querySelector('#content').innerHTML = x;
             }
-
-
-
         } else if (xhr.status === 403) {
             alert("An error occured while trying to create your schedule.");
         } else {
@@ -395,7 +386,7 @@ function createDocViewAppointments(patients) {
 
     if (patients) {
         //----------
-        var html="";
+        var html = "";
         let k = 0;
         for (let i = 1; i < 2; i++) {
             html += `
@@ -413,65 +404,65 @@ function createDocViewAppointments(patients) {
                 one_doctor_patient = DocPatientsJson[k];
                 console.log(one_doctor_patient)
                 html += `
-                <div class="user user`+one_doctor_patient.user_id +`">
+                <div class="user user`+ one_doctor_patient.user_id + `" >
                     <div class="info-choices">
                         <div class="patient-info">
                             <div class="name">`
-                               +one_doctor_patient.firstname + ` ` + one_doctor_patient.lastname+`
+                    + one_doctor_patient.firstname + ` ` + one_doctor_patient.lastname + `
                             </div>
                             <div class="amka">
-                                `+one_doctor_patient.amka+`
+                                `+ one_doctor_patient.amka + `
                             </div>
                         </div>
                         <div class="choices">
-                            <div class="done" onclick="showmore(`+one_doctor_patient.user_id+`)">
+                            <div class="done" onclick="showmore(`+ one_doctor_patient.user_id + `)">
                                 <img src="img/check.png" alt="">
                             </div>
-                            <div class="cancel" onclick="showless(`+one_doctor_patient.user_id+`)">
+                            <div class="cancel" onclick="showless(`+ one_doctor_patient.user_id + `)">
                                 <img src="img/remove.png" alt="">
                             </div>
                         </div>
                     </div>
-                    <div class="user-info-`+one_doctor_patient.user_id+`">
+                    <div class="user-info-`+ one_doctor_patient.user_id + `" style="display:none">
                         <div class="treatments">
                             <div class="title">
                                 Treatments
                             </div>
                             <div class="treatment">
                             `
-                            for(let w=0;w<1;w++){
-                                html+=`
+                for (let w = 0; w < 1; w++) {
+                    html += `
                                 <div class="start-date">
-                                    `+20+`
+                                    `+ 20 + `
                                 </div>
                                 <div class="final-date">
-                                    `+w+`
+                                    `+ w + `
                                 </div>
                                 <div class="info">
-                                    `+k+`
+                                    `+ k + `
                                 </div>
                                 `
-                            }
-                            html+=`</div>
+                }
+                html += `</div>
                         </div>
                         <div class="bloodtest">
                             <div class="title">
                                 See statistics
                             </div>
                             <div class="type">
-                                <div class="iron bloodT" onclick="patientBTinfo(`+one_doctor_patient.user_id+`,'iron')">
+                                <div class="iron bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'iron')">
                                     iron
                                 </div>
-                                <div class="sugar bloodT" onclick="patientBTinfo(`+one_doctor_patient.user_id+`,'blood_sugar')">
+                                <div class="sugar bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'blood_sugar')">
                                     sugar
                                 </div>
-                                <div class="cholesterol bloodT" onclick="patientBTinfo(`+one_doctor_patient.user_id+`,'cholesterol')">
+                                <div class="cholesterol bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'cholesterol')">
                                     cholesterol
                                 </div>
-                                <div class="vitamin-d3 bloodT" onclick="patientBTinfo(`+one_doctor_patient.user_id+`,'vitamin_d3')">
+                                <div class="vitamin-d3 bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'vitamin_d3')">
                                     vitamin d3
                                 </div>
-                                <div class="vitamin-b12 bloodT" onclick="patientBTinfo(`+one_doctor_patient.user_id+`,'vitamin_b12')">
+                                <div class="vitamin-b12 bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'vitamin_b12')">
                                     vitamin b12
                                 </div>
                             </div>
@@ -483,7 +474,7 @@ function createDocViewAppointments(patients) {
                             <div class="title">
                                 New Treatment
                             </div>
-                            <form id="NewTreatment" action="" onsubmit='CreateNewTreatment(`+one_doctor_patient.user_id+`);return false;'>
+                            <form id="NewTreatment" action="" onsubmit='CreateNewTreatment(`+ one_doctor_patient.user_id + `);return false;'>
                                 <div class="new-start-date">
                                     <label>Start Date</label>
                                     <input  type="date" id="startdate" name="startdate" value="2022-01-01"
@@ -541,16 +532,43 @@ function CreateNewTreatment(patient_id) {
 }
 
 
-function patientBTinfo(patientID,type){
+function patientBTinfo(patientID, type) {
     console.log(patientID);
     console.log(type);
 }
 
-function showmore(user_id){
+function showmore(user_id) {
     console.log(user_id);
-    document.querySelector(".user-info-" +user_id).style.display="block";
+    document.querySelector(".user-info-" + user_id).style.display = "block";
 }
-function showless(user_id){
+function showless(user_id) {
     console.log(user_id);
-    document.querySelector(".user-info-" +user_id).style.display="none";
+    document.querySelector(".user-info-" + user_id).style.display = "none";
+}
+
+
+
+
+
+
+
+function API_doctors_dest() {
+    const data = null;
+
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            console.log(this.responseText);
+        }
+    });
+    console.log(UserJson.lat);
+    console.log(UserJson.lon);
+    console.log("https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins="+UserJson.lat+"%2C"+UserJson.lon+"&destinations=35.3357701%2C25.1189201%3B35.329600%2C25.081010");
+    xhr.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins="+UserJson.lat+"%2C"+UserJson.lon+"&destinations=35.3357701%2C25.1189201%3B35.329600%2C25.081010");
+    xhr.setRequestHeader("x-rapidapi-host", "trueway-matrix.p.rapidapi.com");
+    xhr.setRequestHeader("x-rapidapi-key", "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212");
+
+    xhr.send(data);
 }
