@@ -1,25 +1,21 @@
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\database\tables\EditDoctorTable.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\servlets\CreateNewTreatment.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\database\tables\EditSimpleUserTable.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\database\tables\EditTreatmentTable.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\mainClasses\Doctor.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\database\tables\EditBloodTestTable.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\servlets\LogOut.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\mainClasses\Randevouz.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\database\DB_Connection.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\servlets\ReturnDoctors.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\servlets\SignIn.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\database\init\InitDatabase.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\servlets\AddAppointment.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\servlets\ChangeProfileData.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\servlets\ActiveTreatments.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\mainClasses\Message.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\database\tables\EditMessageTable.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\servlets\LogIn.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\servlets\GetPatientID.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\database\tables\EditRandevouzTable.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\mainClasses\JSON_Converter.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\mainClasses\SimpleUser.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\mainClasses\Treatment.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\mainClasses\User.java
-D:\MY LIBRARY\PROGRAMS\IN D (HDD)\csd-PROGRAMS\VS CODE WORKSPACE\PROJECT\HY359\PROJECT_359\src\main\java\mainClasses\BloodTest.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\mainClasses\Treatment.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\database\init\InitDatabase.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\mainClasses\BloodTest.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\servlets\ChangeProfileData.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\database\tables\EditTreatmentTable.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\mainClasses\Doctor.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\servlets\ReturnDoctors.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\database\tables\EditRandevouzTable.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\mainClasses\Message.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\mainClasses\Randevouz.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\database\tables\EditBloodTestTable.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\mainClasses\SimpleUser.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\database\DB_Connection.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\mainClasses\User.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\servlets\SignIn.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\mainClasses\JSON_Converter.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\database\tables\EditSimpleUserTable.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\servlets\LogOut.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\servlets\LogIn.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\database\tables\EditMessageTable.java
+C:\Users\kosta\Desktop\Coding\359\HY359\PROJECT_359\src\main\java\database\tables\EditDoctorTable.java
