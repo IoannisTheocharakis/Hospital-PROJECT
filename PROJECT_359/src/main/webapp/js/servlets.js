@@ -772,3 +772,44 @@ function User_ActiveTreatments() {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send();
 }
+
+
+function AllDocRandevou() {
+    $("#content").load("htmlpaths/user/userAppSelect.html");
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // let doctors_toJson = JSON.parse(xhr.responseText);
+            let AllRandevou;
+            AllRandevou = JSON.parse(xhr.responseText);
+            var x="";
+            setTimeout(function () {
+                let i = 0;
+                while (AllRandevou[i] !== undefined) {
+                    
+                    allR = AllRandevou[i];
+                    if(date < trtmnt.end_date ){
+
+                    }
+                   
+
+                    i++;
+                }
+
+                if (document.querySelector('.treatments')) {
+                    document.querySelector('.treatments').innerHTML = x;
+                } else {
+                    alert("Doesnt exist");
+                }
+            }, 350);
+
+
+
+        } else if (xhr.status !== 200) {
+            alert("alert Treatments !200");
+        }
+    };
+    xhr.open('GET', 'ActiveTreatments?&user_id=' + UserJson.user_id);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
