@@ -443,7 +443,7 @@ function createDocViewAppointments(patients) {
                             </div>
                         </div>
                         <div class="choices">
-                            <div class="done" onclick="showmore(`+ one_doctor_patient.user_id + `)">
+                            <div class="done" onclick="getPatientTreatments(` + one_doctor_patient.user_id + `)">
                                 <img src="img/check.png" alt="">
                             </div>
                             <div class="cancel" onclick="showless(`+ one_doctor_patient.user_id + `)">
@@ -478,19 +478,19 @@ function createDocViewAppointments(patients) {
                                 See statistics
                             </div>
                             <div class="type">
-                                <div class="iron bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'iron')">
+                                <div class="iron bloodT">
                                     iron
                                 </div>
-                                <div class="sugar bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'blood_sugar')">
+                                <div class="sugar bloodT">
                                     sugar
                                 </div>
-                                <div class="cholesterol bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'cholesterol')">
+                                <div class="cholesterol bloodT">
                                     cholesterol
                                 </div>
-                                <div class="vitamin-d3 bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'vitamin_d3')">
+                                <div class="vitamin-d3 bloodT">
                                     vitamin d3
                                 </div>
-                                <div class="vitamin-b12 bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'vitamin_b12')">
+                                <div class="vitamin-b12 bloodT">
                                     vitamin b12
                                 </div>
                             </div>
@@ -577,15 +577,50 @@ function InsertNewBloodTest() {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(data + "&amka=" + UserJson.amka);
 }
-function patientBTinfo(patientID, type) {
-    console.log(patientID);
-    console.log(type);
-}
 
-function showmore(user_id) {
+/*patient details from docs view appointments table*/
+var PatientTreatments;
+function getPatientTreatments(user_id) {
     console.log(user_id);
     document.querySelector(".user-info-" + user_id).style.display = "block";
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            PatientTreatments = JSON.parse(xhr.responseText);
+            console.log(PatientTreatments);
+            patientBTinfo(user_id);
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.open('POST', 'getPatientTreatments');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&user_id=" + user_id);
 }
+/*show bt results based on which table was clicked*/
+var PatientBTResults;
+function patientBTinfo(user_id) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            PatientBTResults = JSON.parse(xhr.responseText);
+            console.log(PatientBTResults);
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.open('POST', 'patientBTinfo');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&user_id=" + user_id);
+}
+
+
+
+
 function showless(user_id) {
     console.log(user_id);
     document.querySelector(".user-info-" + user_id).style.display = "none";

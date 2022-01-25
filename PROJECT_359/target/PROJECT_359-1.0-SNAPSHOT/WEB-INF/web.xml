@@ -44,6 +44,22 @@
         <servlet-name>GetRandevouzID</servlet-name>
         <servlet-class>servlets.GetRandevouzID</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getAllPatientsInfo</servlet-name>
+        <servlet-class>servlets.getAllPatientsInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getPatientTreatments</servlet-name>
+        <servlet-class>servlets.getPatientTreatments</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetBTResults</servlet-name>
+        <servlet-class>servlets.GetBTResults</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>patientBTinfo</servlet-name>
+        <servlet-class>servlets.patientBTinfo</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
@@ -87,6 +103,22 @@
     <servlet-mapping>
         <servlet-name>GetRandevouzID</servlet-name>
         <url-pattern>/GetRandevouzID</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getAllPatientsInfo</servlet-name>
+        <url-pattern>/getAllPatientsInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getPatientTreatments</servlet-name>
+        <url-pattern>/getPatientTreatments</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetBTResults</servlet-name>
+        <url-pattern>/GetBTResults</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>patientBTinfo</servlet-name>
+        <url-pattern>/patientBTinfo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
