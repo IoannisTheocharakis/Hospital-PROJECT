@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+=======
+servlets\DocRandevous.class
+database\DB_Connection.class
+mainClasses\JSON_Converter.class
+servlets\CreateNewTreatment.class
+database\tables\EditBloodTestTable.class
+servlets\SignIn.class
+mainClasses\User.class
+servlets\LogOut.class
+mainClasses\BloodTest.class
+database\tables\EditMessageTable.class
+database\init\InitDatabase.class
+>>>>>>> c25a2fa77f5093033c4412a150b075a52c9630e9
 database\tables\EditDoctorTable.class
 mainClasses\Doctor.class
 database\tables\EditRandevouzTable.class
