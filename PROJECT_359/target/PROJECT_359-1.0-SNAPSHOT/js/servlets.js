@@ -127,6 +127,7 @@ function DoctorsTable() {
                 x += createTableFromJSON(one_doctor);
                 i++;
             }
+            API_doctors_dest();
             if (document.querySelector('#print-doc')) {
                 document.querySelector('#print-doc').innerHTML = x;
             } else {
@@ -368,7 +369,14 @@ function GetPatientID() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             DocPatientsJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
             console.log(DocPatientsJson);
-//            alert(DocPatientsJson.patient_id);
+            let x = "";
+            x += createDocViewAppointments(DocPatientsJson);
+            if (document.querySelector('.days')) {
+                document.querySelector('.days').innerHTML = x;
+            } else {
+                console.log("den brethike")
+                //document.querySelector('#content').innerHTML = x;
+            }
         } else if (xhr.status === 403) {
             alert("An error occured while trying to create your schedule.");
         } else {
@@ -382,8 +390,138 @@ function GetPatientID() {
     xhr.send("&doctor_id=" + UserJson.doctor_id);
 }
 
+function createDocViewAppointments(patients) {
+    let html1 = "";
+    if (patients) {
+        //----------
+        var html = "";
+        let k = 0;
+        for (let i = 1; i < 2; i++) {
+            html += `
+            <div class="day day`+ 1 + `"> 
+                <div class="day-pdf">
+                    <p>
+                        Day `+ 1 + `
+                    </p>
+                    <div class="pdf">
+                        <img src="img/pdf-file.png" alt="">
+                    </div>
+                </div> 
+                <div class="users">`
+            while (DocPatientsJson[k] !== undefined) {
+                one_doctor_patient = DocPatientsJson[k];
+                console.log(one_doctor_patient)
+                html += `
+                <div class="user user`+ one_doctor_patient.user_id + `" >
+                    <div class="info-choices">
+                        <div class="patient-info">
+                            <div class="name">`
+                    + one_doctor_patient.firstname + ` ` + one_doctor_patient.lastname + `
+                            </div>
+                            <div class="amka">
+                                `+ one_doctor_patient.amka + `
+                            </div>
+                        </div>
+                        <div class="choices">
+                            <div class="done" onclick="showmore(`+ one_doctor_patient.user_id + `)">
+                                <img src="img/check.png" alt="">
+                            </div>
+                            <div class="cancel" onclick="showless(`+ one_doctor_patient.user_id + `)">
+                                <img src="img/remove.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-info-`+ one_doctor_patient.user_id + `" style="display:none">
+                        <div class="treatments">
+                            <div class="title">
+                                Treatments
+                            </div>
+                            <div class="treatment">
+                            `
+                for (let w = 0; w < 1; w++) {
+                    html += `
+                                <div class="start-date">
+                                    `+ 20 + `
+                                </div>
+                                <div class="final-date">
+                                    `+ w + `
+                                </div>
+                                <div class="info">
+                                    `+ k + `
+                                </div>
+                                `
+                }
+                html += `</div>
+                        </div>
+                        <div class="bloodtest">
+                            <div class="title">
+                                See statistics
+                            </div>
+                            <div class="type">
+                                <div class="iron bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'iron')">
+                                    iron
+                                </div>
+                                <div class="sugar bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'blood_sugar')">
+                                    sugar
+                                </div>
+                                <div class="cholesterol bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'cholesterol')">
+                                    cholesterol
+                                </div>
+                                <div class="vitamin-d3 bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'vitamin_d3')">
+                                    vitamin d3
+                                </div>
+                                <div class="vitamin-b12 bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'vitamin_b12')">
+                                    vitamin b12
+                                </div>
+                            </div>
+                            <div class="googleCharts">
 
-function CreateNewTreatment() {
+                            </div>
+                        </div>
+                        <div class="new-treatment">
+                            <div class="title">
+                                New Treatment
+                            </div>
+                            <form id="NewTreatment" action="" onsubmit='CreateNewTreatment(`+ one_doctor_patient.user_id + `);return false;'>
+                                <div class="new-start-date">
+                                    <label>Start Date</label>
+                                    <input  type="date" id="startdate" name="startdate" value="2022-01-01"
+                                    min="1920-01-01" max="20055-12-31" required>
+                                </div>
+                                <div class="new-final-date">
+                                    <label>Last Date</label>
+                                    <input  type="date" id="lastdate" name="lastdate" value="2022-01-01"
+                                    min="1920-01-01" max="20055-12-31" required>
+                                </div>
+                                
+                                <div class="new-info">
+                                    <label>Info</label>
+                                    <input type="text" name="treatmentText" id="treatmentText" placeholder="info">
+                                </div>
+                                <div class="sbmt">
+                                    <input type="submit" name="submit" id="submit">
+                                </div>
+                            </form>
+                                       
+                        </div>
+                    </div>
+                </div>
+                `
+                k++;
+            }
+            html += `
+                </div>
+            </div>
+            `
+        }
+        //----------
+        return html;
+    }
+    html1 += "";
+    return html1;
+}
+
+function CreateNewTreatment(patient_id) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -418,4 +556,44 @@ function InsertNewBloodTest() {
     xhr.open('POST', 'InsertNewBloodTest');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(data + "&amka=" + UserJson.amka);
+}
+function patientBTinfo(patientID, type) {
+    console.log(patientID);
+    console.log(type);
+}
+
+function showmore(user_id) {
+    console.log(user_id);
+    document.querySelector(".user-info-" + user_id).style.display = "block";
+}
+function showless(user_id) {
+    console.log(user_id);
+    document.querySelector(".user-info-" + user_id).style.display = "none";
+}
+
+
+
+
+
+
+
+function API_doctors_dest() {
+    const data = null;
+
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            console.log(this.responseText);
+        }
+    });
+    console.log(UserJson.lat);
+    console.log(UserJson.lon);
+    console.log("https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins="+UserJson.lat+"%2C"+UserJson.lon+"&destinations=35.3357701%2C25.1189201%3B35.329600%2C25.081010");
+    xhr.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins="+UserJson.lat+"%2C"+UserJson.lon+"&destinations=35.3357701%2C25.1189201%3B35.329600%2C25.081010");
+    xhr.setRequestHeader("x-rapidapi-host", "trueway-matrix.p.rapidapi.com");
+    xhr.setRequestHeader("x-rapidapi-key", "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212");
+
+    xhr.send(data);
 }

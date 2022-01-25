@@ -1,6 +1,14 @@
 //window.onload = function() {
-    document.querySelector('.map').style.display=('none'); /**,pu dimiourgouse problhma epeidh den to ebriske */
+    //document.querySelector('.map').style.display=('none'); /**,pu dimiourgouse problhma epeidh den to ebriske */
 //};
+// setInterval(function() {
+//     if(document.querySelector('.map')){
+        
+//         document.querySelector('.map').style.display=('none');
+//     }else{
+        
+//     }
+// }, 1000);
 
 
 var btns_map =document.querySelectorAll(".button-map");
