@@ -57,7 +57,7 @@ public class EditRandevouzTable {
         ArrayList<SimpleUser> UserArray = new ArrayList<SimpleUser>();
 
         try {
-            rs = stmt.executeQuery("SELECT u.* FROM users AS u JOIN randevouz AS r ON u.user_id = r.user_id WHERE r.doctor_id= '" + id + "'");
+            rs = stmt.executeQuery("SELECT u.*, r.date_time FROM users AS u JOIN randevouz AS r ON u.user_id = r.user_id WHERE r.doctor_id= '" + id + "'");
             while (rs.next()) {
                 String json = DB_Connection.getResultsToJSON(rs);
                 Gson gson = new Gson();

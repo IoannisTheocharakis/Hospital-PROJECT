@@ -324,6 +324,17 @@ function selectDoc(id) {
     console.log("einai " + id);
 }
 /*new*/
+function goBloodTest() {
+    $("#content").load("htmlpaths/user/userBloodTest.html");
+    setTimeout(function () {
+        document.querySelector('#InsertNewBloodTestForm .bt-username').innerText = UserJson.username;
+        document.querySelector('#InsertNewBloodTestForm .bt-amka').innerText = UserJson.amka;
+    }, 200);
+
+
+}
+
+
 function AddAppointment() {
     var today = new Date();
     var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
@@ -388,4 +399,23 @@ function CreateNewTreatment() {
     xhr.open('POST', 'CreateNewTreatment');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(data + "&doctor_id=" + UserJson.doctor_id + "&user_id=" + DocPatientsJson[1].user_id);
+}
+
+/*new*/
+function InsertNewBloodTest() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Your schedule was successfully created.");
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    var data = $('#InsertNewBloodTestForm').serialize();
+    xhr.open('POST', 'InsertNewBloodTest');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data + "&amka=" + UserJson.amka);
 }
