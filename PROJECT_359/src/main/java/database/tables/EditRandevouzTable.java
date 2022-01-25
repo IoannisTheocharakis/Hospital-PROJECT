@@ -57,12 +57,35 @@ public class EditRandevouzTable {
         ArrayList<SimpleUser> UserArray = new ArrayList<SimpleUser>();
 
         try {
-            rs = stmt.executeQuery("SELECT u.*, r.date_time FROM users AS u JOIN randevouz AS r ON u.user_id = r.user_id WHERE r.doctor_id= '" + id + "'");
+            rs = stmt.executeQuery("SELECT u.*, r.date_time FROM users AS u JOIN randevouz AS r ON u.user_id = r.user_id WHERE r.doctor_id= '" + id + "' ORDER BY r.date_time DESC");
             while (rs.next()) {
                 String json = DB_Connection.getResultsToJSON(rs);
                 Gson gson = new Gson();
                 System.out.println(json);
                 SimpleUser User = gson.fromJson(json, SimpleUser.class);
+                UserArray.add(User);
+            }
+            return UserArray;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+    /*also new*/
+    public ArrayList<Randevouz> GetRandevouzFromID(int id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        ResultSet rs;
+        ArrayList<Randevouz> UserArray = new ArrayList<Randevouz>();
+
+        try {
+            rs = stmt.executeQuery("SELECT r.* FROM randevouz AS r JOIN users AS u ON r.user_id = u.user_id WHERE r.doctor_id= '" + id + "' ORDER BY r.date_time DESC");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                Gson gson = new Gson();
+                System.out.println(json);
+                Randevouz User = gson.fromJson(json, Randevouz.class);
                 UserArray.add(User);
             }
             return UserArray;

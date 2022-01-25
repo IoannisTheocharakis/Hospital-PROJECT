@@ -362,6 +362,7 @@ function AddAppointment() {
 }
 
 var DocPatientsJson;
+var DocRandevouzJson;
 function GetPatientID() {
     ViewApp();
     var xhr = new XMLHttpRequest();
@@ -369,6 +370,7 @@ function GetPatientID() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             DocPatientsJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
             console.log(DocPatientsJson);
+            GetRandevouzID();
             let x = "";
             x += createDocViewAppointments(DocPatientsJson);
             if (document.querySelector('.days')) {
@@ -389,6 +391,24 @@ function GetPatientID() {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send("&doctor_id=" + UserJson.doctor_id);
 }
+
+function GetRandevouzID() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            DocRandevouzJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
+            console.log(DocRandevouzJson);
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.open('POST', 'GetRandevouzID');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&doctor_id=" + UserJson.doctor_id);
+}
+//--------------
 
 function createDocViewAppointments(patients) {
     let html1 = "";

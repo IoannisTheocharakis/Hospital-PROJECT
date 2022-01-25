@@ -40,6 +40,10 @@
         <servlet-name>InsertNewBloodTest</servlet-name>
         <servlet-class>servlets.InsertNewBloodTest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetRandevouzID</servlet-name>
+        <servlet-class>servlets.GetRandevouzID</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>InsertNewBloodTest</servlet-name>
         <url-pattern>/InsertNewBloodTest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetRandevouzID</servlet-name>
+        <url-pattern>/GetRandevouzID</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
