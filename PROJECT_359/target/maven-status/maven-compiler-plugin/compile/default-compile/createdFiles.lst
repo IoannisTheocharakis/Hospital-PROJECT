@@ -1,3 +1,4 @@
+servlets\DocRandevous.class
 database\DB_Connection.class
 mainClasses\JSON_Converter.class
 servlets\CreateNewTreatment.class

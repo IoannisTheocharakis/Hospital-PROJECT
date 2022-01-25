@@ -69,24 +69,24 @@ public class DocRandevous extends HttpServlet {
         ArrayList<Randevouz> randevouzs = null;
         try {
             randevouzs = randevouz.databaseToRandevouzs(doctor_id);
-System.out.println(5);
+            System.out.println(5);
         } catch (SQLException ex) {
             Logger.getLogger(DocRandevous.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DocRandevous.class.getName()).log(Level.SEVERE, null, ex);
         }
-System.out.println(4);
+        System.out.println(4);
         try (PrintWriter out = response.getWriter()) {
-System.out.println(3);
+            System.out.println(3);
             if (randevouzs.isEmpty()) {
-System.out.println(22);
+                System.out.println(22);
                 response.setStatus(404);
             } else {
-System.out.println(2);
+                System.out.println(2);
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();
                 String randevouzsToJson = gson.toJson(randevouzs);
-System.out.println(randevouzsToJson);
+                System.out.println(randevouzsToJson);
                 out.println(randevouzsToJson);
                 response.setStatus(200);
             }

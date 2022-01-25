@@ -128,7 +128,6 @@ public class EditTreatmentTable {
                 Treatment doc = gson.fromJson(json, Treatment.class);
                 treatments.add(doc);
             }
-            stmt.close();
             return treatments;
 
         } catch (Exception e) {
