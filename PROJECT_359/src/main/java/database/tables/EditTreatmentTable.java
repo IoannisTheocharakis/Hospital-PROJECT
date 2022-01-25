@@ -22,11 +22,11 @@ import mainClasses.Treatment;
  */
 public class EditTreatmentTable {
 
-    
-    public void addTreatmentFromJSON(String json) throws ClassNotFoundException{
-         Treatment msg=jsonToTreatment(json);
-         createNewTreatment(msg);
+    public void addTreatmentFromJSON(String json) throws ClassNotFoundException {
+        Treatment msg = jsonToTreatment(json);
+        createNewTreatment(msg);
     }
+
     public String treatmentToJSON(Treatment tr) {
         Gson gson = new Gson();
 
@@ -39,18 +39,18 @@ public class EditTreatmentTable {
         Treatment tr = gson.fromJson(json, Treatment.class);
         return tr;
     }
-    
-    public Treatment databaseToTreatment(int id) throws SQLException, ClassNotFoundException{
-         Connection con = DB_Connection.getConnection();
+
+    public Treatment databaseToTreatment(int id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
 
         ResultSet rs;
         try {
             rs = stmt.executeQuery("SELECT * FROM treatment WHERE treatment_id= '" + id + "'");
             rs.next();
-            String json=DB_Connection.getResultsToJSON(rs);
+            String json = DB_Connection.getResultsToJSON(rs);
             Gson gson = new Gson();
-            Treatment tr  = gson.fromJson(json, Treatment.class);
+            Treatment tr = gson.fromJson(json, Treatment.class);
             return tr;
         } catch (Exception e) {
             System.err.println("Got an exception! ");
@@ -115,9 +115,9 @@ public class EditTreatmentTable {
                     + "'" + tr.getDoctor_id() + "',"
                     + "'" + tr.getUser_id() + "',"
                     + "'" + tr.getStart_date() + "',"
-                    + "'" + tr.getEnd_date()+ "',"
+                    + "'" + tr.getEnd_date() + "',"
                     + "'" + tr.getTreatment_text() + "',"
-                    + "'" + tr.getBloodtest_id()+ "'"
+                    + "'" + tr.getBloodtest_id() + "'"
                     + ")";
             //stmt.execute(table);
             System.out.println(insertQuery);
@@ -126,9 +126,33 @@ public class EditTreatmentTable {
 
             /* Get the member id from the database and set it to the member */
             stmt.close();
-                 con.close();
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(EditBloodTestTable.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public ArrayList<Treatment> databaseToTreatments(int id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        ArrayList<Treatment> treatments = new ArrayList<Treatment>();
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT * FROM treatment WHERE user_id= '" + id + "'");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                System.out.println(json);
+                Gson gson = new Gson();
+                Treatment doc = gson.fromJson(json, Treatment.class);
+                treatments.add(doc);
+            }
+            return treatments;
+
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+
     }
 }

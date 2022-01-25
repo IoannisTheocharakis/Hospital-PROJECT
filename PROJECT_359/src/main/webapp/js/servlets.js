@@ -652,3 +652,207 @@ function API_doctors_dest() {
 
     xhr.send(data);
 }
+
+
+
+function rankingSorter(key) {
+    return function (a, b) {
+        if (a[key] > b[key]) {
+            return 1;
+        } else if (a[key] < b[key]) {
+            return -1;
+        }
+        return 0;
+    }
+}
+
+
+function sort_doc_by_val(select) {
+
+    let selected_val = select.options[select.selectedIndex].getAttribute("value");
+    if (selected_val === "distance-by-car") {
+        temp_ALL_DOCTORS.sort(rankingSorter("distances_foruser"));
+        let i = 0;
+        let one_doctor;
+        let x = "";
+        setTimeout(function () {
+            while (temp_ALL_DOCTORS[i] !== undefined) {
+
+                one_doctor = temp_ALL_DOCTORS[i];
+
+                x += createTableFromJSON(one_doctor);
+                i++;
+            }
+
+            x += `
+            <div class="size-map">
+                <div class="doc-map" id="doc-map">
+                
+                </div>
+            </div>`;
+
+            if (document.querySelector('#print-doc')) {
+                document.querySelector('#print-doc').innerHTML = x;
+            } else {
+                document.querySelector('#content').innerHTML = x;
+            }
+            createDocMap();
+        }, 350);
+    } else {
+        temp_ALL_DOCTORS.sort(rankingSorter("car_duration_foruser"));
+        let i = 0;
+        let one_doctor;
+        let x = "";
+        setTimeout(function () {
+            while (temp_ALL_DOCTORS[i] !== undefined) {
+
+                one_doctor = temp_ALL_DOCTORS[i];
+                x += createTableFromJSON(one_doctor);
+                i++;
+            }
+            x += `
+            <div class="size-map">
+                <div class="doc-map" id="doc-map">
+                
+                </div>
+            </div>`;
+
+            if (document.querySelector('#print-doc')) {
+                document.querySelector('#print-doc').innerHTML = x;
+            } else {
+                document.querySelector('#content').innerHTML = x;
+            }
+            createDocMap();
+        }, 350);
+
+
+    }
+}
+
+function createDocMap() {
+
+    //Orismos Marker
+    var map = new OpenLayers.Map("doc-map"); //create the map
+    var mapnik = new OpenLayers.Layer.OSM("OpenCycleMap",
+        ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+            "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+            "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"]);//pws moiazei to map
+
+    map.addLayer(mapnik);
+    var mar;
+    var markers = new OpenLayers.Layer.Markers("Markers");
+    map.addLayer(markers);
+    var position;
+    for (let w = 0; w < ALL_DOCTORS.length; w++) {
+        position = setPosition(ALL_DOCTORS[w].lat, ALL_DOCTORS[w].lon);
+        mar = new OpenLayers.Marker(position);
+        markers.addMarker(mar);
+    }
+    user = setPosition(35.331068, 25.132863);
+    mar = new OpenLayers.Marker(user);
+    markers.addMarker(mar);
+    //Orismos zoom	
+    const zoom = 14;
+    map.setCenter(user, zoom);
+}
+
+
+
+function User_ActiveTreatments() {
+    $("#content").load("htmlpaths/user/userTreatments.html");
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // let doctors_toJson = JSON.parse(xhr.responseText);
+            let treatments;
+            treatments = JSON.parse(xhr.responseText);
+            var x="";
+            var today = new Date();
+            var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+            setTimeout(function () {
+                let i = 0;
+                while (treatments[i] !== undefined) {
+                    
+                    trtmnt = treatments[i];
+                    if(date < trtmnt.end_date ){
+                        x += `<div class="treatment">`;
+
+                        x += ` 
+                        <div class="start-date">
+                            Start - date : <br>
+                            `+trtmnt.start_date+`  
+                        </div>
+                        <div class="end-date">
+                            End - date : <br>
+                            `+trtmnt.end_date+`  
+                        </div>
+                        <div class="treatment-test">
+                           `+trtmnt.treatment_text+`  
+                        </div>     
+                            `
+    
+                        x += `</div>`;
+                    }
+                   
+
+                    i++;
+                }
+
+                if (document.querySelector('.treatments')) {
+                    document.querySelector('.treatments').innerHTML = x;
+                } else {
+                    alert("Doesnt exist");
+                }
+            }, 350);
+
+
+
+        } else if (xhr.status !== 200) {
+            alert("alert Treatments !200");
+        }
+    };
+    xhr.open('GET', 'ActiveTreatments?&user_id=' + UserJson.user_id);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+
+
+function AllDocRandevou() {
+    $("#content").load("htmlpaths/user/userAppSelect.html");
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // let doctors_toJson = JSON.parse(xhr.responseText);
+            let AllRandevou;
+            AllRandevou = JSON.parse(xhr.responseText);
+            var x="";
+            setTimeout(function () {
+                let i = 0;
+                while (AllRandevou[i] !== undefined) {
+                    
+                    allR = AllRandevou[i];
+                    if(date < trtmnt.end_date ){
+
+                    }
+                   
+
+                    i++;
+                }
+
+                if (document.querySelector('.treatments')) {
+                    document.querySelector('.treatments').innerHTML = x;
+                } else {
+                    alert("Doesnt exist");
+                }
+            }, 350);
+
+
+
+        } else if (xhr.status !== 200) {
+            alert("alert Treatments !200");
+        }
+    };
+    xhr.open('GET', 'ActiveTreatments?&user_id=' + UserJson.user_id);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
