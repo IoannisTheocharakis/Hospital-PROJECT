@@ -47,13 +47,11 @@
 
 .select-doc{
     margin: 1vh 0 ;
-    padding: 0.3vh 0;
     width: 100%;
     text-align: center;
     border-radius: 5px;
     color:white;
     background-color: green;
-    cursor:pointer;
 }
 
 .booked{
