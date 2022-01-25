@@ -6,7 +6,6 @@ package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import database.tables.EditDoctorTable;
 import database.tables.EditTreatmentTable;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mainClasses.Doctor;
 import mainClasses.Treatment;
 
 /**
@@ -44,7 +42,7 @@ public class ActiveTreatments extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ActiveTreatments</title>");            
+            out.println("<title>Servlet ActiveTreatments</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ActiveTreatments at " + request.getContextPath() + "</h1>");
@@ -79,14 +77,13 @@ public class ActiveTreatments extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
 
-            if(treatments.isEmpty()){
+            if (treatments.isEmpty()) {
                 response.setStatus(404);
-            }
-            else{
+            } else {
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();
                 String treatmentsToJson = gson.toJson(treatments);
-System.out.println(treatmentsToJson);
+                System.out.println(treatmentsToJson);
                 out.println(treatmentsToJson);
                 response.setStatus(200);
             }
