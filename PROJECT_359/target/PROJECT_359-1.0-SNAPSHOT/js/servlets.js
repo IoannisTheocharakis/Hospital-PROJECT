@@ -103,7 +103,8 @@ function isLoggedIn() {
 }
 
 
-
+var ALL_DOCTORS;
+var temp_ALL_DOCTORS;
 function DoctorsTable() {
     
     if (UserJson.hasOwnProperty('doctor_id')) {
@@ -114,25 +115,36 @@ function DoctorsTable() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            let doctors_toJson = JSON.parse(xhr.responseText);
-            console.log(doctors_toJson);
+            // let doctors_toJson = JSON.parse(xhr.responseText);
+
+            ALL_DOCTORS = JSON.parse(xhr.responseText);
+            temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
+            API_doctors_dest();
             let i = 0;
             let one_doctor;
             let x = "";
+            setTimeout(function () {
+                while (temp_ALL_DOCTORS[i] !== undefined) {
 
-            while (doctors_toJson[i] !== undefined) {
+                    one_doctor = temp_ALL_DOCTORS[i];
+                    x += createTableFromJSON(one_doctor);
+                    i++;
+                }
+                x += `
+                <div class="size-map">
+                    <div class="doc-map" id="doc-map">
+                
+                    </div>
+                </div>`;
 
-                one_doctor = doctors_toJson[i];
+                if (document.querySelector('#print-doc')) {
+                    document.querySelector('#print-doc').innerHTML = x;
+                } else {
+                    document.querySelector('#content').innerHTML = x;
+                }
+                createDocMap();
+            }, 350);
 
-                x += createTableFromJSON(one_doctor);
-                i++;
-            }
-            API_doctors_dest();
-            if (document.querySelector('#print-doc')) {
-                document.querySelector('#print-doc').innerHTML = x;
-            } else {
-                document.querySelector('#content').innerHTML = x;
-            }
         } else if (xhr.status !== 200) {
             if (document.querySelector('#print-doc').length > 0) {
                 document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
@@ -322,7 +334,8 @@ function DoctorAppointments() {
     $("#content").load("htmlpaths/doc/docAppointments.html");
 }
 function selectDoc(id) {
-    console.log("einai " + id);
+
+    $("#content").load("htmlpaths/user/userAppSelect.html");
 }
 /*new*/
 function goBloodTest() {
@@ -430,7 +443,6 @@ function createDocViewAppointments(patients) {
                 <div class="users">`
             while (DocPatientsJson[k] !== undefined) {
                 one_doctor_patient = DocPatientsJson[k];
-                console.log(one_doctor_patient)
                 html += `
                 <div class="user user`+ one_doctor_patient.user_id + `" >
                     <div class="info-choices">
@@ -640,15 +652,204 @@ function API_doctors_dest() {
 
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
-            console.log(this.responseText);
+            DOC_DEST = JSON.parse(this.responseText);
+            let temp_doc = ALL_DOCTORS;
+
+            for (let doc = 0; doc < temp_doc.length; doc++) {
+                if (DOC_DEST.distances[0][doc] !== null) {
+                    temp_doc[doc].distances_foruser = DOC_DEST.distances[0][doc];
+                } else {
+                    temp_doc[doc].distances_foruser = 1000000000000;
+                }
+                if (DOC_DEST.durations[0][doc] !== null) {
+                    temp_doc[doc].car_duration_foruser = DOC_DEST.durations[0][doc];
+                } else {
+                    temp_doc[doc].car_duration_foruser = 1000000000000;
+                }
+            }
+
+            temp_doc.sort(rankingSorter("distances_foruser"));
+            temp_ALL_DOCTORS = temp_doc;
         }
     });
-    console.log(UserJson.lat);
-    console.log(UserJson.lon);
-    console.log("https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins="+UserJson.lat+"%2C"+UserJson.lon+"&destinations=35.3357701%2C25.1189201%3B35.329600%2C25.081010");
-    xhr.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins="+UserJson.lat+"%2C"+UserJson.lon+"&destinations=35.3357701%2C25.1189201%3B35.329600%2C25.081010");
+    var others_doc = "";
+    for (var i = 0; i < ALL_DOCTORS.length; i++) {
+        if (i < 25) {
+            let lat = ALL_DOCTORS[i].lat;
+            let lon = ALL_DOCTORS[i].lon;
+            others_doc += lat + "%2C" + lon;
+            if ((i + 1) != ALL_DOCTORS.length && (i + 1) < 25) {
+                others_doc += "%3B";
+            }
+        }
+
+    }
+    xhr.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=" + UserJson.lat + "%2C" + UserJson.lon + "&destinations=" + others_doc);
     xhr.setRequestHeader("x-rapidapi-host", "trueway-matrix.p.rapidapi.com");
     xhr.setRequestHeader("x-rapidapi-key", "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212");
 
     xhr.send(data);
+}
+
+
+
+function rankingSorter(key) {
+    return function (a, b) {
+        if (a[key] > b[key]) {
+            return 1;
+        } else if (a[key] < b[key]) {
+            return -1;
+        }
+        return 0;
+    }
+}
+
+
+function sort_doc_by_val(select) {
+
+    let selected_val = select.options[select.selectedIndex].getAttribute("value");
+    if (selected_val === "distance-by-car") {
+        temp_ALL_DOCTORS.sort(rankingSorter("distances_foruser"));
+        let i = 0;
+        let one_doctor;
+        let x = "";
+        setTimeout(function () {
+            while (temp_ALL_DOCTORS[i] !== undefined) {
+
+                one_doctor = temp_ALL_DOCTORS[i];
+
+                x += createTableFromJSON(one_doctor);
+                i++;
+            }
+
+            x += `
+            <div class="size-map">
+                <div class="doc-map" id="doc-map">
+                
+                </div>
+            </div>`;
+
+            if (document.querySelector('#print-doc')) {
+                document.querySelector('#print-doc').innerHTML = x;
+            } else {
+                document.querySelector('#content').innerHTML = x;
+            }
+            createDocMap();
+        }, 350);
+    } else {
+        temp_ALL_DOCTORS.sort(rankingSorter("car_duration_foruser"));
+        let i = 0;
+        let one_doctor;
+        let x = "";
+        setTimeout(function () {
+            while (temp_ALL_DOCTORS[i] !== undefined) {
+
+                one_doctor = temp_ALL_DOCTORS[i];
+                x += createTableFromJSON(one_doctor);
+                i++;
+            }
+            x += `
+            <div class="size-map">
+                <div class="doc-map" id="doc-map">
+                
+                </div>
+            </div>`;
+
+            if (document.querySelector('#print-doc')) {
+                document.querySelector('#print-doc').innerHTML = x;
+            } else {
+                document.querySelector('#content').innerHTML = x;
+            }
+            createDocMap();
+        }, 350);
+
+
+    }
+}
+
+function createDocMap() {
+
+    //Orismos Marker
+    var map = new OpenLayers.Map("doc-map"); //create the map
+    var mapnik = new OpenLayers.Layer.OSM("OpenCycleMap",
+        ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+            "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+            "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"]);//pws moiazei to map
+
+    map.addLayer(mapnik);
+    var mar;
+    var markers = new OpenLayers.Layer.Markers("Markers");
+    map.addLayer(markers);
+    var position;
+    for (let w = 0; w < ALL_DOCTORS.length; w++) {
+        position = setPosition(ALL_DOCTORS[w].lat, ALL_DOCTORS[w].lon);
+        mar = new OpenLayers.Marker(position);
+        markers.addMarker(mar);
+    }
+    user = setPosition(35.331068, 25.132863);
+    mar = new OpenLayers.Marker(user);
+    markers.addMarker(mar);
+    //Orismos zoom	
+    const zoom = 14;
+    map.setCenter(user, zoom);
+}
+
+
+
+function User_ActiveTreatments() {
+    $("#content").load("htmlpaths/user/userTreatments.html");
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // let doctors_toJson = JSON.parse(xhr.responseText);
+            let treatments;
+            treatments = JSON.parse(xhr.responseText);
+            var x="";
+            var today = new Date();
+            var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+            setTimeout(function () {
+                let i = 0;
+                while (treatments[i] !== undefined) {
+                    
+                    trtmnt = treatments[i];
+                    if(date < trtmnt.end_date ){
+                        x += `<div class="treatment">`;
+
+                        x += ` 
+                        <div class="start-date">
+                            Start - date : <br>
+                            `+trtmnt.start_date+`  
+                        </div>
+                        <div class="end-date">
+                            End - date : <br>
+                            `+trtmnt.end_date+`  
+                        </div>
+                        <div class="treatment-test">
+                           `+trtmnt.treatment_text+`  
+                        </div>     
+                            `
+    
+                        x += `</div>`;
+                    }
+                   
+
+                    i++;
+                }
+
+                if (document.querySelector('.treatments')) {
+                    document.querySelector('.treatments').innerHTML = x;
+                } else {
+                    alert("Doesnt exist");
+                }
+            }, 350);
+
+
+
+        } else if (xhr.status !== 200) {
+            alert("alert Treatments !200");
+        }
+    };
+    xhr.open('GET', 'ActiveTreatments?&user_id=' + UserJson.user_id);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
 }

@@ -57,10 +57,12 @@
 .booked{
     margin : 1vh 0 ;
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .book{
     margin : 1vh 0 ;
-    width: 100%;
+    width: 93%;
     display: flex;
     padding: 0.5vh;
     border: 1px solid black;
@@ -70,10 +72,12 @@
 .done-s{
     margin : 1vh 0 ;
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .done{
     margin : 1vh 0 ;
-    width: 100%;
+    width: 93%;
     display: flex;
     justify-content: space-between;
     border: 1px solid black;
@@ -110,4 +114,13 @@
 .done-img img{
     width: 100%;
     height: 100%;
+}
+
+#doc-map{
+    height: 20vh;
+    width : 100%;
+}
+.size-map{
+    height: 100%;
+    width : 100%;
 }
