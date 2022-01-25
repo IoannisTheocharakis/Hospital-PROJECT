@@ -76,6 +76,8 @@ public class CreateNewTreatment extends HttpServlet {
         int docID = (Integer.parseInt(request.getParameter("doctor_id")));
         int userID = (Integer.parseInt(request.getParameter("user_id")));
 
+
+
         String startdate = request.getParameter("startdate");
         String lastdate = request.getParameter("lastdate");
         String treatmentText = request.getParameter("treatmentText");
