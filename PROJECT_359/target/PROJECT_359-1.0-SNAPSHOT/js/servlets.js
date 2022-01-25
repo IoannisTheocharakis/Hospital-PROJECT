@@ -545,7 +545,7 @@ function CreateNewTreatment(patient_id) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            alert("Your schedule was successfully created.");
+            alert(patient_id);
         } else if (xhr.status === 403) {
             alert("An error occured while trying to create your schedule.");
         } else {
@@ -556,7 +556,7 @@ function CreateNewTreatment(patient_id) {
     var data = $('#NewTreatment').serialize();
     xhr.open('POST', 'CreateNewTreatment');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send(data + "&doctor_id=" + UserJson.doctor_id + "&user_id=" + DocPatientsJson[1].user_id);
+    xhr.send(data + "&doctor_id=" + UserJson.doctor_id + "&user_id=" + patient_id);
 }
 
 /*new*/

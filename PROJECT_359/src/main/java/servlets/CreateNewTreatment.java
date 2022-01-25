@@ -7,6 +7,7 @@ package servlets;
 import database.tables.EditTreatmentTable;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -85,15 +86,19 @@ public class CreateNewTreatment extends HttpServlet {
         tr.setUser_id(userID);
         tr.setStart_date(startdate);
         tr.setEnd_date(lastdate);
+        System.out.println(treatmentText);
         tr.setTreatment_text(treatmentText);
-        tr.setBloodtest_id(userID);
 
-        System.out.println("SAAAAAAAAAAAAAAAAAA");
         EditTreatmentTable RandTable = new EditTreatmentTable();
         try (PrintWriter out = response.getWriter()) {
+            int bloodTestID = RandTable.GetBloodTestID(userID);
+            tr.setBloodtest_id(bloodTestID);
+
             RandTable.createNewTreatment(tr);
             response.setStatus(200);
         } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CreateNewTreatment.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(CreateNewTreatment.class.getName()).log(Level.SEVERE, null, ex);
         }
 

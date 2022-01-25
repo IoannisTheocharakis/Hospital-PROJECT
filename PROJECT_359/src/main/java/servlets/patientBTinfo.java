@@ -77,19 +77,6 @@ public class patientBTinfo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int user_id = (Integer.parseInt(request.getParameter("user_id")));
-        String BTstring = request.getParameter("btr");
-        System.out.println(user_id + " __ " + BTstring);
-//        if (BTstring.equals("iron")) {
-//            System.out.println("1");
-//        } else if (BTstring.equals("blood_sugar")) {
-//            System.out.println("2");
-//        } else if (BTstring.equals("cholesterol")) {
-//            System.out.println("3");
-//        } else if (BTstring.equals("vitamin_d3")) {
-//            System.out.println("4");
-//        } else if (BTstring.equals("vitamin_b12")) {
-//            System.out.println("5");
-//        }
 
         EditBloodTestTable EBTT = new EditBloodTestTable();
         try (PrintWriter out = response.getWriter()) {

@@ -78,7 +78,7 @@ public class AddAppointment extends HttpServlet {
         String date = dateCalendar + " " + hour + ":" + minutes + ":00";
 
         int docID = (Integer.parseInt(request.getParameter("doctor_id")));
-        String price = request.getParameter("price");
+        int price = (Integer.parseInt(request.getParameter("price")));
         String status = request.getParameter("status");
         String CurrentTime = request.getParameter("CurrentTime");
 
@@ -86,7 +86,7 @@ public class AddAppointment extends HttpServlet {
         rand.setDate_time(date);
         rand.setDoctor_id(docID);
         rand.setDoctor_info("GOOD Doctor");
-        rand.setPrice(30);
+        rand.setPrice(price);
         rand.setStatus(status);
         rand.setUser_id(0);
         rand.setUser_info("null");

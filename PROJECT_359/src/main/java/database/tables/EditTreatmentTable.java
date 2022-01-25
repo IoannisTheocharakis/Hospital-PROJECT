@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mainClasses.Treatment;
@@ -77,7 +78,27 @@ public class EditTreatmentTable {
         }
         return null;
     }
+//----------
+    public int GetBloodTestID(int id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        int bloodID = 0;
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT b.bloodtest_id FROM bloodtest AS b JOIN users AS u ON u.amka = b.amka WHERE u.user_id= '" + id + "'");
+            if (rs.next()) {
+                bloodID = rs.getInt("bloodtest_id");
+            }
 
+            return bloodID;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return 0;
+    }
+
+//----------
     public void createTreatmentTable() throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
