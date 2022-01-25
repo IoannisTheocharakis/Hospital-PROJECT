@@ -720,14 +720,15 @@ function User_ActiveTreatments() {
             // let doctors_toJson = JSON.parse(xhr.responseText);
             let treatments;
             treatments = JSON.parse(xhr.responseText);
+           
             var x = "";
             var today = new Date();
             var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
             setTimeout(function () {
                 let i = 0;
                 while (treatments[i] !== undefined) {
-
                     trtmnt = treatments[i];
+                    
                     if (date < trtmnt.end_date) {
                         x += `<div class="treatment">`;
 
@@ -744,7 +745,6 @@ function User_ActiveTreatments() {
                            `+ trtmnt.treatment_text + `  
                         </div>     
                             `
-
                         x += `</div>`;
                     }
 
