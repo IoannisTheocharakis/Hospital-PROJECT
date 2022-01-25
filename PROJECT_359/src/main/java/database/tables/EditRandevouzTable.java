@@ -12,8 +12,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mainClasses.SimpleUser;
 
 /**
  *
@@ -46,12 +48,32 @@ public class EditRandevouzTable {
         }
         return null;
     }
-    
-    
-    
 
-      
-     public Randevouz jsonToRandevouz(String json) {
+    /*new*/
+    public ArrayList<SimpleUser> GetUserFromID(int id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        ResultSet rs;
+        ArrayList<SimpleUser> UserArray = new ArrayList<SimpleUser>();
+
+        try {
+            rs = stmt.executeQuery("SELECT u.* FROM users AS u JOIN randevouz AS r ON u.user_id = r.user_id WHERE r.doctor_id= '" + id + "'");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                Gson gson = new Gson();
+                System.out.println(json);
+                SimpleUser User = gson.fromJson(json, SimpleUser.class);
+                UserArray.add(User);
+            }
+            return UserArray;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+  
+    public Randevouz jsonToRandevouz(String json) {
         Gson gson = new Gson();
         Randevouz r = gson.fromJson(json, Randevouz.class);
         return r;

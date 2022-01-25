@@ -7,7 +7,6 @@ package servlets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import database.tables.EditDoctorTable;
-import database.tables.EditSimpleUserTable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mainClasses.Doctor;
-import mainClasses.SimpleUser;
 
 /**
  *
@@ -86,7 +84,7 @@ public class ReturnDoctors extends HttpServlet {
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();
                 String doctorsToJson = gson.toJson(doctors);
-                out.println(doctorsToJson); 
+                out.println(doctorsToJson);
                 response.setStatus(200);
             }
         }

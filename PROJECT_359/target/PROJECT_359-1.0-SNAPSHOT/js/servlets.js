@@ -37,7 +37,6 @@ function sendAjaxPost2() {
                 $("#ajaxContent").load("htmlpaths/user/userpage.html");
             }
             setTimeout(function () {
-
                 document.querySelector('.user-name label').innerText = UserJson.username;
             }, 200);
 
@@ -104,9 +103,10 @@ function isLoggedIn() {
 }
 
 
-
+var ALL_DOCTORS;
+var temp_ALL_DOCTORS;
 function DoctorsTable() {
-    
+
     if (UserJson.hasOwnProperty('doctor_id')) {
         //$("#content").load("htmlpaths/doc/docpage.html");
     } else {
@@ -115,24 +115,36 @@ function DoctorsTable() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            let doctors_toJson = JSON.parse(xhr.responseText);
-            console.log(doctors_toJson);
+            // let doctors_toJson = JSON.parse(xhr.responseText);
+
+            ALL_DOCTORS = JSON.parse(xhr.responseText);
+            temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
+            API_doctors_dest();
             let i = 0;
             let one_doctor;
             let x = "";
+            setTimeout(function () {
+                while (temp_ALL_DOCTORS[i] !== undefined) {
 
-            while (doctors_toJson[i] !== undefined) {
+                    one_doctor = temp_ALL_DOCTORS[i];
+                    x += createTableFromJSON(one_doctor);
+                    i++;
+                }
+                x += `
+                <div class="size-map">
+                    <div class="doc-map" id="doc-map">
+                
+                    </div>
+                </div>`;
 
-                one_doctor = doctors_toJson[i];
+                if (document.querySelector('#print-doc')) {
+                    document.querySelector('#print-doc').innerHTML = x;
+                } else {
+                    document.querySelector('#content').innerHTML = x;
+                }
+                createDocMap();
+            }, 350);
 
-                x += createTableFromJSON(one_doctor);
-                i++;
-            }
-            if (document.querySelector('#print-doc')) {
-                document.querySelector('#print-doc').innerHTML = x;
-            } else {
-                document.querySelector('#content').innerHTML = x;
-            }
         } else if (xhr.status !== 200) {
             if (document.querySelector('#print-doc').length > 0) {
                 document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
@@ -322,5 +334,441 @@ function DoctorAppointments() {
     $("#content").load("htmlpaths/doc/docAppointments.html");
 }
 function selectDoc(id) {
-    console.log("einai " + id);
+
+    $("#content").load("htmlpaths/user/userAppSelect.html");
+}
+/*new*/
+function AddAppointment() {
+    var today = new Date();
+    var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + " " + time;
+
+
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Your schedule was successfully created.", dateTime);
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    var data = $('#AddAppointment-form').serialize();
+    xhr.open('POST', 'AddAppointment');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data + "&status=free" + "&doctor_id=" + UserJson.doctor_id + "&CurrentTime=" + dateTime);
+}
+
+var DocPatientsJson;
+function GetPatientID() {
+    ViewApp();
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            DocPatientsJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
+
+            let x = "";
+            x += createDocViewAppointments(DocPatientsJson);
+            if (document.querySelector('.days')) {
+                document.querySelector('.days').innerHTML = x;
+            } else {
+                console.log("den brethike")
+                //document.querySelector('#content').innerHTML = x;
+            }
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+
+    };
+    // set the content type
+    //    var data = $('#AddAppointment-form').serialize();
+    xhr.open('POST', 'GetPatientID');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&doctor_id=" + UserJson.doctor_id);
+}
+
+function createDocViewAppointments(patients) {
+    let html1 = "";
+
+    if (patients) {
+        //----------
+        var html = "";
+        let k = 0;
+        for (let i = 1; i < 2; i++) {
+            html += `
+            <div class="day day`+ 1 + `"> 
+                <div class="day-pdf">
+                    <p>
+                        Day `+ 1 + `
+                    </p>
+                    <div class="pdf">
+                        <img src="img/pdf-file.png" alt="">
+                    </div>
+                </div> 
+                <div class="users">`
+            while (DocPatientsJson[k] !== undefined) {
+                one_doctor_patient = DocPatientsJson[k];
+                html += `
+                <div class="user user`+ one_doctor_patient.user_id + `" >
+                    <div class="info-choices">
+                        <div class="patient-info">
+                            <div class="name">`
+                    + one_doctor_patient.firstname + ` ` + one_doctor_patient.lastname + `
+                            </div>
+                            <div class="amka">
+                                `+ one_doctor_patient.amka + `
+                            </div>
+                        </div>
+                        <div class="choices">
+                            <div class="done" onclick="showmore(`+ one_doctor_patient.user_id + `)">
+                                <img src="img/check.png" alt="">
+                            </div>
+                            <div class="cancel" onclick="showless(`+ one_doctor_patient.user_id + `)">
+                                <img src="img/remove.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-info-`+ one_doctor_patient.user_id + `" style="display:none">
+                        <div class="treatments">
+                            <div class="title">
+                                Treatments
+                            </div>
+                            <div class="treatment">
+                            `
+                for (let w = 0; w < 1; w++) {
+                    html += `
+                                <div class="start-date">
+                                    `+ 20 + `
+                                </div>
+                                <div class="final-date">
+                                    `+ w + `
+                                </div>
+                                <div class="info">
+                                    `+ k + `
+                                </div>
+                                `
+                }
+                html += `</div>
+                        </div>
+                        <div class="bloodtest">
+                            <div class="title">
+                                See statistics
+                            </div>
+                            <div class="type">
+                                <div class="iron bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'iron')">
+                                    iron
+                                </div>
+                                <div class="sugar bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'blood_sugar')">
+                                    sugar
+                                </div>
+                                <div class="cholesterol bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'cholesterol')">
+                                    cholesterol
+                                </div>
+                                <div class="vitamin-d3 bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'vitamin_d3')">
+                                    vitamin d3
+                                </div>
+                                <div class="vitamin-b12 bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'vitamin_b12')">
+                                    vitamin b12
+                                </div>
+                            </div>
+                            <div class="googleCharts">
+
+                            </div>
+                        </div>
+                        <div class="new-treatment">
+                            <div class="title">
+                                New Treatment
+                            </div>
+                            <form id="NewTreatment" action="" onsubmit='CreateNewTreatment(`+ one_doctor_patient.user_id + `);return false;'>
+                                <div class="new-start-date">
+                                    <label>Start Date</label>
+                                    <input  type="date" id="startdate" name="startdate" value="2022-01-01"
+                                    min="1920-01-01" max="20055-12-31" required>
+                                </div>
+                                <div class="new-final-date">
+                                    <label>Last Date</label>
+                                    <input  type="date" id="lastdate" name="lastdate" value="2022-01-01"
+                                    min="1920-01-01" max="20055-12-31" required>
+                                </div>
+                                
+                                <div class="new-info">
+                                    <label>Info</label>
+                                    <input type="text" name="treatmentText" id="treatmentText" placeholder="info">
+                                </div>
+                                <div class="sbmt">
+                                    <input type="submit" name="submit" id="submit">
+                                </div>
+                            </form>
+                                       
+                        </div>
+                    </div>
+                </div>
+                `
+                k++;
+            }
+            html += `
+                </div>
+            </div>
+            `
+        }
+        //----------
+        return html;
+    }
+    html1 += "";
+    return html1;
+}
+
+function CreateNewTreatment(patient_id) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Your schedule was successfully created.");
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    var data = $('#NewTreatment').serialize();
+    xhr.open('POST', 'CreateNewTreatment');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data + "&doctor_id=" + UserJson.doctor_id + "&user_id=" + DocPatientsJson[1].user_id);
+}
+
+
+function patientBTinfo(patientID, type) {
+    console.log(patientID);
+    console.log(type);
+}
+
+function showmore(user_id) {
+    console.log(user_id);
+    document.querySelector(".user-info-" + user_id).style.display = "block";
+}
+function showless(user_id) {
+    console.log(user_id);
+    document.querySelector(".user-info-" + user_id).style.display = "none";
+}
+
+
+
+
+
+
+
+function API_doctors_dest() {
+    const data = null;
+
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            DOC_DEST = JSON.parse(this.responseText);
+            let temp_doc = ALL_DOCTORS;
+
+            for (let doc = 0; doc < temp_doc.length; doc++) {
+                if (DOC_DEST.distances[0][doc] !== null) {
+                    temp_doc[doc].distances_foruser = DOC_DEST.distances[0][doc];
+                } else {
+                    temp_doc[doc].distances_foruser = 1000000000000;
+                }
+                if (DOC_DEST.durations[0][doc] !== null) {
+                    temp_doc[doc].car_duration_foruser = DOC_DEST.durations[0][doc];
+                } else {
+                    temp_doc[doc].car_duration_foruser = 1000000000000;
+                }
+            }
+
+            temp_doc.sort(rankingSorter("distances_foruser"));
+            temp_ALL_DOCTORS = temp_doc;
+        }
+    });
+    var others_doc = "";
+    for (var i = 0; i < ALL_DOCTORS.length; i++) {
+        if (i < 25) {
+            let lat = ALL_DOCTORS[i].lat;
+            let lon = ALL_DOCTORS[i].lon;
+            others_doc += lat + "%2C" + lon;
+            if ((i + 1) != ALL_DOCTORS.length && (i + 1) < 25) {
+                others_doc += "%3B";
+            }
+        }
+
+    }
+    xhr.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=" + UserJson.lat + "%2C" + UserJson.lon + "&destinations=" + others_doc);
+    xhr.setRequestHeader("x-rapidapi-host", "trueway-matrix.p.rapidapi.com");
+    xhr.setRequestHeader("x-rapidapi-key", "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212");
+
+    xhr.send(data);
+}
+
+
+
+function rankingSorter(key) {
+    return function (a, b) {
+        if (a[key] > b[key]) {
+            return 1;
+        } else if (a[key] < b[key]) {
+            return -1;
+        }
+        return 0;
+    }
+}
+
+
+function sort_doc_by_val(select) {
+
+    let selected_val = select.options[select.selectedIndex].getAttribute("value");
+    if (selected_val === "distance-by-car") {
+        temp_ALL_DOCTORS.sort(rankingSorter("distances_foruser"));
+        let i = 0;
+        let one_doctor;
+        let x = "";
+        setTimeout(function () {
+            while (temp_ALL_DOCTORS[i] !== undefined) {
+
+                one_doctor = temp_ALL_DOCTORS[i];
+
+                x += createTableFromJSON(one_doctor);
+                i++;
+            }
+
+            x += `
+            <div class="size-map">
+                <div class="doc-map" id="doc-map">
+                
+                </div>
+            </div>`;
+
+            if (document.querySelector('#print-doc')) {
+                document.querySelector('#print-doc').innerHTML = x;
+            } else {
+                document.querySelector('#content').innerHTML = x;
+            }
+            createDocMap();
+        }, 350);
+    } else {
+        temp_ALL_DOCTORS.sort(rankingSorter("car_duration_foruser"));
+        let i = 0;
+        let one_doctor;
+        let x = "";
+        setTimeout(function () {
+            while (temp_ALL_DOCTORS[i] !== undefined) {
+
+                one_doctor = temp_ALL_DOCTORS[i];
+                x += createTableFromJSON(one_doctor);
+                i++;
+            }
+            x += `
+            <div class="size-map">
+                <div class="doc-map" id="doc-map">
+                
+                </div>
+            </div>`;
+
+            if (document.querySelector('#print-doc')) {
+                document.querySelector('#print-doc').innerHTML = x;
+            } else {
+                document.querySelector('#content').innerHTML = x;
+            }
+            createDocMap();
+        }, 350);
+
+
+    }
+}
+
+function createDocMap() {
+
+    //Orismos Marker
+    var map = new OpenLayers.Map("doc-map"); //create the map
+    var mapnik = new OpenLayers.Layer.OSM("OpenCycleMap",
+        ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+            "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+            "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"]);//pws moiazei to map
+
+    map.addLayer(mapnik);
+    var mar;
+    var markers = new OpenLayers.Layer.Markers("Markers");
+    map.addLayer(markers);
+    var position;
+    for (let w = 0; w < ALL_DOCTORS.length; w++) {
+        position = setPosition(ALL_DOCTORS[w].lat, ALL_DOCTORS[w].lon);
+        mar = new OpenLayers.Marker(position);
+        markers.addMarker(mar);
+    }
+    user = setPosition(35.331068, 25.132863);
+    mar = new OpenLayers.Marker(user);
+    markers.addMarker(mar);
+    //Orismos zoom	
+    const zoom = 14;
+    map.setCenter(user, zoom);
+}
+
+
+
+function User_ActiveTreatments() {
+    $("#content").load("htmlpaths/user/userTreatments.html");
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // let doctors_toJson = JSON.parse(xhr.responseText);
+            let treatments;
+            treatments = JSON.parse(xhr.responseText);
+            var x="";
+            var today = new Date();
+            var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+            setTimeout(function () {
+                let i = 0;
+                while (treatments[i] !== undefined) {
+                    
+                    trtmnt = treatments[i];
+                    if(date < trtmnt.end_date ){
+                        x += `<div class="treatment">`;
+
+                        x += ` 
+                        <div class="start-date">
+                            Start - date : <br>
+                            `+trtmnt.start_date+`  
+                        </div>
+                        <div class="end-date">
+                            End - date : <br>
+                            `+trtmnt.end_date+`  
+                        </div>
+                        <div class="treatment-test">
+                           `+trtmnt.treatment_text+`  
+                        </div>     
+                            `
+    
+                        x += `</div>`;
+                    }
+                   
+
+                    i++;
+                }
+
+                if (document.querySelector('.treatments')) {
+                    document.querySelector('.treatments').innerHTML = x;
+                } else {
+                    alert("Doesnt exist");
+                }
+            }, 350);
+
+
+
+        } else if (xhr.status !== 200) {
+            alert("alert Treatments !200");
+        }
+    };
+    xhr.open('GET', 'ActiveTreatments?&user_id=' + UserJson.user_id);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
 }

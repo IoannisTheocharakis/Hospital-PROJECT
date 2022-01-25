@@ -8,14 +8,13 @@ package database.tables;
 import com.google.gson.Gson;
 import database.tables.EditBloodTestTable;
 import database.DB_Connection;
-import database.tables.EditMessageTable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mainClasses.Message;
 import mainClasses.Treatment;
 
 /**
@@ -90,7 +89,6 @@ public class EditTreatmentTable {
     public void createNewTreatment(Treatment tr) throws ClassNotFoundException {
         try {
             Connection con = DB_Connection.getConnection();
-
             Statement stmt = con.createStatement();
 
             String insertQuery = "INSERT INTO "
@@ -114,5 +112,30 @@ public class EditTreatmentTable {
         } catch (SQLException ex) {
             Logger.getLogger(EditBloodTestTable.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+
+    public ArrayList<Treatment> databaseToTreatments(int id) throws SQLException, ClassNotFoundException{
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        ArrayList<Treatment> treatments=new ArrayList<Treatment>();
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT * FROM treatment WHERE user_id= '" + id + "'");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                System.out.println(json);
+                Gson gson = new Gson();
+                Treatment doc = gson.fromJson(json, Treatment.class);
+                treatments.add(doc);
+            }
+            return treatments;
+
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+   
     }
 }

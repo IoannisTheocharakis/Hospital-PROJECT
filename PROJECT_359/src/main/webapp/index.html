@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html>
 
-<head>
+    <head>
 
-    <title>Hospital</title>
-    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>Hospital</title>
+        <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
 
-<body>
+    <body>
 
 
-    <div class="ajax" id="ajaxContent">
+        <div class="ajax" id="ajaxContent">
 
-        <nav>
-            <div class="menu">
-                <div onclick="HomePage()">
-                    <label class="">Home</label>
+            <nav>
+                <div class="menu">
+                    <div onclick="HomePage()">
+                        <label class="">Home</label>
+                    </div>
+                    <div onclick="DoctorsTable();return false;">
+                        <label class="">Doctors</label>
+                    </div>
                 </div>
-                <div onclick="DoctorsTable();return false;">
-                    <label class="">Doctors</label>
+                <div class="LogIn">
+                    <div class="signup-login" onclick="LogIn()">
+                        <label>Log In</label>
+                    </div>
                 </div>
-            </div>
-            <div class="LogIn">
-                <div class="signup-login" onclick="LogIn()">
-                    <label>Log In</label>
+            </nav>
+            <div id="main-menu-body"class="main-body">
+                <div class="content">
+                    HOME PAGE
                 </div>
+                <div class="content">
+                    HOME PAGE
+                </div>
+                <div class="content">
+                    HOME PAGE
+                </div>
+                <div class="content">
+                    HOME PAGE
+                </div>
+
             </div>
-        </nav>
-        <div id="main-menu-body"class="main-body">
-            <div class="content">
-                HOME PAGE
-            </div>
-            <div class="content">
-                HOME PAGE
-            </div>
-            <div class="content">
-                HOME PAGE
-            </div>
-            <div class="content">
-                HOME PAGE
-            </div>
-        
+            <br>
+
+            <link rel="stylesheet" href="css/mainmenustyle.css">
         </div>
-        <br>
-        
-        <link rel="stylesheet" href="css/mainmenustyle.css">
-    </div>
 
-    <script src="js/servlets.js"></script>
-    <script src="js/address.js"></script>
-    <script src="js/script.js"></script>
+        <script src="js/servlets.js"></script>
+        <script src="js/address.js"></script>
+        <script src="js/script.js"></script>
 
 
-</body>
+    </body>
 
 </html>
