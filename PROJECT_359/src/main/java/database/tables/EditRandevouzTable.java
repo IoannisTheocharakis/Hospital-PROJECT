@@ -23,22 +23,20 @@ import mainClasses.SimpleUser;
  */
 public class EditRandevouzTable {
 
-   
-    public void addRandevouzFromJSON(String json) throws ClassNotFoundException{
-         Randevouz r=jsonToRandevouz(json);
-         createNewRandevouz(r);
+    public void addRandevouzFromJSON(String json) throws ClassNotFoundException {
+        Randevouz r = jsonToRandevouz(json);
+        createNewRandevouz(r);
     }
-    
-    
-     public Randevouz databaseToRandevouz(int id) throws SQLException, ClassNotFoundException{
-         Connection con = DB_Connection.getConnection();
+
+    public Randevouz databaseToRandevouz(int id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
 
         ResultSet rs;
         try {
             rs = stmt.executeQuery("SELECT * FROM randevouz WHERE randevouz_id= '" + id + "'");
             rs.next();
-            String json=DB_Connection.getResultsToJSON(rs);
+            String json = DB_Connection.getResultsToJSON(rs);
             Gson gson = new Gson();
             Randevouz bt = gson.fromJson(json, Randevouz.class);
             return bt;
@@ -72,32 +70,30 @@ public class EditRandevouzTable {
         }
         return null;
     }
-  
+
     public Randevouz jsonToRandevouz(String json) {
         Gson gson = new Gson();
         Randevouz r = gson.fromJson(json, Randevouz.class);
         return r;
     }
-     
-         
-      public String randevouzToJSON(Randevouz r) {
+
+    public String randevouzToJSON(Randevouz r) {
         Gson gson = new Gson();
 
         String json = gson.toJson(r, Randevouz.class);
         return json;
     }
 
-
     public void updateRandevouz(int randevouzID, int userID, String info, String status) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
-        String updateQuery = "UPDATE randevouz SET user_id='" + userID + "',status='" + status +"',user_info='" + info + "' WHERE randevouz_id = '" + randevouzID + "'";
+        String updateQuery = "UPDATE randevouz SET user_id='" + userID + "',status='" + status + "',user_info='" + info + "' WHERE randevouz_id = '" + randevouzID + "'";
         stmt.executeUpdate(updateQuery);
         stmt.close();
         con.close();
     }
 
-    public void deleteRandevouz(int randevouzID) throws SQLException, ClassNotFoundException{
+    public void deleteRandevouz(int randevouzID) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
         String deleteQuery = "DELETE FROM randevouz WHERE randevouz_id='" + randevouzID + "'";
@@ -105,8 +101,6 @@ public class EditRandevouzTable {
         stmt.close();
         con.close();
     }
-
-
 
     public void createRandevouzTable() throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
@@ -161,5 +155,28 @@ public class EditRandevouzTable {
         } catch (SQLException ex) {
             Logger.getLogger(EditRandevouzTable.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public ArrayList<Randevouz> databaseToRandevouzs(int doc_id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+
+        ResultSet rs;
+        ArrayList<Randevouz> bts = null;
+        try {
+            rs = stmt.executeQuery("SELECT * FROM randevouz WHERE doctor_id= '" + doc_id + "'");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                Gson gson = new Gson();
+                System.out.println(json);
+                Randevouz bt1 = gson.fromJson(json, Randevouz.class);
+                bts.add(bt1);
+            }
+            return bts;
+        } catch (Exception e) {
+            System.err.println("Got an exception!");
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 }

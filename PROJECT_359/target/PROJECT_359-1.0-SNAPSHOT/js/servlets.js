@@ -119,7 +119,8 @@ function DoctorsTable() {
 
             ALL_DOCTORS = JSON.parse(xhr.responseText);
             temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
-            API_doctors_dest();
+
+
             let i = 0;
             let one_doctor;
             let x = "";
@@ -177,7 +178,7 @@ function createTableFromJSON(data) {
         }
         html += "</table> </div></div>";
         html += `
-        <div class="select-doc" onclick="selectDoc(`+ data.doctor_id + `)">
+        <div class="select-doc" onclick="AllDocRandevouz(`+ data.doctor_id + `)">
             Select
         </div>
         `;
@@ -332,10 +333,6 @@ function HomePage() {
 
 function DoctorAppointments() {
     $("#content").load("htmlpaths/doc/docAppointments.html");
-}
-function selectDoc(id) {
-
-    $("#content").load("htmlpaths/user/userAppSelect.html");
 }
 /*new*/
 function AddAppointment() {
@@ -606,7 +603,6 @@ function API_doctors_dest() {
     xhr.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=" + UserJson.lat + "%2C" + UserJson.lon + "&destinations=" + others_doc);
     xhr.setRequestHeader("x-rapidapi-host", "trueway-matrix.p.rapidapi.com");
     xhr.setRequestHeader("x-rapidapi-key", "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212");
-
     xhr.send(data);
 }
 
@@ -625,65 +621,66 @@ function rankingSorter(key) {
 
 
 function sort_doc_by_val(select) {
+    API_doctors_dest();
+    setTimeout(function () {
+        let selected_val = select.options[select.selectedIndex].getAttribute("value");
+        if (selected_val === "distance-by-car") {
+            temp_ALL_DOCTORS.sort(rankingSorter("distances_foruser"));
+            let i = 0;
+            let one_doctor;
+            let x = "";
+            setTimeout(function () {
+                while (temp_ALL_DOCTORS[i] !== undefined) {
 
-    let selected_val = select.options[select.selectedIndex].getAttribute("value");
-    if (selected_val === "distance-by-car") {
-        temp_ALL_DOCTORS.sort(rankingSorter("distances_foruser"));
-        let i = 0;
-        let one_doctor;
-        let x = "";
-        setTimeout(function () {
-            while (temp_ALL_DOCTORS[i] !== undefined) {
+                    one_doctor = temp_ALL_DOCTORS[i];
 
-                one_doctor = temp_ALL_DOCTORS[i];
+                    x += createTableFromJSON(one_doctor);
+                    i++;
+                }
 
-                x += createTableFromJSON(one_doctor);
-                i++;
-            }
-
-            x += `
+                x += `
             <div class="size-map">
                 <div class="doc-map" id="doc-map">
                 
                 </div>
             </div>`;
 
-            if (document.querySelector('#print-doc')) {
-                document.querySelector('#print-doc').innerHTML = x;
-            } else {
-                document.querySelector('#content').innerHTML = x;
-            }
-            createDocMap();
-        }, 350);
-    } else {
-        temp_ALL_DOCTORS.sort(rankingSorter("car_duration_foruser"));
-        let i = 0;
-        let one_doctor;
-        let x = "";
-        setTimeout(function () {
-            while (temp_ALL_DOCTORS[i] !== undefined) {
+                if (document.querySelector('#print-doc')) {
+                    document.querySelector('#print-doc').innerHTML = x;
+                } else {
+                    document.querySelector('#content').innerHTML = x;
+                }
+                createDocMap();
+            }, 350);
+        } else {
+            temp_ALL_DOCTORS.sort(rankingSorter("car_duration_foruser"));
+            let i = 0;
+            let one_doctor;
+            let x = "";
+            setTimeout(function () {
+                while (temp_ALL_DOCTORS[i] !== undefined) {
 
-                one_doctor = temp_ALL_DOCTORS[i];
-                x += createTableFromJSON(one_doctor);
-                i++;
-            }
-            x += `
+                    one_doctor = temp_ALL_DOCTORS[i];
+                    x += createTableFromJSON(one_doctor);
+                    i++;
+                }
+                x += `
             <div class="size-map">
                 <div class="doc-map" id="doc-map">
                 
                 </div>
             </div>`;
 
-            if (document.querySelector('#print-doc')) {
-                document.querySelector('#print-doc').innerHTML = x;
-            } else {
-                document.querySelector('#content').innerHTML = x;
-            }
-            createDocMap();
-        }, 350);
+                if (document.querySelector('#print-doc')) {
+                    document.querySelector('#print-doc').innerHTML = x;
+                } else {
+                    document.querySelector('#content').innerHTML = x;
+                }
+                createDocMap();
+            }, 350);
+        }
+    }, 200);
 
-
-    }
 }
 
 function createDocMap() {
@@ -723,34 +720,34 @@ function User_ActiveTreatments() {
             // let doctors_toJson = JSON.parse(xhr.responseText);
             let treatments;
             treatments = JSON.parse(xhr.responseText);
-            var x="";
+            var x = "";
             var today = new Date();
             var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
             setTimeout(function () {
                 let i = 0;
                 while (treatments[i] !== undefined) {
-                    
+
                     trtmnt = treatments[i];
-                    if(date < trtmnt.end_date ){
+                    if (date < trtmnt.end_date) {
                         x += `<div class="treatment">`;
 
                         x += ` 
                         <div class="start-date">
                             Start - date : <br>
-                            `+trtmnt.start_date+`  
+                            `+ trtmnt.start_date + `  
                         </div>
                         <div class="end-date">
                             End - date : <br>
-                            `+trtmnt.end_date+`  
+                            `+ trtmnt.end_date + `  
                         </div>
                         <div class="treatment-test">
-                           `+trtmnt.treatment_text+`  
+                           `+ trtmnt.treatment_text + `  
                         </div>     
                             `
-    
+
                         x += `</div>`;
                     }
-                   
+
 
                     i++;
                 }
@@ -774,30 +771,33 @@ function User_ActiveTreatments() {
 }
 
 
-function AllDocRandevou() {
+function AllDocRandevouz(doc_id) {
     $("#content").load("htmlpaths/user/userAppSelect.html");
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             // let doctors_toJson = JSON.parse(xhr.responseText);
-            let AllRandevou;
-            AllRandevou = JSON.parse(xhr.responseText);
-            var x="";
+            let AllRandevouz;
+            console.log(xhr.responseText);
+            AllRandevouz = JSON.parse(xhr.responseText);
+
+            var x = "";
+            console.log(AllRandevouz)
             setTimeout(function () {
                 let i = 0;
-                while (AllRandevou[i] !== undefined) {
-                    
-                    allR = AllRandevou[i];
-                    if(date < trtmnt.end_date ){
+                while (AllRandevouz[i] !== undefined) {
 
-                    }
-                   
+                    allR = AllRandevouz[i];
+                    // if(date < allR. ){
+
+                    // }
+
 
                     i++;
                 }
 
-                if (document.querySelector('.treatments')) {
-                    document.querySelector('.treatments').innerHTML = x;
+                if (document.querySelector('.all-R')) {
+                    document.querySelector('.all-R').innerHTML = x;
                 } else {
                     alert("Doesnt exist");
                 }
@@ -809,7 +809,7 @@ function AllDocRandevou() {
             alert("alert Treatments !200");
         }
     };
-    xhr.open('GET', 'ActiveTreatments?&user_id=' + UserJson.user_id);
+    xhr.open('GET', 'DocRandevous?&doctor_id=' + doc_id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send();
 }
