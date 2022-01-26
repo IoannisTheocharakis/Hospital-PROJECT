@@ -1054,11 +1054,7 @@ function AllDocRandevouz(doc_id) {
                                 
                                 <label class="dc-date" name="appointment_price">`+ allR.price + ` 	&euro;</label>
                             </div>
-<<<<<<< HEAD
-                            <div class="elem close" onclick="BookAppointment(`+ allR + `)">
-=======
                             <div class="elem close" onclick="BookAppointment(` + allR.randevouz_id + `)">
->>>>>>> 8d2ee03950129c32a450ff7ec40df96e15409b57
                                 <label data="" type=""> Book</label>
                             </div>`
                         x += `</div>`
