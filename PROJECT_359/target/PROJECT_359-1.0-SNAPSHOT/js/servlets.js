@@ -105,7 +105,7 @@ function isLoggedIn() {
 
 
 function DoctorsTable() {
-    
+
     if (UserJson.hasOwnProperty('doctor_id')) {
         //$("#content").load("htmlpaths/doc/docpage.html");
     } else {
@@ -124,19 +124,26 @@ function DoctorsTable() {
             let one_doctor;
             let x = "";
 
-            while (doctors_toJson[i] !== undefined) {
+            while (temp_ALL_DOCTORS[i] !== undefined) {
 
-                one_doctor = doctors_toJson[i];
+                one_doctor = temp_ALL_DOCTORS[i];
 
                 x += createTableFromJSON(one_doctor);
                 i++;
             }
-            API_doctors_dest();
+            x += `
+            <div class="size-map">
+                <div class="doc-map" id="doc-map">
+                
+                </div>
+            </div>`;
+            // API_doctors_dest();
             if (document.querySelector('#print-doc')) {
                 document.querySelector('#print-doc').innerHTML = x;
             } else {
                 document.querySelector('#content').innerHTML = x;
             }
+            createDocMap();
         } else if (xhr.status !== 200) {
             if (document.querySelector('#print-doc').length > 0) {
                 document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
@@ -326,7 +333,6 @@ function DoctorAppointments() {
     $("#content").load("htmlpaths/doc/docAppointments.html");
 }
 function selectDoc(id) {
-    console.log("einai " + id);
 }
 /*new*/
 function goBloodTest() {
@@ -373,16 +379,27 @@ function GetPatientID() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             DocPatientsJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
-            console.log(DocPatientsJson);
             GetRandevouzID();
-            let x = "";
-            x += createDocViewAppointments(DocPatientsJson);
-            if (document.querySelector('.days')) {
-                document.querySelector('.days').innerHTML = x;
-            } else {
-                console.log("den brethike")
-                //document.querySelector('#content').innerHTML = x;
-            }
+            setTimeout(function () {
+                for (let j = 0; j < DocPatientsJson.length; j++) {
+                    DocPatientsJson[j].date_time = DocRandevouzJson[j].date_time;
+                    DocPatientsJson[j].doctor_id = DocRandevouzJson[j].doctor_id;
+                    DocPatientsJson[j].doctor_info = DocRandevouzJson[j].doctor_info;
+                    DocPatientsJson[j].price = DocRandevouzJson[j].price;
+                    DocPatientsJson[j].randevouz_id = DocRandevouzJson[j].randevouz_id;
+                    DocPatientsJson[j].status = DocRandevouzJson[j].status;
+                    DocPatientsJson[j].user_id = DocRandevouzJson[j].user_id;
+                    DocPatientsJson[j].user_info = DocRandevouzJson[j].user_info;
+                }
+                let x = "";
+                x += createDocViewAppointments(DocPatientsJson);
+                if (document.querySelector('.days')) {
+                    document.querySelector('.days').innerHTML = x;
+                } else {
+                    console.log("den brethike")
+                    //document.querySelector('#content').innerHTML = x;
+                }
+            }, 200);
         } else if (xhr.status === 403) {
             alert("An error occured while trying to create your schedule.");
         } else {
@@ -390,7 +407,7 @@ function GetPatientID() {
         }
     };
     // set the content type
-//    var data = $('#AddAppointment-form').serialize();
+    //    var data = $('#AddAppointment-form').serialize();
     xhr.open('POST', 'GetPatientID');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send("&doctor_id=" + UserJson.doctor_id);
@@ -401,7 +418,6 @@ function GetRandevouzID() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             DocRandevouzJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
-            console.log(DocRandevouzJson);
         } else if (xhr.status === 403) {
             alert("An error occured while trying to create your schedule.");
         } else {
@@ -433,104 +449,109 @@ function createDocViewAppointments(patients) {
                 </div> 
                 <div class="users">`
             while (DocPatientsJson[k] !== undefined) {
-                one_doctor_patient = DocPatientsJson[k];
-                console.log(one_doctor_patient)
-                html += `
-                <div class="user user`+ one_doctor_patient.user_id + `" >
-                    <div class="info-choices">
-                        <div class="patient-info">
-                            <div class="name">`
-                    + one_doctor_patient.firstname + ` ` + one_doctor_patient.lastname + `
-                            </div>
-                            <div class="amka">
-                                `+ one_doctor_patient.amka + `
-                            </div>
-                        </div>
-                        <div class="choices">
-                            <div class="done" onclick="getPatientTreatments(` + one_doctor_patient.user_id + `)">
-                                <img src="img/check.png" alt="">
-                            </div>
-                            <div class="cancel" onclick="showless(`+ one_doctor_patient.user_id + `)">
-                                <img src="img/remove.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="user-info-`+ one_doctor_patient.user_id + `" style="display:none">
-                        <div class="treatments">
-                            <div class="title">
-                                Treatments
-                            </div>
-                            <div class="treatment">
-                            `
-                for (let w = 0; w < 1; w++) {
+                if (DocPatientsJson[k].status === "selected") {
+                    one_doctor_patient = DocPatientsJson[k];
                     html += `
-                                <div class="start-date">
-                                    `+ 20 + `
+                    <div class="user user`+ one_doctor_patient.user_id + `" >
+                        <div class="info-choices">
+                            <div class="patient-info">
+                                <div class="name">`
+                        + one_doctor_patient.firstname + ` ` + one_doctor_patient.lastname + `
                                 </div>
-                                <div class="final-date">
-                                    `+ w + `
+                                <div class="amka">
+                                    `+ one_doctor_patient.amka + `
                                 </div>
-                                <div class="info">
-                                    `+ k + `
+                            </div>
+                            <div class="choices">
+                                <div class="done" onclick="getPatientTreatments(`+ one_doctor_patient.user_id + `,` + one_doctor_patient.randevouz_id + `,` + one_doctor_patient.amka + `)">
+                                    <img src="img/check.png" alt="">
                                 </div>
+                                <div class="cancel" onclick="showless(`+ one_doctor_patient.user_id + `,` + one_doctor_patient.randevouz_id + `)">
+                                    <img src="img/remove.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user-info user-info-`+ one_doctor_patient.randevouz_id + `" style="display:none">
+                            <div class="treatments">
+                                <div class="title">
+                                    Treatments
+                                </div>
+                                <div class="treatments2 treatments-`+ one_doctor_patient.randevouz_id + `">
                                 `
-                }
-                html += `</div>
-                        </div>
-                        <div class="bloodtest">
-                            <div class="title">
-                                See statistics
-                            </div>
-                            <div class="type">
-                                <div class="iron bloodT">
-                                    iron
-                                </div>
-                                <div class="sugar bloodT">
-                                    sugar
-                                </div>
-                                <div class="cholesterol bloodT">
-                                    cholesterol
-                                </div>
-                                <div class="vitamin-d3 bloodT">
-                                    vitamin d3
-                                </div>
-                                <div class="vitamin-b12 bloodT">
-                                    vitamin b12
-                                </div>
-                            </div>
-                            <div class="googleCharts">
 
+                    html += `
+                                    <div class="start-date">
+                                        `+ 20 + `
+                                    </div>
+                                    <div class="final-date">
+                                        `+ 1 + `
+                                    </div>
+                                    <div class="info">
+                                        `+ 1 + `
+                                    </div>
+                                    `
+
+                    html += `</div>
                             </div>
-                        </div>
-                        <div class="new-treatment">
-                            <div class="title">
-                                New Treatment
+                            <div class="bloodtest">
+                                <div class="title">
+                                    See statistics
+                                </div>
+                                <div class="type">
+                                    <div class="all bloodT" onclick="ShowPatientBT(1,all)">
+                                        all
+                                    </div>
+                                    <div class="iron bloodT" onclick="ShowPatientBT(1,iron)">
+                                        iron
+                                    </div>
+                                    <div class="sugar bloodT" onclick="ShowPatientBT(1,sugar)">
+                                        sugar
+                                    </div>
+                                    <div class="cholesterol bloodT" onclick="ShowPatientBT(1,cholesterol)">
+                                        cholesterol
+                                    </div>
+                                    <div class="vitamin-d3 bloodT" onclick="ShowPatientBT(1,vitamin-d3)">
+                                        vitamin d3
+                                    </div>
+                                    <div class="vitamin-b12 bloodT" onclick="ShowPatientBT(1,vitamin-b12)">
+                                        vitamin b12
+                                    </div>
+                                </div>
+                                <div class="googleCharts">
+    
+                                </div>
                             </div>
-                            <form id="NewTreatment" action="" onsubmit='CreateNewTreatment(`+ one_doctor_patient.user_id + `);return false;'>
-                                <div class="new-start-date">
-                                    <label>Start Date</label>
-                                    <input  type="date" id="startdate" name="startdate" value="2022-01-01"
-                                    min="1920-01-01" max="20055-12-31" required>
+                            <div class="new-treatment">
+                                <div class="title">
+                                    New Treatment
                                 </div>
-                                <div class="new-final-date">
-                                    <label>Last Date</label>
-                                    <input  type="date" id="lastdate" name="lastdate" value="2022-01-01"
-                                    min="1920-01-01" max="20055-12-31" required>
-                                </div>
-                                
-                                <div class="new-info">
-                                    <label>Info</label>
-                                    <input type="text" name="treatmentText" id="treatmentText" placeholder="info">
-                                </div>
-                                <div class="sbmt">
-                                    <input type="submit" name="submit" id="submit">
-                                </div>
-                            </form>
-                                       
+                                <form id="NewTreatment" action="" onsubmit='CreateNewTreatment(`+ one_doctor_patient.user_id + `);return false;'>
+                                    <div class="new-start-date">
+                                        <label>Start Date</label>
+                                        <input  type="date" id="startdate" name="startdate" value="2022-01-01"
+                                        min="1920-01-01" max="20055-12-31" required>
+                                    </div>
+                                    <div class="new-final-date">
+                                        <label>Last Date</label>
+                                        <input  type="date" id="lastdate" name="lastdate" value="2022-01-01"
+                                        min="1920-01-01" max="20055-12-31" required>
+                                    </div>
+                                    
+                                    <div class="new-info">
+                                        <label>Info</label>
+                                        <input type="text" name="treatmentText" id="treatmentText" placeholder="info">
+                                    </div>
+                                    <div class="sbmt">
+                                        <input type="submit" name="submit" id="submit">
+                                    </div>
+                                </form>
+                                           
+                            </div>
                         </div>
                     </div>
-                </div>
-                `
+                    `
+                }
+
                 k++;
             }
             html += `
@@ -584,50 +605,120 @@ function InsertNewBloodTest() {
 
 /*patient details from docs view appointments table*/
 var PatientTreatments;
-function getPatientTreatments(user_id) {
-    console.log(user_id);
-    document.querySelector(".user-info-" + user_id).style.display = "block";
+function getPatientTreatments(user_id, randevouz_id, user_amka) {
+    document.querySelector(".user-info-" + randevouz_id).style.display = "block";
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             PatientTreatments = JSON.parse(xhr.responseText);
-            console.log(PatientTreatments);
-            patientBTinfo(user_id);
+            patientBTinfo();
+            let htmlTreat = " ";
+
+            setTimeout(function () {
+
+
+
+                for (let w = 0; w < PatientTreatments.length; w++) {
+                    let temp = PatientTreatments[w];
+                    if (temp.user_id == user_id) {
+                        htmlTreat += `<div class="treatment treatment-` + randevouz_id + `">`
+                        htmlTreat += `
+                                            <div class="start-date">
+                                                start date : `+ temp.start_date + `
+                                            </div>
+                                            <div class="final-date">
+                                                end date : `+ temp.end_date + `
+                                            </div>
+                                            <div class="info">
+                                                Info : `+ temp.treatment_text + `
+                                            </div>
+                                        `
+                        htmlTreat += `</div> `
+                    }
+
+                }
+                document.querySelector(".treatments-" + randevouz_id).innerHTML = htmlTreat;
+
+
+
+
+                /*----------CHARTS------------*/
+                console.log(PatientBTResults);
+                console.log(user_amka);
+                /*----------aLL------------*/
+                var allHTML="";
+                for (let testAll = 0; testAll < PatientBTResults.length; testAll++) {
+                    let temp = PatientBTResults[testAll];
+                    allHTML += `<div class="all-BTs">`
+                        allHTML += `<div class="all-BT">`
+                    if (temp.amka == user_amka) {
+                        allHTML += `<div class="all-">`
+                        allHTML += `
+                                        <div class="test-date">
+                                            test date : `+ temp.test_date + `
+                                        </div>
+                                        <div class="medical-center">
+                                            medical center : `+ temp.medical_center + `
+                                        </div>
+                                        <div class="blood-sugar">
+                                            Blood sugar : `+ temp.blood_sugar + ` Level : `+ temp.blood_sugar_level +`
+                                        </div>
+                                        <div class="cholesterol">
+                                            Blood sugar : `+ temp.cholesterol + ` Level : `+ temp.cholesterol_level +`
+                                        </div>
+                                        <div class="iron">
+                                            Blood sugar : `+ temp.iron + ` Level : `+ temp.iron_level +`
+                                        </div>
+                                        <div class="vitamin-d3">
+                                            Blood sugar : `+ temp.vitamin_d3 + ` Level : `+ temp.vitamin_d3_level +`
+                                        </div>
+                                        <div class="vitamin-b12">
+                                            Blood sugar : `+ temp.vitamin_b12 + ` Level : `+ temp.vitamin_b12_level +`
+                                        </div>
+                                        `
+                        allHTML += `</div>`
+                    }
+                        allHTML += `</div>`
+                    allHTML += `</div> `
+                    document.querySelector(".googleCharts").innerHTML = allHTML;
+                }
+                /*----------end------------*/
+            }, 500);
+            /*all-iron-sugar-chelesterol-vitamin_d3-vitamin_b12 */
+
         } else if (xhr.status === 403) {
             alert("An error occured while trying to create your schedule.");
         } else {
             alert('Request failed. Returned status of ' + xhr.status);
         }
     };
-    xhr.open('POST', 'getPatientTreatments');
+    xhr.open('GET', 'ActiveTreatments?&user_id=' + user_id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&user_id=" + user_id);
+    xhr.send();
 }
 /*show bt results based on which table was clicked*/
 var PatientBTResults;
-function patientBTinfo(user_id) {
+function patientBTinfo() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             PatientBTResults = JSON.parse(xhr.responseText);
-            console.log(PatientBTResults);
         } else if (xhr.status === 403) {
             alert("An error occured while trying to create your schedule.");
         } else {
             alert('Request failed. Returned status of ' + xhr.status);
         }
     };
-    xhr.open('POST', 'patientBTinfo');
+    xhr.open('GET', 'patientBTinfo');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&user_id=" + user_id);
+    xhr.send();
 }
 
 
 
 
-function showless(user_id) {
-    console.log(user_id);
-    document.querySelector(".user-info-" + user_id).style.display = "none";
+function showless(user_id, randevouz_id) {
+    document.querySelector(".user-info-" + randevouz_id).style.display = "none";
 }
 
 
@@ -635,7 +726,7 @@ function showless(user_id) {
 
 
 
-function API_doctors_dest() {}
+function API_doctors_dest() { }
 // function API_doctors_dest() {
 //     const data = null;
 
@@ -778,11 +869,11 @@ function createDocMap() {
         mar = new OpenLayers.Marker(position);
         markers.addMarker(mar);
     }
-    user = setPosition(35.331068, 25.132863);
+    user = setPosition(35.33106, 25.13286);
     mar = new OpenLayers.Marker(user);
     markers.addMarker(mar);
     //Orismos zoom	
-    const zoom = 14;
+    const zoom = 13;
     map.setCenter(user, zoom);
 }
 
@@ -793,10 +884,9 @@ function User_ActiveTreatments() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            // let doctors_toJson = JSON.parse(xhr.responseText);
             let treatments;
             treatments = JSON.parse(xhr.responseText);
-           
+
             var x = "";
             var today = new Date();
             var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
@@ -804,7 +894,7 @@ function User_ActiveTreatments() {
                 let i = 0;
                 while (treatments[i] !== undefined) {
                     trtmnt = treatments[i];
-                    
+
                     if (date < trtmnt.end_date) {
                         x += `<div class="treatment">`;
 
@@ -854,46 +944,45 @@ function AllDocRandevouz(doc_id) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             // let doctors_toJson = JSON.parse(xhr.responseText);
             let AllRandevouz;
-            
+
             AllRandevouz = JSON.parse(xhr.responseText);
             var x = "";
-            console.log(AllRandevouz)
             setTimeout(function () {
                 let i = 0;
                 while (AllRandevouz[i] !== undefined) {
 
                     allR = AllRandevouz[i];
-                    if(allR.status==="free" ){
+                    if (allR.status === "free") {
                         let doc_name = true;
-                        let j =0;
-                        while(doc_name){
-                            
-                            if(allR.doctor_id===ALL_DOCTORS[j].doctor_id){
-                                doc_name=false;
-                                allR.doc_name = ALL_DOCTORS[j].firstname +  ALL_DOCTORS[j].lastname;
+                        let j = 0;
+                        while (doc_name) {
+
+                            if (allR.doctor_id === ALL_DOCTORS[j].doctor_id) {
+                                doc_name = false;
+                                allR.doc_name = ALL_DOCTORS[j].firstname + ALL_DOCTORS[j].lastname;
                             }
-                                
+
                             j++;
                         }
-                        x+=`<div class="rantevou">`
-                        x+=`    
+                        x += `<div class="rantevou">`
+                        x += `    
                             <div class="elem">
                                 <label for="">Doctor Name: </label>
-                                <label class="dc-name" name="name">`+allR.doc_name+`</label>
+                                <label class="dc-name" name="name">`+ allR.doc_name + `</label>
                             </div>
                             <div class="elem date">
                                 <label for="">Date : </label>
-                                <label class="dc-date" name="date">`+allR.date_time+`</label>
+                                <label class="dc-date" name="date">`+ allR.date_time + `</label>
                             </div>
                             <div class="elem">
                                 <label for="">Appointment price :</label>
                                 
-                                <label class="dc-date" name="appointment_price">`+allR.price+` €</label>
+                                <label class="dc-date" name="appointment_price">`+ allR.price + ` 	&euro;</label>
                             </div>
-                            <div class="elem close" onclick="BookAppointment(this,`+allR+`)">
+                            <div class="elem close" onclick="BookAppointment(this,`+ allR + `)">
                                 <label data="" type=""> Book</label>
                             </div>`
-                        x+=`</div>`
+                        x += `</div>`
 
                     }
 
@@ -924,38 +1013,37 @@ function AllUserRandevouz(user_id) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            
+
             let AllUserRandevouz;
             AllUserRandevouz = JSON.parse(xhr.responseText);
-            
+
             var x = "";
             var y = "";
-            console.log(AllUserRandevouz)
             let userR;
             setTimeout(function () {
                 let i = 0;
                 while (AllUserRandevouz[i] !== undefined) {
                     userR = AllUserRandevouz[i];
                     let doc_name = true;
-                    let j =0;
-                    while(doc_name){
-                        
-                        if(userR.doctor_id===ALL_DOCTORS[j].doctor_id){
-                            doc_name=false;
-                            userR.doc_name = ALL_DOCTORS[j].firstname +  ALL_DOCTORS[j].lastname;
+                    let j = 0;
+                    while (doc_name) {
+
+                        if (userR.doctor_id === ALL_DOCTORS[j].doctor_id) {
+                            doc_name = false;
+                            userR.doc_name = ALL_DOCTORS[j].firstname + ALL_DOCTORS[j].lastname;
                         }
-                            
+
                         j++;
                     }
-                    if(userR.status==="selected"){
-                        x+=`<div class="book">`
-                        x+=`
+                    if (userR.status === "selected") {
+                        x += `<div class="book">`
+                        x += `
                         <div class="name-doc">
                             <p>
                                 Name
                             </p>
                             <p>
-                                `+userR.doc_name+`
+                                `+ userR.doc_name + `
                             </p>
                         </div>
                         <div class="date-time">
@@ -963,7 +1051,7 @@ function AllUserRandevouz(user_id) {
                                 Date-time
                             </p>
                             <p>
-                               `+userR.date_time+`
+                               `+ userR.date_time + `
                             </p>
                         </div>
                         <div class="price">
@@ -971,7 +1059,7 @@ function AllUserRandevouz(user_id) {
                                 price
                             </p>
                             <p>
-                               `+userR.price+` &euro;
+                               `+ userR.price + ` &euro;
                             </p>
                         </div>
                         <div class="cancel">
@@ -979,17 +1067,17 @@ function AllUserRandevouz(user_id) {
                         </div>
                         
                         `
-                        x+=`</div>`
-                    }else if(userR.status==="done"){
-                        y+=`<div class="done">`;
+                        x += `</div>`
+                    } else if (userR.status === "done") {
+                        y += `<div class="done">`;
 
-                        y+=`
+                        y += `
                         <div class="name-doc">
                             <p>
                                 Name
                             </p>
                             <p>
-                            `+userR.doc_name+`
+                            `+ userR.doc_name + `
                             </p>
                         </div>
                         <div class="date-time">
@@ -997,7 +1085,7 @@ function AllUserRandevouz(user_id) {
                                 Date-time
                             </p>
                             <p>
-                            `+userR.date_time+`
+                            `+ userR.date_time + `
                             </p>
                         </div>
                         <div class="price">
@@ -1005,7 +1093,7 @@ function AllUserRandevouz(user_id) {
                                 price
                             </p>
                             <p>
-                            `+userR.price+` &euro;
+                            `+ userR.price + ` &euro;
                             </p> 
                         </div>
                         <div class="done-img">
@@ -1015,7 +1103,7 @@ function AllUserRandevouz(user_id) {
                         
                         `
 
-                        y+=`</div>`
+                        y += `</div>`
                     }
                     i++;
                 }
@@ -1028,8 +1116,8 @@ function AllUserRandevouz(user_id) {
             }, 350);
         } else if (xhr.status === 403) {
             document.querySelector('.booked').innerHTML = "0 randevouz nooked";
-                    document.querySelector('.done-s').innerHTML = document.querySelector('.booked').innerHTML = "0 randevouz coplete";;
-        }else{
+            document.querySelector('.done-s').innerHTML = document.querySelector('.booked').innerHTML = "0 randevouz coplete";;
+        } else {
             alert("alert Treatments !200");
         }
     };
@@ -1051,4 +1139,8 @@ function AddAppoint() {
     document.querySelector(".add-rantevou").style.display = "block";
     document.querySelector(".add").style.border = "1px solid black";
     document.querySelector(".view").style.border = "0px";
+}
+
+function ShowPatientBT(amka, type) {
+
 }

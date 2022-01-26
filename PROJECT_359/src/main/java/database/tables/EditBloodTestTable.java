@@ -88,6 +88,34 @@ public class EditBloodTestTable {
         }
         return null;
     }
+
+
+
+
+public ArrayList<BloodTest> IronBloodTest2() throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+
+        ResultSet rs;
+        ArrayList<BloodTest> BloodTestArray = new ArrayList<BloodTest>();
+
+        try {
+            rs = stmt.executeQuery("SELECT * FROM bloodtest");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                Gson gson = new Gson();
+                System.out.println(json);
+                BloodTest bt = gson.fromJson(json, BloodTest.class);
+                BloodTestArray.add(bt);
+            }
+
+            return BloodTestArray;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
 //-------------
        public void updateBloodTest(int id,double chol) throws SQLException, ClassNotFoundException{
         Connection con = DB_Connection.getConnection();
