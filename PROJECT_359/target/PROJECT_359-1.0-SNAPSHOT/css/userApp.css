@@ -57,6 +57,9 @@
 .booked{
     margin : 1vh 0 ;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 .book{
     margin : 1vh 0 ;
@@ -70,6 +73,9 @@
 .done-s{
     margin : 1vh 0 ;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 .done{
     margin : 1vh 0 ;

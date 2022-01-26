@@ -60,6 +60,14 @@
         <servlet-name>patientBTinfo</servlet-name>
         <servlet-class>servlets.patientBTinfo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DocRandevous</servlet-name>
+        <servlet-class>servlets.DocRandevous</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserRandevouz</servlet-name>
+        <servlet-class>servlets.UserRandevouz</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
@@ -119,6 +127,14 @@
     <servlet-mapping>
         <servlet-name>patientBTinfo</servlet-name>
         <url-pattern>/patientBTinfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DocRandevous</servlet-name>
+        <url-pattern>/DocRandevous</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserRandevouz</servlet-name>
+        <url-pattern>/UserRandevouz</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
