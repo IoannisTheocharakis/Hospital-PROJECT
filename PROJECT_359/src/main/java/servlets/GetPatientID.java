@@ -81,7 +81,6 @@ public class GetPatientID extends HttpServlet {
         EditRandevouzTable ERTUserID = new EditRandevouzTable();
         EditSimpleUserTable simpleuser = new EditSimpleUserTable();
 
-
         try (PrintWriter out = response.getWriter()) {
             ArrayList<SimpleUser> IDz = new ArrayList<SimpleUser>();
             IDz = ERTUserID.GetUserFromID(docID);
