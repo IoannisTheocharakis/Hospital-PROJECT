@@ -85,7 +85,7 @@ public class AddAppointment extends HttpServlet {
         Randevouz rand = new Randevouz();
         rand.setDate_time(date);
         rand.setDoctor_id(docID);
-        rand.setDoctor_info("GOOD Doctor");
+        rand.setDoctor_info("null");
         rand.setPrice(price);
         rand.setStatus(status);
         rand.setUser_id(0);

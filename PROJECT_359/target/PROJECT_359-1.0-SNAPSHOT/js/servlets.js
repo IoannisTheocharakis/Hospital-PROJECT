@@ -406,8 +406,6 @@ function GetPatientID() {
             alert('Request failed. Returned status of ' + xhr.status);
         }
     };
-    // set the content type
-    //    var data = $('#AddAppointment-form').serialize();
     xhr.open('POST', 'GetPatientID');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send("&doctor_id=" + UserJson.doctor_id);
@@ -528,13 +526,11 @@ function createDocViewAppointments(patients) {
                                 <form id="NewTreatment" action="" onsubmit='CreateNewTreatment(`+ one_doctor_patient.user_id + `);return false;'>
                                     <div class="new-start-date">
                                         <label>Start Date</label>
-                                        <input  type="date" id="startdate" name="startdate" value="2022-01-01"
-                                        min="1920-01-01" max="20055-12-31" required>
+                                        <input  type="date" id="startdate" name="startdate" value="2022-01-01" min="1920-01-01" max="20055-12-31" required>
                                     </div>
                                     <div class="new-final-date">
                                         <label>Last Date</label>
-                                        <input  type="date" id="lastdate" name="lastdate" value="2022-01-01"
-                                        min="1920-01-01" max="20055-12-31" required>
+                                        <input  type="date" id="lastdate" name="lastdate" value="2022-01-01" min="1920-01-01" max="20055-12-31" required>
                                     </div>
                                     
                                     <div class="new-info">
