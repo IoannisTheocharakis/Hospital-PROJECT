@@ -48,26 +48,6 @@ public class EditRandevouzTable {
     }
 
     /*new*/
-    public String RandevouPreviouState(int RandevouzID) throws SQLException, ClassNotFoundException {
-        Connection con = DB_Connection.getConnection();
-        Statement stmt = con.createStatement();
-        String PrevState = null;
-        ResultSet rs;
-        try {
-            rs = stmt.executeQuery("SELECT status FROM randevouz WHERE randevouz_id= '" + RandevouzID + "'");
-            if (rs.next()) {
-                PrevState = rs.getString("status");
-                System.out.println(PrevState);
-            }
-            return PrevState;
-        } catch (Exception e) {
-            System.err.println("Got an exception! ");
-            System.err.println(e.getMessage());
-        }
-        return null;
-    }
-
-    /*new*/
     public ArrayList<SimpleUser> GetUserFromID(int id) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
@@ -135,6 +115,27 @@ public class EditRandevouzTable {
         stmt.close();
         con.close();
     }
+
+    /*new*/
+    public String RandevouPreviouState(int RandevouzID) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        String PrevState = null;
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT status FROM randevouz WHERE randevouz_id= '" + RandevouzID + "'");
+            if (rs.next()) {
+                PrevState = rs.getString("status");
+                System.out.println(PrevState);
+            }
+            return PrevState;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
 
     /*new*/
     public void updateRandevouzToDone(int randevouzID, String status) throws SQLException, ClassNotFoundException {

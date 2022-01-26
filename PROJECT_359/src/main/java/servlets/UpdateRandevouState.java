@@ -78,7 +78,10 @@ public class UpdateRandevouState extends HttpServlet {
         String PreviousState = null;
         try {
             PreviousState = ERTtoDONE.RandevouPreviouState(randevouID);
-            if (PreviousState.equals("selected")) {
+            if (PreviousState.equals("selected") && (status.equals("done") || status.equals("canceled"))) {
+                ERTtoDONE.updateRandevouzToDone(randevouID, status);
+                response.setStatus(200);
+            } else if (PreviousState.equals("free") && status.equals("selected")) {
                 ERTtoDONE.updateRandevouzToDone(randevouID, status);
                 response.setStatus(200);
             } else {

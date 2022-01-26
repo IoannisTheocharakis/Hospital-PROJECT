@@ -709,7 +709,7 @@ function UpdateRandevouToDone(randevouID) {
     // set the content type
     xhr.open('POST', 'UpdateRandevouState');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&status=Done" + "&randevouID=" + randevouID);
+    xhr.send("&status=done" + "&randevouID=" + randevouID);
 }
 
 
@@ -753,7 +753,7 @@ function UpdateRandevouToCanceled(randevouID) {
     // set the content type
     xhr.open('POST', 'UpdateRandevouState');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&status=Canceled" + "&randevouID=" + randevouID);
+    xhr.send("&status=canceled" + "&randevouID=" + randevouID);
 }
 
 
@@ -1057,7 +1057,7 @@ function BookAppointment(randevouID) {
     // set the content type
     xhr.open('POST', 'UpdateRandevouState');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&status=Canceled" + "&randevouID=" + randevouID);
+    xhr.send("&status=selected" + "&randevouID=" + randevouID);
 }
 
 function AllUserRandevouz(user_id) {
@@ -1113,7 +1113,7 @@ function AllUserRandevouz(user_id) {
                                `+ userR.price + ` &euro;
                             </p>
                         </div>
-                        <div class="cancel">
+                        <div class="cancel" onclick="UpdateRandevouToCanceled(` + userR.randevouz_id + `)">
                             <image class="image" src="img/remove.png"> </image>
                         </div>
                         
