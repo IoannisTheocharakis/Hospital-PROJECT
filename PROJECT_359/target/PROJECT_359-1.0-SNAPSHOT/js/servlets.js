@@ -387,21 +387,20 @@ function GetPatientID() {
                     let text = DocRandevouzJson[j].date_time;
                     const myArray = text.split(" ");
                     let date = myArray[0];
-                    let time =myArray[1];
+                    let time = myArray[1];
                     /*ftiaxnw pinaka me oles tis diaforetikes hmerominies */
-                    DT=date;
-                    if(j===0){
+                    DT = date;
+                    if (j === 0) {
                         DateForRandevouz.push(DT);
-                    }else{
-                        var boolDT=false;
-                        for(dt = 0 ; dt < DateForRandevouz.length;dt++){
-                            if(DT === DateForRandevouz[dt])
-                            {
-                                var boolDT=true;
+                    } else {
+                        var boolDT = false;
+                        for (dt = 0; dt < DateForRandevouz.length; dt++) {
+                            if (DT === DateForRandevouz[dt]) {
+                                var boolDT = true;
                             }
                         }
-                        if(!boolDT){
-                            DT=date;
+                        if (!boolDT) {
+                            DT = date;
                             DateForRandevouz.push(DT);
                         }
                     }
@@ -463,7 +462,7 @@ function createDocViewAppointments(patients) {
         //----------
         var html = "";
         let k = 0;
-        for (let i = 0; i <DateForRandevouz.length; i++) {
+        for (let i = 0; i < DateForRandevouz.length; i++) {
             html += `
             <div class="day day`+ 1 + `"> 
                 <div class="day-pdf">
@@ -526,26 +525,26 @@ function createDocViewAppointments(patients) {
                                     See statistics
                                 </div>
                                 <div class="type">
-                                    <div class="all bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'all' , `+one_doctor_patient.amka +`)">
+                                    <div class="all bloodT" onclick="ShowPatientBT(`+ one_doctor_patient.randevouz_id + `,'all' , ` + one_doctor_patient.amka + `)">
                                         all
                                     </div>
-                                    <div class="iron bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'iron',`+one_doctor_patient.amka +`)">
+                                    <div class="iron bloodT" onclick="ShowPatientBT(`+ one_doctor_patient.randevouz_id + `,'iron',` + one_doctor_patient.amka + `)">
                                         iron
                                     </div>
-                                    <div class="sugar bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'blood_sugar',`+one_doctor_patient.amka +`)">
+                                    <div class="sugar bloodT" onclick="ShowPatientBT(`+ one_doctor_patient.randevouz_id + `,'blood_sugar',` + one_doctor_patient.amka + `)">
                                         sugar
                                     </div>
-                                    <div class="cholesterol bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'cholesterol',`+one_doctor_patient.amka +`)">
+                                    <div class="cholesterol bloodT" onclick="ShowPatientBT(`+ one_doctor_patient.randevouz_id + `,'cholesterol',` + one_doctor_patient.amka + `)">
                                         cholesterol
                                     </div>
-                                    <div class="vitamin-d3 bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'vitamin_d3',`+one_doctor_patient.amka +`)">
+                                    <div class="vitamin-d3 bloodT" onclick="ShowPatientBT(`+ one_doctor_patient.randevouz_id + `,'vitamin_d3',` + one_doctor_patient.amka + `)">
                                         vitamin d3
                                     </div>
-                                    <div class="vitamin-b12 bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'vitamin_b12',`+one_doctor_patient.amka +`)">
+                                    <div class="vitamin-b12 bloodT" onclick="ShowPatientBT(`+ one_doctor_patient.randevouz_id + `,'vitamin_b12',` + one_doctor_patient.amka + `)">
                                         vitamin b12
                                     </div>
                                 </div>
-                                <div class="googleCharts-`+one_doctor_patient.randevouz_id+`">
+                                <div class="googleCharts-`+ one_doctor_patient.randevouz_id + `">
     
                                 </div>
                             </div>
@@ -600,7 +599,7 @@ function CreateNewTreatment(patient_id) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             alert(patient_id);
         } else if (xhr.status === 403) {
-            
+
         } else {
             alert('Request failed. Returned status of ' + xhr.status);
         }
@@ -673,12 +672,12 @@ function getPatientTreatments(user_id, randevouz_id, user_amka) {
                 /*----------CHARTS------------*/
                 console.log(PatientBTResults);
                 /*----------aLL------------*/
-                var allHTML="";
+                var allHTML = "";
                 allHTML += `<div class="all-BTs">`
                 for (let testAll = 0; testAll < PatientBTResults.length; testAll++) {
                     let temp = PatientBTResults[testAll];
-                    
-                        allHTML += `<div class="all-BT">`
+
+                    allHTML += `<div class="all-BT">`
                     if (temp.amka == user_amka) {
                         allHTML += `<div class="all-">`
                         allHTML += `
@@ -689,28 +688,28 @@ function getPatientTreatments(user_id, randevouz_id, user_amka) {
                                             medical center : `+ temp.medical_center + `
                                         </div>
                                         <div class="blood-sugar">
-                                            Blood sugar : `+ temp.blood_sugar + ` Level : `+ temp.blood_sugar_level +`
+                                            Blood sugar : `+ temp.blood_sugar + ` Level : ` + temp.blood_sugar_level + `
                                         </div>
                                         <div class="cholesterol">
-                                            Blood sugar : `+ temp.cholesterol + ` Level : `+ temp.cholesterol_level +`
+                                            Blood sugar : `+ temp.cholesterol + ` Level : ` + temp.cholesterol_level + `
                                         </div>
                                         <div class="iron">
-                                            Blood sugar : `+ temp.iron + ` Level : `+ temp.iron_level +`
+                                            Blood sugar : `+ temp.iron + ` Level : ` + temp.iron_level + `
                                         </div>
                                         <div class="vitamin-d3">
-                                            Blood sugar : `+ temp.vitamin_d3 + ` Level : `+ temp.vitamin_d3_level +`
+                                            Blood sugar : `+ temp.vitamin_d3 + ` Level : ` + temp.vitamin_d3_level + `
                                         </div>
                                         <div class="vitamin-b12">
-                                            Blood sugar : `+ temp.vitamin_b12 + ` Level : `+ temp.vitamin_b12_level +`
+                                            Blood sugar : `+ temp.vitamin_b12 + ` Level : ` + temp.vitamin_b12_level + `
                                         </div>
                                         `
                         allHTML += `</div>`
                     }
-                        allHTML += `</div>`
+                    allHTML += `</div>`
                 }
-                    allHTML += `<div class="GC" id="google-Charts-BARs-`+randevouz_id+`"> </div>`
+                allHTML += `<div class="GC" id="google-Charts-BARs-` + randevouz_id + `"> </div>`
                 allHTML += `</div> `
-                document.querySelector(".googleCharts-"+randevouz_id).innerHTML = allHTML;
+                document.querySelector(".googleCharts-" + randevouz_id).innerHTML = allHTML;
                 // for (i = 0; i < tempquery.length; i++) {
                 //     tempquery[i].innerHTML = allHTML;
                 // }
@@ -735,6 +734,8 @@ function patientBTinfo() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             PatientBTResults = JSON.parse(xhr.responseText);
+            console.log(PatientBTResults)
+            return PatientBTResults;
         } else if (xhr.status === 403) {
             console.log(403);
         } else {
@@ -1173,60 +1174,483 @@ function AddAppoint() {
     document.querySelector(".view").style.border = "0px";
 }
 
-function ShowPatientBT(randevouz, type , amka) {
-    var data=[];
-    document.querySelector("#google-Charts-BARs-"+randevouz).style.display="block";
-    var Header= ['Element', 'Density', { role: 'style' }];
+function ShowPatientBT(randevouz, type, amka) {
+    var data = [];
+    document.querySelector("#google-Charts-BARs-" + randevouz).style.display = "block";
+    var Header = ['Element', 'Density', { role: 'style' }];
     data.push(Header);
     for (let i = 0; i < PatientBTResults.length; i++) {
         let temp = PatientBTResults[i];
-        
+
         if (temp.amka == amka) {
             var temp_arr = [];
             temp_arr.push(temp.test_date);
-            if(type==="iron"){
+            if (type === "iron") {
                 temp_arr.push(temp.iron);
-            }else if(type==="blood_sugar"){
+            } else if (type === "blood_sugar") {
                 temp_arr.push(temp.blood_sugar);
             }
-            else if(type==="cholesterol"){
+            else if (type === "cholesterol") {
                 temp_arr.push(temp.cholesterol);
             }
-            else if(type==="vitamin_d3"){
+            else if (type === "vitamin_d3") {
                 temp_arr.push(temp.vitamin_d3);
             }
-            else if(type==="vitamin_b12"){
+            else if (type === "vitamin_b12") {
                 temp_arr.push(temp.vitamin_b12);
             }
-            else{
-                document.querySelector("#google-Charts-BARs-"+randevouz).style.display="none";
+            else {
+                document.querySelector("#google-Charts-BARs-" + randevouz).style.display = "none";
                 return;
             }
-            
+
             temp_arr.push("blue");
             data.push(temp_arr);
         }
     }
-    google.charts.load("current", {packages:['corechart']});
+    google.charts.load("current", { packages: ['corechart'] });
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var chartdata = google.visualization.arrayToDataTable(data);
-      var view = new google.visualization.DataView(chartdata);
-      view.setColumns([0, 1,
-                       { calc: "stringify",
-                         sourceColumn: 1,
-                         type: "string",
-                         role: "annotation" },
-                       2]);
+        var chartdata = google.visualization.arrayToDataTable(data);
+        var view = new google.visualization.DataView(chartdata);
+        view.setColumns([0, 1,
+            {
+                calc: "stringify",
+                sourceColumn: 1,
+                type: "string",
+                role: "annotation"
+            },
+            2]);
 
-      var options = {
-        title: type,
-        width: 400,
-        height: 650,
-        bar: {groupWidth: "95%"},
-        legend: { position: "none" },
-      };
-      var chart = new google.visualization.ColumnChart(document.querySelector("#google-Charts-BARs-"+randevouz));
-      chart.draw(view, options);
-  }
+        var options = {
+            title: type,
+            width: 400,
+            height: 650,
+            bar: { groupWidth: "95%" },
+            legend: { position: "none" },
+        };
+        var chart = new google.visualization.ColumnChart(document.querySelector("#google-Charts-BARs-" + randevouz));
+        chart.draw(view, options);
+    }
+}
+
+var UserTreatments;
+function User_Treatments() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let treatments;
+            treatments = JSON.parse(xhr.responseText);
+            UserTreatments = JSON.parse(xhr.responseText);
+            return treatments;
+        } else if (xhr.status === 403) {
+            console.log(403)
+        } else {
+            alert("alert Treatments !200");
+        }
+    };
+    xhr.open('GET', 'ActiveTreatments?&user_id=' + UserJson.user_id);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+
+function ViewBT() {
+    document.querySelector(".viewBT-container").style.display = "block";
+    document.querySelector(".addBT-container").style.display = "none";
+    document.querySelector(".view").style.border = "1px solid black";
+    document.querySelector(".add").style.border = "0px";
+    patientBTinfo();
+    User_Treatments();
+    setTimeout(function () {
+        var treatments = UserTreatments;
+        var BTinfo = PatientBTResults
+        BTinfo.sort(rankingSorter("test_date"))
+        console.log(treatments);
+        console.log(BTinfo);
+
+        if (BTinfo.length === 1) {
+            var BTs = "";
+            BTs += `     
+                <div class="prev-bt">
+                <h5> Previous BT </h5>
+                <div class="date-center">
+                    <div class="test_date">
+                        Date : `+ BTinfo[i - 1].test_date + `
+                    </div>
+                    <div class="medical_center">
+                        Medical_Center : `+ BTinfo[i - 1].medical_center + `
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="bs">
+                        <div class="type">
+                            Blood Sugar :
+                            <div>
+                                `+ BTinfo[i - 1].blood_sugar + `
+                            </div>
+                        </div>
+                        <div class="level">
+                            `+ BTinfo[i - 1].blood_sugar_level + `
+                        </div>
+                    </div>
+                    <div class="chol">
+                        <div class="type">
+                            Cholesterol :
+                            <div>
+                                `+ BTinfo[i - 1].cholesterol + `
+                            </div>
+                        </div>
+                        <div class="level">
+                            `+ BTinfo[i - 1].cholesterol_level + `
+                        </div>
+                    </div>
+                    <div class="i">
+                        <div class="type">
+                            Iron :
+                            <div>
+                                `+ BTinfo[i - 1].iron + `
+                            </div>
+                        </div>
+                        <div class="level">
+                            `+ BTinfo[i - 1].iron_level + `
+                        </div>
+                    </div>
+                    <div class="vd">
+                        <div class="type">
+                            Vitamin D3 :
+                            <div>
+                                `+ BTinfo[i - 1].vitamin_d3 + `
+                            </div>
+                        </div>
+                        <div class="level">
+                            `+ BTinfo[i - 1].vitamin_d3_level + `
+                        </div>
+                    </div>
+                    <div class="vb12">
+                        <div class="type">
+                            Vitamin B12 :
+                            <div>
+                                `+ BTinfo[i - 1].vitamin_b12 + `
+                            </div>
+                        </div>
+                        <div class="level">
+                            `+ BTinfo[i - 1].vitamin_b12_level + `
+                        </div>
+                    </div>
+                </div>`
+            for (let j = 0; j < treatments.length; j++) {
+                if (treatments[j].bloodtest_id === BTinfo[i - 1].bloodtest_id) {
+                    BTs += `<div class="bt-treatment">
+                                    <div class="title">
+
+                                        <h4>Treatment</h4>
+                                    </div>
+                                    <div class="treat-info">
+                                        <div class="start-date">
+                                        `+ treatments[j].start_date + `
+                                        </div>
+                                        <div class="end-date">
+                                        `+ treatments[j].end_date + `
+                                        </div>
+                                        <div class="info">
+                                        `+ treatments[j].treatment_text + `
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                                `
+                }
+            }
+            BTs += `</div> <!-- here end the BT -->`
+        } else {
+            var BTs = "";
+            for (let i = 1; i < BTinfo.length; i++) {
+                BTs += `
+                <div class="compare2">`
+                //----------------prev------------//
+                BTs += `     
+                <div class="prev-bt">
+                <h5> Previous BT </h5>
+                <div class="date-center">
+                    <div class="test_date">
+                        Date : `+ BTinfo[i - 1].test_date + `
+                    </div>
+                    <div class="medical_center">
+                        Medical_Center : `+ BTinfo[i - 1].medical_center + `
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="bs">
+                        <div class="type">
+                            Blood Sugar :
+                            <div>
+                                `+ BTinfo[i - 1].blood_sugar + `
+                            </div>
+                        </div>
+                        <div class="level">
+                            `+ BTinfo[i - 1].blood_sugar_level + `
+                        </div>
+                    </div>
+                    <div class="chol">
+                        <div class="type">
+                            Cholesterol :
+                            <div>
+                                `+ BTinfo[i - 1].cholesterol + `
+                            </div>
+                        </div>
+                        <div class="level">
+                            `+ BTinfo[i - 1].cholesterol_level + `
+                        </div>
+                    </div>
+                    <div class="i">
+                        <div class="type">
+                            Iron :
+                            <div>
+                                `+ BTinfo[i - 1].iron + `
+                            </div>
+                        </div>
+                        <div class="level">
+                            `+ BTinfo[i - 1].iron_level + `
+                        </div>
+                    </div>
+                    <div class="vd">
+                        <div class="type">
+                            Vitamin D3 :
+                            <div>
+                                `+ BTinfo[i - 1].vitamin_d3 + `
+                            </div>
+                        </div>
+                        <div class="level">
+                            `+ BTinfo[i - 1].vitamin_d3_level + `
+                        </div>
+                    </div>
+                    <div class="vb12">
+                        <div class="type">
+                            Vitamin B12 :
+                            <div>
+                                `+ BTinfo[i - 1].vitamin_b12 + `
+                            </div>
+                        </div>
+                        <div class="level">
+                            `+ BTinfo[i - 1].vitamin_b12_level + `
+                        </div>
+                    </div>
+                </div>`
+                for (let j = 0; j < treatments.length; j++) {
+                    if (treatments[j].bloodtest_id === BTinfo[i - 1].bloodtest_id) {
+                        BTs += `<div class="bt-treatment">
+                                    <div class="title">
+
+                                        <h4>Treatment</h4>
+                                    </div>
+                                    <div class="treat-info">
+                                        <div class="start-date">
+                                        `+ treatments[j].start_date + `
+                                        </div>
+                                        <div class="end-date">
+                                        `+ treatments[j].end_date + `
+                                        </div>
+                                        <div class="info">
+                                        `+ treatments[j].treatment_text + `
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                                `
+                    }
+                }
+                BTs += `</div> <!-- here end the BT -->`
+                //-------------Endprev////
+
+
+                //-------------New ////
+
+                BTs += `     <div class="prev-bt">
+                                <div class="date-center">
+                                    <div class="test_date">
+                                        Date : `+ BTinfo[i].test_date + `
+                                    </div>
+                                    <div class="medical_center">
+                                        Medical_Center : `+ BTinfo[i].medical_center + `
+                                    </div>
+                                </div>
+                                <div class="info">
+                                    <div class="bs">
+                                        <div class="type">
+                                            Blood Sugar :
+                                            <div>
+                                                `+ BTinfo[i].blood_sugar + `
+                                            </div>
+                                        </div>
+                                        <div class="level">
+                                            `+ BTinfo[i].blood_sugar_level + `
+                                        </div>
+                                    </div>
+                                    <div class="chol">
+                                        <div class="type">
+                                            Cholesterol :
+                                            <div>
+                                                `+ BTinfo[i].cholesterol + `
+                                            </div>
+                                        </div>
+                                        <div class="level">
+                                            `+ BTinfo[i].cholesterol_level + `
+                                        </div>
+                                    </div>
+                                    <div class="i">
+                                        <div class="type">
+                                            Iron :
+                                            <div>
+                                                `+ BTinfo[i].iron + `
+                                            </div>
+                                        </div>
+                                        <div class="level">
+                                            `+ BTinfo[i].iron_level + `
+                                        </div>
+                                    </div>
+                                    <div class="vd">
+                                        <div class="type">
+                                            Vitamin D3 :
+                                            <div>
+                                                `+ BTinfo[i].vitamin_d3 + `
+                                            </div>
+                                        </div>
+                                        <div class="level">
+                                            `+ BTinfo[i].vitamin_d3_level + `
+                                        </div>
+                                    </div>
+                                    <div class="vb12">
+                                        <div class="type">
+                                            Vitamin B12 :
+                                            <div>
+                                                `+ BTinfo[i].vitamin_b12 + `
+                                            </div>
+                                        </div>
+                                        <div class="level">
+                                            `+ BTinfo[i].vitamin_b12_level + `
+                                        </div>
+                                    </div>
+                                </div>`
+                for (let j = 0; j < treatments.length; j++) {
+                    if (treatments[j].bloodtest_id === BTinfo[i].bloodtest_id) {
+                        Bts += `<div class="bt-treatment">
+                                                    <div class="title">
+                
+                                                        <h4>Treatment</h4>
+                                                    </div>
+                                                    <div class="treat-info">
+                                                        <div class="start-date">
+                                                        `+ treatments[j].start_date + `
+                                                        </div>
+                                                        <div class="end-date">
+                                                        `+ treatments[j].end_date + `
+                                                        </div>
+                                                        <div class="info">
+                                                        `+ treatments[j].treatment_text + `
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            
+                                                                `
+                    }
+                }
+                BTs += `</div> <!-- here end the BT -->`
+                BTs += `</div><!-- here end the compare2 -->`;
+
+            }
+            document.querySelector('.prev-bts').innerHTML = BTs;
+        }
+        document.querySelector('.prev-bts').innerHTML = BTs;
+    }, 300);
+
+}
+
+
+function ShowPatientBT2(type) {
+    var data = [];
+    document.querySelector("#BT-charts").style.display = "block";
+    document.querySelector('#treatments').style.display = "block";
+    var Header = ['Element', 'Density', { role: 'style' }];
+    data.push(Header);
+    for (let i = 0; i < PatientBTResults.length; i++) {
+        let temp = PatientBTResults[i];
+        var temp_arr = [];
+        temp_arr.push(temp.test_date);
+        if (type === "iron") {
+            temp_arr.push(temp.iron);
+        } else if (type === "blood_sugar") {
+            temp_arr.push(temp.blood_sugar);
+        }
+        else if (type === "cholesterol") {
+            temp_arr.push(temp.cholesterol);
+        }
+        else if (type === "vitamin_d3") {
+            temp_arr.push(temp.vitamin_d3);
+        }
+        else if (type === "vitamin_b12") {
+            temp_arr.push(temp.vitamin_b12);
+        }
+        else {
+            document.querySelector("#BT-charts").style.display = "none";
+            document.querySelector('#treatments').style.display = "none";
+            document.querySelector(".prev-bts").style.display = "block";
+            return;
+        }
+
+        temp_arr.push("blue");
+        data.push(temp_arr);
+    }
+    google.charts.load("current", { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var chartdata = google.visualization.arrayToDataTable(data);
+        var view = new google.visualization.DataView(chartdata);
+        view.setColumns([0, 1,
+            {
+                calc: "stringify",
+                sourceColumn: 1,
+                type: "string",
+                role: "annotation"
+            },
+            2]);
+
+        var options = {
+            title: type,
+            width: 400,
+            height: 650,
+            bar: { groupWidth: "95%" },
+            legend: { position: "none" },
+        };
+        document.querySelector(".prev-bts").style.display = "none";
+        var chart = new google.visualization.ColumnChart(document.querySelector("#BT-charts"));
+        chart.draw(view, options);
+        var BTs = "";
+        for (let j = 0; j < UserTreatments.length; j++) {
+            console.log(UserTreatments[j].user_id === UserJson.user_id)
+
+            
+            if (UserTreatments[j].user_id === UserJson.user_id) {
+                BTs += `<div class="bt-treatment">
+                                            <div class="title">
+        
+                                                <h4>Treatment</h4>
+                                            </div>
+                                            <div class="treat-info">
+                                                <div class="start-date">
+                                                `+ UserTreatments[j].start_date + `
+                                                </div>
+                                                <div class="end-date">
+                                                `+ UserTreatments[j].end_date + `
+                                                </div>
+                                                <div class="info">
+                                                `+ UserTreatments[j].treatment_text + `
+                                                </div>
+                                            </div>
+                                        </div>
+                                     `
+            }
+        }
+        console.log(BTs);
+        document.querySelector('#treatments').innerHTML=BTs;
+    }
 }
