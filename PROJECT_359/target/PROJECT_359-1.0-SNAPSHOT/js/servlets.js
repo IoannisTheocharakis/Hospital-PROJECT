@@ -493,7 +493,7 @@ function createDocViewAppointments(patients) {
                                     `+ one_doctor_patient.date_time + `
                                 </div>
                                 <div class="price">
-                                    `+ one_doctor_patient.price + ` &euro
+                                    `+ one_doctor_patient.price + ` &euro;
                                 </div>
                             </div>
                             <div class="choices">
@@ -1021,7 +1021,7 @@ function AllDocRandevouz(doc_id) {
                                 
                                 <label class="dc-date" name="appointment_price">`+ allR.price + ` 	&euro;</label>
                             </div>
-                            <div class="elem close" onclick="BookAppointment(this,`+ allR + `)">
+                            <div class="elem close" onclick="BookAppointment(`+ allR + `)">
                                 <label data="" type=""> Book</label>
                             </div>`
                         x += `</div>`
