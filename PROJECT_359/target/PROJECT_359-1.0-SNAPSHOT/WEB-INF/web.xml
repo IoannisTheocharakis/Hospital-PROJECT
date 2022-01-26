@@ -5,6 +5,10 @@
         <servlet-class>servlets.SignIn</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ActiveTreatments</servlet-name>
+        <servlet-class>servlets.ActiveTreatments</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>LogIn</servlet-name>
         <servlet-class>servlets.LogIn</servlet-class>
     </servlet>
@@ -67,6 +71,10 @@
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActiveTreatments</servlet-name>
+        <url-pattern>/ActiveTreatments</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogIn</servlet-name>
