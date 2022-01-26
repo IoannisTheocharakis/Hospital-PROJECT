@@ -83,7 +83,7 @@ public class GetPatientID extends HttpServlet {
 
 
         try (PrintWriter out = response.getWriter()) {
-            ArrayList<SimpleUser> IDz = null;
+            ArrayList<SimpleUser> IDz = new ArrayList<SimpleUser>();
             IDz = ERTUserID.GetUserFromID(docID);
 
             if (IDz.isEmpty()) {

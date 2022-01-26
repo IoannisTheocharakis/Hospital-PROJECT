@@ -63,25 +63,11 @@ public class patientBTinfo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int user_id = (Integer.parseInt(request.getParameter("user_id")));
 
         EditBloodTestTable EBTT = new EditBloodTestTable();
         try (PrintWriter out = response.getWriter()) {
-            ArrayList<BloodTest> bloodTestResults = null;
-            bloodTestResults = EBTT.IronBloodTest(user_id);
+            ArrayList<BloodTest> bloodTestResults = new ArrayList<BloodTest>();
+            bloodTestResults = EBTT.IronBloodTest2();
 
             if (bloodTestResults.isEmpty()) {
                 System.out.println("FAILED");
@@ -99,6 +85,19 @@ public class patientBTinfo extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(patientBTinfo.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
     }
 
     /**

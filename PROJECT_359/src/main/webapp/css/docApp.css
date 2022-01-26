@@ -156,9 +156,8 @@
 }
 .treatment{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin: 0.5vh 1vh;
+    flex-direction: column;
 }
 .bloodtest .type{
     display: flex;
