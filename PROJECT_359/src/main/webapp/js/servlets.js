@@ -1013,7 +1013,7 @@ function AllDocRandevouz(doc_id) {
                                 
                                 <label class="dc-date" name="appointment_price">`+ allR.price + ` 	&euro;</label>
                             </div>
-                            <div class="elem close" onclick="BookAppointment(this,`+ allR + `)">
+                            <div class="elem close" onclick="BookAppointment(` + allR.randevouz_id + `)">
                                 <label data="" type=""> Book</label>
                             </div>`
                         x += `</div>`
@@ -1042,6 +1042,23 @@ function AllDocRandevouz(doc_id) {
     xhr.send();
 }
 
+function BookAppointment(randevouID) {
+    console.log(randevouID)
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Booked.");
+        } else if (xhr.status === 403) {
+            alert("This Randevou Value has changed. Try Refreshing the page.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    xhr.open('POST', 'UpdateRandevouState');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&status=Canceled" + "&randevouID=" + randevouID);
+}
 
 function AllUserRandevouz(user_id) {
     var xhr = new XMLHttpRequest();
