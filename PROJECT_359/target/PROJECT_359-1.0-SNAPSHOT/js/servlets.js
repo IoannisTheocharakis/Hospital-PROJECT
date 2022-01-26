@@ -103,7 +103,8 @@ function isLoggedIn() {
 }
 
 
-
+var ALL_DOCTORS;
+var temp_ALL_DOCTORS;
 function DoctorsTable() {
 
     if (UserJson.hasOwnProperty('doctor_id')) {
@@ -487,6 +488,12 @@ function createDocViewAppointments(patients) {
                                 </div>
                                 <div class="amka">
                                     `+ one_doctor_patient.amka + `
+                                </div>
+                                <div class="date_time">
+                                    `+ one_doctor_patient.date_time + `
+                                </div>
+                                <div class="price">
+                                    `+ one_doctor_patient.price + ` &euro
                                 </div>
                             </div>
                             <div class="choices">
@@ -960,7 +967,9 @@ function User_ActiveTreatments() {
 
 
 
-        } else if (xhr.status !== 200) {
+        } else if (xhr.status === 403) {
+            console.log(403)
+        }else{
             alert("alert Treatments !200");
         }
     };
@@ -1032,7 +1041,9 @@ function AllDocRandevouz(doc_id) {
 
 
 
-        } else if (xhr.status !== 200) {
+        } else if (xhr.status === 403) {
+            console.log(403)
+        }else{
             alert("alert Treatments !200");
         }
     };
@@ -1046,10 +1057,8 @@ function AllUserRandevouz(user_id) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-
             let AllUserRandevouz;
             AllUserRandevouz = JSON.parse(xhr.responseText);
-
             var x = "";
             var y = "";
             let userR;
@@ -1626,13 +1635,9 @@ function ShowPatientBT2(type) {
         chart.draw(view, options);
         var BTs = "";
         for (let j = 0; j < UserTreatments.length; j++) {
-            console.log(UserTreatments[j].user_id === UserJson.user_id)
-
-            
             if (UserTreatments[j].user_id === UserJson.user_id) {
                 BTs += `<div class="bt-treatment">
                                             <div class="title">
-        
                                                 <h4>Treatment</h4>
                                             </div>
                                             <div class="treat-info">
@@ -1650,7 +1655,6 @@ function ShowPatientBT2(type) {
                                      `
             }
         }
-        console.log(BTs);
         document.querySelector('#treatments').innerHTML=BTs;
     }
 }
