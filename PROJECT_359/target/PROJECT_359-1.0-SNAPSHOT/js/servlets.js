@@ -603,6 +603,7 @@ function InsertNewBloodTest() {
 var PatientTreatments;
 function getPatientTreatments(user_id, randevouz_id, user_amka) {
     document.querySelector(".user-info-" + randevouz_id).style.display = "block";
+    UpdateRandevouToDone(randevouz_id);
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -692,6 +693,26 @@ function getPatientTreatments(user_id, randevouz_id, user_amka) {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send();
 }
+
+function UpdateRandevouToDone(randevouID) {
+//    console.log(randevouID);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Updated.");
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    xhr.open('POST', 'UpdateRandevouState');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&status=Done" + "&randevouID=" + randevouID);
+}
+
+
 /*show bt results based on which table was clicked*/
 var PatientBTResults;
 function patientBTinfo() {
@@ -714,9 +735,26 @@ function patientBTinfo() {
 
 
 function showless(user_id, randevouz_id) {
+    UpdateRandevouToCanceled(randevouz_id);
     document.querySelector(".user-info-" + randevouz_id).style.display = "none";
 }
-
+function UpdateRandevouToCanceled(randevouID) {
+    console.log(randevouID);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Canceled.");
+        } else if (xhr.status === 403) {
+            alert("This Randevou Value has changed. Try Refreshing the page.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    xhr.open('POST', 'UpdateRandevouState');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&status=Canceled" + "&randevouID=" + randevouID);
+}
 
 
 

@@ -7,7 +7,6 @@ package database.tables;
 
 import mainClasses.Doctor;
 import com.google.gson.Gson;
-import mainClasses.User;
 import database.DB_Connection;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -67,6 +66,27 @@ public class EditDoctorTable {
             System.err.println(e.getMessage());
         }
     }
+
+    /*new*/
+    public String DoctorInfo(int docID) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        String docInfo = null;
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT doctor_info FROM doctors WHERE doctor_id = '" + docID + "'");
+            if (rs.next()) {
+                docInfo = rs.getString("doctor_info");
+            }
+
+            return docInfo;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
 
     public Doctor databaseToDoctor(String username, String password) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
