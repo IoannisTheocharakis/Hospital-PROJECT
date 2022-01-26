@@ -6,7 +6,6 @@ package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import database.tables.EditDoctorTable;
 import database.tables.EditTreatmentTable;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mainClasses.Doctor;
 import mainClasses.Treatment;
 
 /**
@@ -84,7 +82,7 @@ public class ActiveTreatments extends HttpServlet {
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();
                 String treatmentsToJson = gson.toJson(treatments);
-
+                System.out.println(treatmentsToJson);
                 out.println(treatmentsToJson);
                 response.setStatus(200);
             }

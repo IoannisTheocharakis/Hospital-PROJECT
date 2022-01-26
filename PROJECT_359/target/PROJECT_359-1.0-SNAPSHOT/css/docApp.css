@@ -183,12 +183,11 @@
 .sbmt{
     display: flex;
     align-self: flex-end;
-    cursor:pointer;
+
 }
 .sbmt input{
     background-color: green;
     color:white;
-    cursor:pointer;
 }
 .bloodtest{
     display: flex;

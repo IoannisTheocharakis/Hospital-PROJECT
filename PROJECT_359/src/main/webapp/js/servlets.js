@@ -103,10 +103,9 @@ function isLoggedIn() {
 }
 
 
-var ALL_DOCTORS;
-var temp_ALL_DOCTORS;
-function DoctorsTable() {
 
+function DoctorsTable() {
+    
     if (UserJson.hasOwnProperty('doctor_id')) {
         //$("#content").load("htmlpaths/doc/docpage.html");
     } else {
@@ -124,28 +123,20 @@ function DoctorsTable() {
             let i = 0;
             let one_doctor;
             let x = "";
-            setTimeout(function () {
-                while (temp_ALL_DOCTORS[i] !== undefined) {
 
-                    one_doctor = temp_ALL_DOCTORS[i];
-                    x += createTableFromJSON(one_doctor);
-                    i++;
-                }
-                x += `
-                <div class="size-map">
-                    <div class="doc-map" id="doc-map">
-                
-                    </div>
-                </div>`;
+            while (doctors_toJson[i] !== undefined) {
 
-                if (document.querySelector('#print-doc')) {
-                    document.querySelector('#print-doc').innerHTML = x;
-                } else {
-                    document.querySelector('#content').innerHTML = x;
-                }
-                createDocMap();
-            }, 350);
+                one_doctor = doctors_toJson[i];
 
+                x += createTableFromJSON(one_doctor);
+                i++;
+            }
+            API_doctors_dest();
+            if (document.querySelector('#print-doc')) {
+                document.querySelector('#print-doc').innerHTML = x;
+            } else {
+                document.querySelector('#content').innerHTML = x;
+            }
         } else if (xhr.status !== 200) {
             if (document.querySelector('#print-doc').length > 0) {
                 document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
@@ -334,7 +325,21 @@ function HomePage() {
 function DoctorAppointments() {
     $("#content").load("htmlpaths/doc/docAppointments.html");
 }
+function selectDoc(id) {
+    console.log("einai " + id);
+}
 /*new*/
+function goBloodTest() {
+    $("#content").load("htmlpaths/user/userBloodTest.html");
+    setTimeout(function () {
+        document.querySelector('#InsertNewBloodTestForm .bt-username').innerText = UserJson.username;
+        document.querySelector('#InsertNewBloodTestForm .bt-amka').innerText = UserJson.amka;
+    }, 200);
+
+
+}
+
+
 function AddAppointment() {
     var today = new Date();
     var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
@@ -361,13 +366,15 @@ function AddAppointment() {
 }
 
 var DocPatientsJson;
+var DocRandevouzJson;
 function GetPatientID() {
     ViewApp();
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             DocPatientsJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
-
+            console.log(DocPatientsJson);
+            GetRandevouzID();
             let x = "";
             x += createDocViewAppointments(DocPatientsJson);
             if (document.querySelector('.days')) {
@@ -381,18 +388,34 @@ function GetPatientID() {
         } else {
             alert('Request failed. Returned status of ' + xhr.status);
         }
-
     };
     // set the content type
-    //    var data = $('#AddAppointment-form').serialize();
+//    var data = $('#AddAppointment-form').serialize();
     xhr.open('POST', 'GetPatientID');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send("&doctor_id=" + UserJson.doctor_id);
 }
 
+function GetRandevouzID() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            DocRandevouzJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
+            console.log(DocRandevouzJson);
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.open('POST', 'GetRandevouzID');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&doctor_id=" + UserJson.doctor_id);
+}
+//--------------
+
 function createDocViewAppointments(patients) {
     let html1 = "";
-
     if (patients) {
         //----------
         var html = "";
@@ -411,6 +434,7 @@ function createDocViewAppointments(patients) {
                 <div class="users">`
             while (DocPatientsJson[k] !== undefined) {
                 one_doctor_patient = DocPatientsJson[k];
+                console.log(one_doctor_patient)
                 html += `
                 <div class="user user`+ one_doctor_patient.user_id + `" >
                     <div class="info-choices">
@@ -423,7 +447,7 @@ function createDocViewAppointments(patients) {
                             </div>
                         </div>
                         <div class="choices">
-                            <div class="done" onclick="showmore(`+ one_doctor_patient.user_id + `)">
+                            <div class="done" onclick="getPatientTreatments(` + one_doctor_patient.user_id + `)">
                                 <img src="img/check.png" alt="">
                             </div>
                             <div class="cancel" onclick="showless(`+ one_doctor_patient.user_id + `)">
@@ -458,19 +482,19 @@ function createDocViewAppointments(patients) {
                                 See statistics
                             </div>
                             <div class="type">
-                                <div class="iron bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'iron')">
+                                <div class="iron bloodT">
                                     iron
                                 </div>
-                                <div class="sugar bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'blood_sugar')">
+                                <div class="sugar bloodT">
                                     sugar
                                 </div>
-                                <div class="cholesterol bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'cholesterol')">
+                                <div class="cholesterol bloodT">
                                     cholesterol
                                 </div>
-                                <div class="vitamin-d3 bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'vitamin_d3')">
+                                <div class="vitamin-d3 bloodT">
                                     vitamin d3
                                 </div>
-                                <div class="vitamin-b12 bloodT" onclick="patientBTinfo(`+ one_doctor_patient.user_id + `,'vitamin_b12')">
+                                <div class="vitamin-b12 bloodT">
                                     vitamin b12
                                 </div>
                             </div>
@@ -525,7 +549,7 @@ function CreateNewTreatment(patient_id) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            alert("Your schedule was successfully created.");
+            alert(patient_id);
         } else if (xhr.status === 403) {
             alert("An error occured while trying to create your schedule.");
         } else {
@@ -536,19 +560,71 @@ function CreateNewTreatment(patient_id) {
     var data = $('#NewTreatment').serialize();
     xhr.open('POST', 'CreateNewTreatment');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send(data + "&doctor_id=" + UserJson.doctor_id + "&user_id=" + DocPatientsJson[1].user_id);
+    xhr.send(data + "&doctor_id=" + UserJson.doctor_id + "&user_id=" + patient_id);
 }
 
-
-function patientBTinfo(patientID, type) {
-    console.log(patientID);
-    console.log(type);
+/*new*/
+function InsertNewBloodTest() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Your schedule was successfully created.");
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    var data = $('#InsertNewBloodTestForm').serialize();
+    xhr.open('POST', 'InsertNewBloodTest');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data + "&amka=" + UserJson.amka);
 }
 
-function showmore(user_id) {
+/*patient details from docs view appointments table*/
+var PatientTreatments;
+function getPatientTreatments(user_id) {
     console.log(user_id);
     document.querySelector(".user-info-" + user_id).style.display = "block";
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            PatientTreatments = JSON.parse(xhr.responseText);
+            console.log(PatientTreatments);
+            patientBTinfo(user_id);
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.open('POST', 'getPatientTreatments');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&user_id=" + user_id);
 }
+/*show bt results based on which table was clicked*/
+var PatientBTResults;
+function patientBTinfo(user_id) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            PatientBTResults = JSON.parse(xhr.responseText);
+            console.log(PatientBTResults);
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.open('POST', 'patientBTinfo');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&user_id=" + user_id);
+}
+
+
+
+
 function showless(user_id) {
     console.log(user_id);
     document.querySelector(".user-info-" + user_id).style.display = "none";
@@ -717,7 +793,6 @@ function User_ActiveTreatments() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            // let doctors_toJson = JSON.parse(xhr.responseText);
             let treatments;
             treatments = JSON.parse(xhr.responseText);
            

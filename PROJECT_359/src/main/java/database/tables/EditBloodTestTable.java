@@ -8,11 +8,11 @@ package database.tables;
 import mainClasses.BloodTest;
 import com.google.gson.Gson;
 import database.DB_Connection;
-import mainClasses.SimpleUser;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,7 +63,32 @@ public class EditBloodTestTable {
         }
         return null;
     }
-    
+//----------------
+    public ArrayList<BloodTest> IronBloodTest(int userID) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+
+        ResultSet rs;
+        ArrayList<BloodTest> BloodTestArray = new ArrayList<BloodTest>();
+
+        try {
+            rs = stmt.executeQuery("SELECT b.* FROM bloodtest AS b JOIN users AS u ON u.amka = b.amka WHERE u.user_id= '" + userID + "' ORDER BY b.test_date DESC");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                Gson gson = new Gson();
+                System.out.println(json);
+                BloodTest bt = gson.fromJson(json, BloodTest.class);
+                BloodTestArray.add(bt);
+            }
+
+            return BloodTestArray;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+//-------------
        public void updateBloodTest(int id,double chol) throws SQLException, ClassNotFoundException{
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();

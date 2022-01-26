@@ -5,6 +5,10 @@
         <servlet-class>servlets.SignIn</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ActiveTreatments</servlet-name>
+        <servlet-class>servlets.ActiveTreatments</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>LogIn</servlet-name>
         <servlet-class>servlets.LogIn</servlet-class>
     </servlet>
@@ -37,8 +41,28 @@
         <servlet-class>servlets.CreateNewTreatment</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ActiveTreatments</servlet-name>
-        <servlet-class>servlets.ActiveTreatments</servlet-class>
+        <servlet-name>InsertNewBloodTest</servlet-name>
+        <servlet-class>servlets.InsertNewBloodTest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetRandevouzID</servlet-name>
+        <servlet-class>servlets.GetRandevouzID</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getAllPatientsInfo</servlet-name>
+        <servlet-class>servlets.getAllPatientsInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getPatientTreatments</servlet-name>
+        <servlet-class>servlets.getPatientTreatments</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetBTResults</servlet-name>
+        <servlet-class>servlets.GetBTResults</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>patientBTinfo</servlet-name>
+        <servlet-class>servlets.patientBTinfo</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DocRandevous</servlet-name>
@@ -51,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActiveTreatments</servlet-name>
+        <url-pattern>/ActiveTreatments</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogIn</servlet-name>
@@ -85,8 +113,28 @@
         <url-pattern>/CreateNewTreatment</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ActiveTreatments</servlet-name>
-        <url-pattern>/ActiveTreatments</url-pattern>
+        <servlet-name>InsertNewBloodTest</servlet-name>
+        <url-pattern>/InsertNewBloodTest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetRandevouzID</servlet-name>
+        <url-pattern>/GetRandevouzID</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getAllPatientsInfo</servlet-name>
+        <url-pattern>/getAllPatientsInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getPatientTreatments</servlet-name>
+        <url-pattern>/getPatientTreatments</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetBTResults</servlet-name>
+        <url-pattern>/GetBTResults</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>patientBTinfo</servlet-name>
+        <url-pattern>/patientBTinfo</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DocRandevous</servlet-name>

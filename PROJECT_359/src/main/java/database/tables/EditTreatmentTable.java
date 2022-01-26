@@ -60,6 +60,45 @@ public class EditTreatmentTable {
         return null;
     }
 
+    public Treatment GetUserTreatments(int id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT * FROM treatment WHERE user_id= '" + id + "'");
+            rs.next();
+            String json = DB_Connection.getResultsToJSON(rs);
+            Gson gson = new Gson();
+            Treatment tr = gson.fromJson(json, Treatment.class);
+            return tr;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+//----------
+    public int GetBloodTestID(int id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        int bloodID = 0;
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT b.bloodtest_id FROM bloodtest AS b JOIN users AS u ON u.amka = b.amka WHERE u.user_id= '" + id + "'");
+            if (rs.next()) {
+                bloodID = rs.getInt("bloodtest_id");
+            }
+
+            return bloodID;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return 0;
+    }
+
+//----------
     public void createTreatmentTable() throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
