@@ -119,7 +119,8 @@ function DoctorsTable() {
 
             ALL_DOCTORS = JSON.parse(xhr.responseText);
             temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
-            API_doctors_dest();
+
+
             let i = 0;
             let one_doctor;
             let x = "";
@@ -177,7 +178,7 @@ function createTableFromJSON(data) {
         }
         html += "</table> </div></div>";
         html += `
-        <div class="select-doc" onclick="selectDoc(`+ data.doctor_id + `)">
+        <div class="select-doc" onclick="AllDocRandevouz(`+ data.doctor_id + `)">
             Select
         </div>
         `;
@@ -187,36 +188,36 @@ function createTableFromJSON(data) {
     return html;
 }
 
-var Bmi_health_idealweight = "";
-function GetBmi() {
-    const data = null;
+// var Bmi_health_idealweight = "";
+// function GetBmi() {
+//     const data = null;
 
-    const xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
+//     const xhr = new XMLHttpRequest();
+//     xhr.withCredentials = true;
 
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
+//     xhr.addEventListener("readystatechange", function () {
+//         if (this.readyState === this.DONE) {
 
-            var bmiDATA = JSON.parse(this.responseText);
+//             var bmiDATA = JSON.parse(this.responseText);
 
-            Bmi_health_idealweight = "<div>";
-            Bmi_health_idealweight += " <p> Your Bmi is : " + bmiDATA.data.bmi + " and your health is : " + bmiDATA.data.health + "</p>";
-            Bmi_health_idealweight += "</div>";
-            idealweight();
-        } else {
-            Bmi_health_idealweight = "Wait a second.";
-            document.querySelector('#doctors-table').innerHTML = Bmi_health_idealweight;
-        }
-    });
-    var age = Number(UserJson.birthdate.substring(0, 4));
-    age = new Date().getFullYear() - age;
-    xhr.open("GET", "https://fitness-calculator.p.rapidapi.com/bmi?age=" + age + "&weight=" + UserJson.weight + "&height=" + UserJson.height);
-    xhr.setRequestHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
-    var key = "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212";
-    xhr.setRequestHeader("x-rapidapi-key", key);
+//             Bmi_health_idealweight = "<div>";
+//             Bmi_health_idealweight += " <p> Your Bmi is : " + bmiDATA.data.bmi + " and your health is : " + bmiDATA.data.health + "</p>";
+//             Bmi_health_idealweight += "</div>";
+//             idealweight();
+//         } else {
+//             Bmi_health_idealweight = "Wait a second.";
+//             document.querySelector('#doctors-table').innerHTML = Bmi_health_idealweight;
+//         }
+//     });
+//     var age = Number(UserJson.birthdate.substring(0, 4));
+//     age = new Date().getFullYear() - age;
+//     xhr.open("GET", "https://fitness-calculator.p.rapidapi.com/bmi?age=" + age + "&weight=" + UserJson.weight + "&height=" + UserJson.height);
+//     xhr.setRequestHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
+//     var key = "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212";
+//     xhr.setRequestHeader("x-rapidapi-key", key);
 
-    xhr.send(data);
-}
+//     xhr.send(data);
+// }
 
 function idealweight() {
     const data = null;
@@ -332,10 +333,6 @@ function HomePage() {
 
 function DoctorAppointments() {
     $("#content").load("htmlpaths/doc/docAppointments.html");
-}
-function selectDoc(id) {
-
-    $("#content").load("htmlpaths/user/userAppSelect.html");
 }
 /*new*/
 function AddAppointment() {
@@ -562,53 +559,52 @@ function showless(user_id) {
 
 
 
+function API_doctors_dest() {}
+// function API_doctors_dest() {
+//     const data = null;
 
-function API_doctors_dest() {
-    const data = null;
+//     const xhr = new XMLHttpRequest();
+//     xhr.withCredentials = true;
 
-    const xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
+//     xhr.addEventListener("readystatechange", function () {
+//         if (this.readyState === this.DONE) {
+//             DOC_DEST = JSON.parse(this.responseText);
+//             let temp_doc = ALL_DOCTORS;
 
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
-            DOC_DEST = JSON.parse(this.responseText);
-            let temp_doc = ALL_DOCTORS;
+//             for (let doc = 0; doc < temp_doc.length; doc++) {
+//                 if (DOC_DEST.distances[0][doc] !== null) {
+//                     temp_doc[doc].distances_foruser = DOC_DEST.distances[0][doc];
+//                 } else {
+//                     temp_doc[doc].distances_foruser = 1000000000000;
+//                 }
+//                 if (DOC_DEST.durations[0][doc] !== null) {
+//                     temp_doc[doc].car_duration_foruser = DOC_DEST.durations[0][doc];
+//                 } else {
+//                     temp_doc[doc].car_duration_foruser = 1000000000000;
+//                 }
+//             }
 
-            for (let doc = 0; doc < temp_doc.length; doc++) {
-                if (DOC_DEST.distances[0][doc] !== null) {
-                    temp_doc[doc].distances_foruser = DOC_DEST.distances[0][doc];
-                } else {
-                    temp_doc[doc].distances_foruser = 1000000000000;
-                }
-                if (DOC_DEST.durations[0][doc] !== null) {
-                    temp_doc[doc].car_duration_foruser = DOC_DEST.durations[0][doc];
-                } else {
-                    temp_doc[doc].car_duration_foruser = 1000000000000;
-                }
-            }
+//             temp_doc.sort(rankingSorter("distances_foruser"));
+//             temp_ALL_DOCTORS = temp_doc;
+//         }
+//     });
+//     var others_doc = "";
+//     for (var i = 0; i < ALL_DOCTORS.length; i++) {
+//         if (i < 25) {
+//             let lat = ALL_DOCTORS[i].lat;
+//             let lon = ALL_DOCTORS[i].lon;
+//             others_doc += lat + "%2C" + lon;
+//             if ((i + 1) != ALL_DOCTORS.length && (i + 1) < 25) {
+//                 others_doc += "%3B";
+//             }
+//         }
 
-            temp_doc.sort(rankingSorter("distances_foruser"));
-            temp_ALL_DOCTORS = temp_doc;
-        }
-    });
-    var others_doc = "";
-    for (var i = 0; i < ALL_DOCTORS.length; i++) {
-        if (i < 25) {
-            let lat = ALL_DOCTORS[i].lat;
-            let lon = ALL_DOCTORS[i].lon;
-            others_doc += lat + "%2C" + lon;
-            if ((i + 1) != ALL_DOCTORS.length && (i + 1) < 25) {
-                others_doc += "%3B";
-            }
-        }
-
-    }
-    xhr.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=" + UserJson.lat + "%2C" + UserJson.lon + "&destinations=" + others_doc);
-    xhr.setRequestHeader("x-rapidapi-host", "trueway-matrix.p.rapidapi.com");
-    xhr.setRequestHeader("x-rapidapi-key", "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212");
-
-    xhr.send(data);
-}
+//     }
+//     xhr.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=" + UserJson.lat + "%2C" + UserJson.lon + "&destinations=" + others_doc);
+//     xhr.setRequestHeader("x-rapidapi-host", "trueway-matrix.p.rapidapi.com");
+//     xhr.setRequestHeader("x-rapidapi-key", "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212");
+//     xhr.send(data);
+// }
 
 
 
@@ -625,65 +621,66 @@ function rankingSorter(key) {
 
 
 function sort_doc_by_val(select) {
+    API_doctors_dest();
+    setTimeout(function () {
+        let selected_val = select.options[select.selectedIndex].getAttribute("value");
+        if (selected_val === "distance-by-car") {
+            temp_ALL_DOCTORS.sort(rankingSorter("distances_foruser"));
+            let i = 0;
+            let one_doctor;
+            let x = "";
+            setTimeout(function () {
+                while (temp_ALL_DOCTORS[i] !== undefined) {
 
-    let selected_val = select.options[select.selectedIndex].getAttribute("value");
-    if (selected_val === "distance-by-car") {
-        temp_ALL_DOCTORS.sort(rankingSorter("distances_foruser"));
-        let i = 0;
-        let one_doctor;
-        let x = "";
-        setTimeout(function () {
-            while (temp_ALL_DOCTORS[i] !== undefined) {
+                    one_doctor = temp_ALL_DOCTORS[i];
 
-                one_doctor = temp_ALL_DOCTORS[i];
+                    x += createTableFromJSON(one_doctor);
+                    i++;
+                }
 
-                x += createTableFromJSON(one_doctor);
-                i++;
-            }
-
-            x += `
+                x += `
             <div class="size-map">
                 <div class="doc-map" id="doc-map">
                 
                 </div>
             </div>`;
 
-            if (document.querySelector('#print-doc')) {
-                document.querySelector('#print-doc').innerHTML = x;
-            } else {
-                document.querySelector('#content').innerHTML = x;
-            }
-            createDocMap();
-        }, 350);
-    } else {
-        temp_ALL_DOCTORS.sort(rankingSorter("car_duration_foruser"));
-        let i = 0;
-        let one_doctor;
-        let x = "";
-        setTimeout(function () {
-            while (temp_ALL_DOCTORS[i] !== undefined) {
+                if (document.querySelector('#print-doc')) {
+                    document.querySelector('#print-doc').innerHTML = x;
+                } else {
+                    document.querySelector('#content').innerHTML = x;
+                }
+                createDocMap();
+            }, 350);
+        } else {
+            temp_ALL_DOCTORS.sort(rankingSorter("car_duration_foruser"));
+            let i = 0;
+            let one_doctor;
+            let x = "";
+            setTimeout(function () {
+                while (temp_ALL_DOCTORS[i] !== undefined) {
 
-                one_doctor = temp_ALL_DOCTORS[i];
-                x += createTableFromJSON(one_doctor);
-                i++;
-            }
-            x += `
+                    one_doctor = temp_ALL_DOCTORS[i];
+                    x += createTableFromJSON(one_doctor);
+                    i++;
+                }
+                x += `
             <div class="size-map">
                 <div class="doc-map" id="doc-map">
                 
                 </div>
             </div>`;
 
-            if (document.querySelector('#print-doc')) {
-                document.querySelector('#print-doc').innerHTML = x;
-            } else {
-                document.querySelector('#content').innerHTML = x;
-            }
-            createDocMap();
-        }, 350);
+                if (document.querySelector('#print-doc')) {
+                    document.querySelector('#print-doc').innerHTML = x;
+                } else {
+                    document.querySelector('#content').innerHTML = x;
+                }
+                createDocMap();
+            }, 350);
+        }
+    }, 200);
 
-
-    }
 }
 
 function createDocMap() {
@@ -723,34 +720,34 @@ function User_ActiveTreatments() {
             // let doctors_toJson = JSON.parse(xhr.responseText);
             let treatments;
             treatments = JSON.parse(xhr.responseText);
-            var x="";
+           
+            var x = "";
             var today = new Date();
             var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
             setTimeout(function () {
                 let i = 0;
                 while (treatments[i] !== undefined) {
-                    
                     trtmnt = treatments[i];
-                    if(date < trtmnt.end_date ){
+                    
+                    if (date < trtmnt.end_date) {
                         x += `<div class="treatment">`;
 
                         x += ` 
                         <div class="start-date">
                             Start - date : <br>
-                            `+trtmnt.start_date+`  
+                            `+ trtmnt.start_date + `  
                         </div>
                         <div class="end-date">
                             End - date : <br>
-                            `+trtmnt.end_date+`  
+                            `+ trtmnt.end_date + `  
                         </div>
                         <div class="treatment-test">
-                           `+trtmnt.treatment_text+`  
+                           `+ trtmnt.treatment_text + `  
                         </div>     
                             `
-    
                         x += `</div>`;
                     }
-                   
+
 
                     i++;
                 }
@@ -771,4 +768,211 @@ function User_ActiveTreatments() {
     xhr.open('GET', 'ActiveTreatments?&user_id=' + UserJson.user_id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send();
+}
+
+
+function AllDocRandevouz(doc_id) {
+    $("#content").load("htmlpaths/user/userAppSelect.html");
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // let doctors_toJson = JSON.parse(xhr.responseText);
+            let AllRandevouz;
+            
+            AllRandevouz = JSON.parse(xhr.responseText);
+            var x = "";
+            console.log(AllRandevouz)
+            setTimeout(function () {
+                let i = 0;
+                while (AllRandevouz[i] !== undefined) {
+
+                    allR = AllRandevouz[i];
+                    if(allR.status==="free" ){
+                        let doc_name = true;
+                        let j =0;
+                        while(doc_name){
+                            
+                            if(allR.doctor_id===ALL_DOCTORS[j].doctor_id){
+                                doc_name=false;
+                                allR.doc_name = ALL_DOCTORS[j].firstname +  ALL_DOCTORS[j].lastname;
+                            }
+                                
+                            j++;
+                        }
+                        x+=`<div class="rantevou">`
+                        x+=`    
+                            <div class="elem">
+                                <label for="">Doctor Name: </label>
+                                <label class="dc-name" name="name">`+allR.doc_name+`</label>
+                            </div>
+                            <div class="elem date">
+                                <label for="">Date : </label>
+                                <label class="dc-date" name="date">`+allR.date_time+`</label>
+                            </div>
+                            <div class="elem">
+                                <label for="">Appointment price :</label>
+                                
+                                <label class="dc-date" name="appointment_price">`+allR.price+` €</label>
+                            </div>
+                            <div class="elem close" onclick="BookAppointment(this,`+allR+`)">
+                                <label data="" type=""> Book</label>
+                            </div>`
+                        x+=`</div>`
+
+                    }
+
+
+                    i++;
+                }
+
+                if (document.querySelector('.all-R')) {
+                    document.querySelector('.all-R').innerHTML = x;
+                } else {
+                    alert("Doesnt exist");
+                }
+            }, 350);
+
+
+
+        } else if (xhr.status !== 200) {
+            alert("alert Treatments !200");
+        }
+    };
+    xhr.open('GET', 'DocRandevous?&doctor_id=' + doc_id);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+
+
+function AllUserRandevouz(user_id) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            
+            let AllUserRandevouz;
+            AllUserRandevouz = JSON.parse(xhr.responseText);
+            
+            var x = "";
+            var y = "";
+            console.log(AllUserRandevouz)
+            let userR;
+            setTimeout(function () {
+                let i = 0;
+                while (AllUserRandevouz[i] !== undefined) {
+                    userR = AllUserRandevouz[i];
+                    let doc_name = true;
+                    let j =0;
+                    while(doc_name){
+                        
+                        if(userR.doctor_id===ALL_DOCTORS[j].doctor_id){
+                            doc_name=false;
+                            userR.doc_name = ALL_DOCTORS[j].firstname +  ALL_DOCTORS[j].lastname;
+                        }
+                            
+                        j++;
+                    }
+                    if(userR.status==="selected"){
+                        x+=`<div class="book">`
+                        x+=`
+                        <div class="name-doc">
+                            <p>
+                                Name
+                            </p>
+                            <p>
+                                `+userR.doc_name+`
+                            </p>
+                        </div>
+                        <div class="date-time">
+                            <p>
+                                Date-time
+                            </p>
+                            <p>
+                               `+userR.date_time+`
+                            </p>
+                        </div>
+                        <div class="price">
+                            <p>
+                                price
+                            </p>
+                            <p>
+                               `+userR.price+` &euro;
+                            </p>
+                        </div>
+                        <div class="cancel">
+                            <image class="image" src="img/remove.png"> </image>
+                        </div>
+                        
+                        `
+                        x+=`</div>`
+                    }else if(userR.status==="done"){
+                        y+=`<div class="done">`;
+
+                        y+=`
+                        <div class="name-doc">
+                            <p>
+                                Name
+                            </p>
+                            <p>
+                            `+userR.doc_name+`
+                            </p>
+                        </div>
+                        <div class="date-time">
+                            <p>
+                                Date-time
+                            </p>
+                            <p>
+                            `+userR.date_time+`
+                            </p>
+                        </div>
+                        <div class="price">
+                            <p>
+                                price
+                            </p>
+                            <p>
+                            `+userR.price+` &euro;
+                            </p> 
+                        </div>
+                        <div class="done-img">
+                            <image class="image" src="img/check.png"> </image>
+                        </div>
+                        
+                        
+                        `
+
+                        y+=`</div>`
+                    }
+                    i++;
+                }
+                if (document.querySelector('.booked')) {
+                    document.querySelector('.booked').innerHTML = x;
+                    document.querySelector('.done-s').innerHTML = y;
+                } else {
+                    alert("Doesnt exist");
+                }
+            }, 350);
+        } else if (xhr.status === 403) {
+            document.querySelector('.booked').innerHTML = "0 randevouz nooked";
+                    document.querySelector('.done-s').innerHTML = document.querySelector('.booked').innerHTML = "0 randevouz coplete";;
+        }else{
+            alert("alert Treatments !200");
+        }
+    };
+    xhr.open('GET', 'UserRandevouz?&user_id=' + user_id);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+
+
+function ViewAppoint() {
+    document.querySelector(".view-rantevou").style.display = "block";
+    document.querySelector(".add-rantevou").style.display = "none";
+    document.querySelector(".view").style.border = "1px solid black";
+    document.querySelector(".add").style.border = "0px";
+    AllUserRandevouz(UserJson.user_id);
+}
+function AddAppoint() {
+    document.querySelector(".view-rantevou").style.display = "none";
+    document.querySelector(".add-rantevou").style.display = "block";
+    document.querySelector(".add").style.border = "1px solid black";
+    document.querySelector(".view").style.border = "0px";
 }

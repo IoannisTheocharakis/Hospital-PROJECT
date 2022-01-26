@@ -1,10 +1,10 @@
 <div class="app">
     <div class="add-view">
         <div class="add" onclick="AddAppoint()">
-            View appointments
+            Book an appointment
         </div>
         <div class="view" onclick="ViewAppoint()">
-            Book an appointment
+            View appointments
         </div>
     </div>
     <div class="add-rantevou">
@@ -46,7 +46,7 @@
                         price
                     </p>
                     <p>
-                        50 $
+                        50 €
                     </p>
                 </div>
                 <div class="cancel">
@@ -92,24 +92,5 @@
     </div>
     <br>
 </div>
-
-
-
-
-<script>
-    function ViewAppoint() {
-        document.querySelector(".view-rantevou").style.display = "block";
-        document.querySelector(".add-rantevou").style.display = "none";
-        document.querySelector(".view").style.border = "1px solid black";
-        document.querySelector(".add").style.border = "0px";
-    }
-    function AddAppoint() {
-        document.querySelector(".view-rantevou").style.display = "none";
-        document.querySelector(".add-rantevou").style.display = "block";
-        document.querySelector(".add").style.border = "1px solid black";
-        document.querySelector(".view").style.border = "0px";
-    }
-    
-</script>
 
 <link rel="stylesheet" href="css/userApp.css">

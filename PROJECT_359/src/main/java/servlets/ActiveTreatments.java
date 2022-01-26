@@ -44,7 +44,7 @@ public class ActiveTreatments extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ActiveTreatments</title>");            
+            out.println("<title>Servlet ActiveTreatments</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ActiveTreatments at " + request.getContextPath() + "</h1>");
@@ -76,17 +76,15 @@ public class ActiveTreatments extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ActiveTreatments.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         try (PrintWriter out = response.getWriter()) {
 
-            if(treatments.isEmpty()){
-                response.setStatus(404);
-            }
-            else{
+            if (treatments.isEmpty()) {
+                response.setStatus(403);
+            } else {
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();
                 String treatmentsToJson = gson.toJson(treatments);
-System.out.println(treatmentsToJson);
+
                 out.println(treatmentsToJson);
                 response.setStatus(200);
             }
