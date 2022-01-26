@@ -72,6 +72,14 @@
         <servlet-name>UserRandevouz</servlet-name>
         <servlet-class>servlets.UserRandevouz</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateRandevouToDone</servlet-name>
+        <servlet-class>servlets.UpdateRandevouToDone</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateRandevouState</servlet-name>
+        <servlet-class>servlets.UpdateRandevouState</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
@@ -143,6 +151,14 @@
     <servlet-mapping>
         <servlet-name>UserRandevouz</servlet-name>
         <url-pattern>/UserRandevouz</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateRandevouToDone</servlet-name>
+        <url-pattern>/UpdateRandevouToDone</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateRandevouState</servlet-name>
+        <url-pattern>/UpdateRandevouState</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

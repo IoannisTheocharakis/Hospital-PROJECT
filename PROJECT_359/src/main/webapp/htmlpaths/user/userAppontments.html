@@ -95,4 +95,25 @@
     <br>
 </div>
 
+
+
+
+<script>
+    function ViewAppoint() {
+        document.querySelector(".view-rantevou").style.display = "block";
+        document.querySelector(".add-rantevou").style.display = "none";
+        document.querySelector(".view").style.border = "1px solid black";
+        document.querySelector(".add").style.border = "0px";
+    }
+    function AddAppoint() {
+        document.querySelector(".view-rantevou").style.display = "none";
+        document.querySelector(".add-rantevou").style.display = "block";
+        document.querySelector(".add").style.border = "1px solid black";
+        document.querySelector(".view").style.border = "0px";
+    }
+    function showmore() {
+        document.querySelector(".user-info").style.display = "flex";
+    }
+</script>
+
 <link rel="stylesheet" href="css/userApp.css">

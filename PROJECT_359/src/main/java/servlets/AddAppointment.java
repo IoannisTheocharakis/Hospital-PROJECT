@@ -4,9 +4,11 @@
  */
 package servlets;
 
+import database.tables.EditDoctorTable;
 import database.tables.EditRandevouzTable;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -81,11 +83,21 @@ public class AddAppointment extends HttpServlet {
         int price = (Integer.parseInt(request.getParameter("price")));
         String status = request.getParameter("status");
         String CurrentTime = request.getParameter("CurrentTime");
+        String setDoctorInfo = null;
+        EditDoctorTable getDInfo = new EditDoctorTable();
+        try {
+            setDoctorInfo = getDInfo.DoctorInfo(docID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddAppointment.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AddAppointment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 
         Randevouz rand = new Randevouz();
         rand.setDate_time(date);
         rand.setDoctor_id(docID);
-        rand.setDoctor_info("GOOD Doctor");
+        rand.setDoctor_info(setDoctorInfo);
         rand.setPrice(price);
         rand.setStatus(status);
         rand.setUser_id(0);

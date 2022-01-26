@@ -4,26 +4,22 @@
  */
 package servlets;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import database.tables.EditTreatmentTable;
+import database.tables.EditRandevouzTable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mainClasses.Treatment;
 
 /**
  *
- * @author Theo
+ * @author kosta
  */
-public class ActiveTreatments extends HttpServlet {
+public class UpdateRandevouState extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +38,10 @@ public class ActiveTreatments extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ActiveTreatments</title>");
+            out.println("<title>Servlet UpdateRandevouState</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ActiveTreatments at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateRandevouState at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,29 +59,7 @@ public class ActiveTreatments extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EditTreatmentTable treatment = new EditTreatmentTable();
-        int user_id = (Integer.parseInt(request.getParameter("user_id")));
-        System.out.println(user_id);
-        ArrayList<Treatment> treatments = null;
-        try {
-            treatments = treatment.databaseToTreatments(user_id);
-        } catch (SQLException ex) {
-            Logger.getLogger(ActiveTreatments.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActiveTreatments.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try (PrintWriter out = response.getWriter()) {
-
-            if (treatments.isEmpty()) {
-                response.setStatus(403);
-            } else {
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                Gson gson = gsonBuilder.create();
-                String treatmentsToJson = gson.toJson(treatments);
-                out.println(treatmentsToJson);
-                response.setStatus(200);
-            }
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -97,9 +71,24 @@ public class ActiveTreatments extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int randevouID = (Integer.parseInt(request.getParameter("randevouID")));
+        String status = request.getParameter("status");
+        EditRandevouzTable ERTtoDONE = new EditRandevouzTable();
+        String PreviousState = null;
+        try {
+            PreviousState = ERTtoDONE.RandevouPreviouState(randevouID);
+            if (PreviousState.equals("selected")) {
+                ERTtoDONE.updateRandevouzToDone(randevouID, status);
+                response.setStatus(200);
+            } else {
+                response.setStatus(403);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateRandevouState.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UpdateRandevouState.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

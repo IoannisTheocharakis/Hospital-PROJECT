@@ -76,19 +76,16 @@ public class CreateNewTreatment extends HttpServlet {
         int docID = (Integer.parseInt(request.getParameter("doctor_id")));
         int userID = (Integer.parseInt(request.getParameter("user_id")));
 
-
-
         String startdate = request.getParameter("startdate");
         String lastdate = request.getParameter("lastdate");
         String treatmentText = request.getParameter("treatmentText");
-
         Treatment tr = new Treatment();
 
         tr.setDoctor_id(docID);
         tr.setUser_id(userID);
         tr.setStart_date(startdate);
         tr.setEnd_date(lastdate);
-        System.out.println(treatmentText);
+        System.out.println(startdate);
         tr.setTreatment_text(treatmentText);
 
         EditTreatmentTable RandTable = new EditTreatmentTable();

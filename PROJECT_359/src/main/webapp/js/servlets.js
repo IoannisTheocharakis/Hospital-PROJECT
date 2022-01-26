@@ -120,7 +120,6 @@ function DoctorsTable() {
             ALL_DOCTORS = JSON.parse(xhr.responseText);
             temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
 
-
             let i = 0;
             let one_doctor;
             let x = "";
@@ -433,8 +432,6 @@ function GetPatientID() {
             alert('Request failed. Returned status of ' + xhr.status);
         }
     };
-    // set the content type
-    //    var data = $('#AddAppointment-form').serialize();
     xhr.open('POST', 'GetPatientID');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send("&doctor_id=" + UserJson.doctor_id);
@@ -562,13 +559,11 @@ function createDocViewAppointments(patients) {
                                 <form id="NewTreatment" action="" onsubmit='CreateNewTreatment(`+ one_doctor_patient.user_id + `);return false;'>
                                     <div class="new-start-date">
                                         <label>Start Date</label>
-                                        <input  type="date" id="startdate" name="startdate" value="2022-01-01"
-                                        min="1920-01-01" max="20055-12-31" required>
+                                        <input  type="date" id="startdate" name="startdate" value="2022-01-01" min="1920-01-01" max="20055-12-31" required>
                                     </div>
                                     <div class="new-final-date">
                                         <label>Last Date</label>
-                                        <input  type="date" id="lastdate" name="lastdate" value="2022-01-01"
-                                        min="1920-01-01" max="20055-12-31" required>
+                                        <input  type="date" id="lastdate" name="lastdate" value="2022-01-01" min="1920-01-01" max="20055-12-31" required>
                                     </div>
                                     
                                     <div class="new-info">
@@ -641,6 +636,7 @@ function InsertNewBloodTest() {
 var PatientTreatments;
 function getPatientTreatments(user_id, randevouz_id, user_amka) {
     document.querySelector(".user-info-" + randevouz_id).style.display = "block";
+    UpdateRandevouToDone(randevouz_id);
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -734,6 +730,26 @@ function getPatientTreatments(user_id, randevouz_id, user_amka) {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send();
 }
+
+function UpdateRandevouToDone(randevouID) {
+//    console.log(randevouID);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Updated.");
+        } else if (xhr.status === 403) {
+            alert("An error occured while trying to create your schedule.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    xhr.open('POST', 'UpdateRandevouState');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&status=Done" + "&randevouID=" + randevouID);
+}
+
+
 /*show bt results based on which table was clicked*/
 var PatientBTResults;
 function patientBTinfo() {
@@ -758,9 +774,26 @@ function patientBTinfo() {
 
 
 function showless(user_id, randevouz_id) {
+    UpdateRandevouToCanceled(randevouz_id);
     document.querySelector(".user-info-" + randevouz_id).style.display = "none";
 }
-
+function UpdateRandevouToCanceled(randevouID) {
+    console.log(randevouID);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Canceled.");
+        } else if (xhr.status === 403) {
+            alert("This Randevou Value has changed. Try Refreshing the page.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    xhr.open('POST', 'UpdateRandevouState');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&status=Canceled" + "&randevouID=" + randevouID);
+}
 
 
 
@@ -1021,7 +1054,11 @@ function AllDocRandevouz(doc_id) {
                                 
                                 <label class="dc-date" name="appointment_price">`+ allR.price + ` 	&euro;</label>
                             </div>
+<<<<<<< HEAD
                             <div class="elem close" onclick="BookAppointment(`+ allR + `)">
+=======
+                            <div class="elem close" onclick="BookAppointment(` + allR.randevouz_id + `)">
+>>>>>>> 8d2ee03950129c32a450ff7ec40df96e15409b57
                                 <label data="" type=""> Book</label>
                             </div>`
                         x += `</div>`
@@ -1052,6 +1089,23 @@ function AllDocRandevouz(doc_id) {
     xhr.send();
 }
 
+function BookAppointment(randevouID) {
+    console.log(randevouID)
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Booked.");
+        } else if (xhr.status === 403) {
+            alert("This Randevou Value has changed. Try Refreshing the page.");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    xhr.open('POST', 'UpdateRandevouState');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&status=Canceled" + "&randevouID=" + randevouID);
+}
 
 function AllUserRandevouz(user_id) {
     var xhr = new XMLHttpRequest();
