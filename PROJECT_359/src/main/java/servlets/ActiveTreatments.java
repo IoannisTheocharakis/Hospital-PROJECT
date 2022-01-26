@@ -76,11 +76,10 @@ public class ActiveTreatments extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ActiveTreatments.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         try (PrintWriter out = response.getWriter()) {
 
             if (treatments.isEmpty()) {
-                response.setStatus(404);
+                response.setStatus(403);
             } else {
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();

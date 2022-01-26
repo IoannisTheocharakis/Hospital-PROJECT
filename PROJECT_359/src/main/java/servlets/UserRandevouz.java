@@ -23,7 +23,7 @@ import mainClasses.Randevouz;
  *
  * @author Theo
  */
-public class DocRandevous extends HttpServlet {
+public class UserRandevouz extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +42,10 @@ public class DocRandevous extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DocRandevous</title>");
+            out.println("<title>Servlet UserRandevouz</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DocRandevous at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UserRandevouz at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,10 +64,11 @@ public class DocRandevous extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EditRandevouzTable randevouz = new EditRandevouzTable();
-        int doctor_id = (Integer.parseInt(request.getParameter("doctor_id")));
-        ArrayList<Randevouz> randevouzs = null;
+        int user_id = (Integer.parseInt(request.getParameter("user_id")));
+        System.out.println(user_id);
+        ArrayList<Randevouz> randevouzs = new ArrayList<Randevouz> ();
         try {
-            randevouzs = randevouz.databaseToRandevouzs(doctor_id);
+            randevouzs = randevouz.databaseToUserRandevouzs(user_id);
         } catch (SQLException ex) {
             Logger.getLogger(DocRandevous.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -77,7 +78,6 @@ public class DocRandevous extends HttpServlet {
             if (randevouzs.isEmpty()) {
                 response.setStatus(403);
             } else {
-                System.out.println(2);
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();
                 String randevouzsToJson = gson.toJson(randevouzs);

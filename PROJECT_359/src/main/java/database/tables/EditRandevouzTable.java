@@ -160,11 +160,33 @@ public class EditRandevouzTable {
     public ArrayList<Randevouz> databaseToRandevouzs(int doc_id) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
-
+        ArrayList<Randevouz> bts = new ArrayList<Randevouz>();
         ResultSet rs;
-        ArrayList<Randevouz> bts = null;
+        
         try {
             rs = stmt.executeQuery("SELECT * FROM randevouz WHERE doctor_id= '" + doc_id + "'");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                Gson gson = new Gson();
+                System.out.println(json);
+                Randevouz bt1 = gson.fromJson(json, Randevouz.class);
+                bts.add(bt1);
+            }
+            return bts;
+        } catch (Exception e) {
+            System.err.println("Got an exception!");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+    public ArrayList<Randevouz> databaseToUserRandevouzs(int user_id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        ArrayList<Randevouz> bts = new ArrayList<Randevouz>();
+        ResultSet rs;
+        
+        try {
+            rs = stmt.executeQuery("SELECT * FROM randevouz WHERE user_id= '" + user_id + "'");
             while (rs.next()) {
                 String json = DB_Connection.getResultsToJSON(rs);
                 Gson gson = new Gson();
