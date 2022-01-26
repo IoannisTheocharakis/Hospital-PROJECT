@@ -358,7 +358,7 @@ function AddAppointment() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             alert("Your schedule was successfully created.", dateTime);
         } else if (xhr.status === 403) {
-            alert("An error occured while trying to create your schedule.");
+            console.log(403);
         } else {
 
             alert('Request failed. Returned status of ' + xhr.status);
@@ -373,6 +373,7 @@ function AddAppointment() {
 
 var DocPatientsJson;
 var DocRandevouzJson;
+var DateForRandevouz = [];
 function GetPatientID() {
     ViewApp();
     var xhr = new XMLHttpRequest();
@@ -381,7 +382,32 @@ function GetPatientID() {
             DocPatientsJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
             GetRandevouzID();
             setTimeout(function () {
+                let DT;
                 for (let j = 0; j < DocPatientsJson.length; j++) {
+                    let text = DocRandevouzJson[j].date_time;
+                    const myArray = text.split(" ");
+                    let date = myArray[0];
+                    let time =myArray[1];
+                    /*ftiaxnw pinaka me oles tis diaforetikes hmerominies */
+                    DT=date;
+                    if(j===0){
+                        DateForRandevouz.push(DT);
+                    }else{
+                        var boolDT=false;
+                        for(dt = 0 ; dt < DateForRandevouz.length;dt++){
+                            if(DT === DateForRandevouz[dt])
+                            {
+                                var boolDT=true;
+                            }
+                        }
+                        if(!boolDT){
+                            DT=date;
+                            DateForRandevouz.push(DT);
+                        }
+                    }
+                    //-=-=-===-==-===end
+                    DocPatientsJson[j].date = date;
+                    DocPatientsJson[j].time = time;
                     DocPatientsJson[j].date_time = DocRandevouzJson[j].date_time;
                     DocPatientsJson[j].doctor_id = DocRandevouzJson[j].doctor_id;
                     DocPatientsJson[j].doctor_info = DocRandevouzJson[j].doctor_info;
@@ -391,6 +417,7 @@ function GetPatientID() {
                     DocPatientsJson[j].user_id = DocRandevouzJson[j].user_id;
                     DocPatientsJson[j].user_info = DocRandevouzJson[j].user_info;
                 }
+                DateForRandevouz.sort();
                 let x = "";
                 x += createDocViewAppointments(DocPatientsJson);
                 if (document.querySelector('.days')) {
@@ -401,7 +428,7 @@ function GetPatientID() {
                 }
             }, 200);
         } else if (xhr.status === 403) {
-            alert("An error occured while trying to create your schedule.");
+            console.log(403);
         } else {
             alert('Request failed. Returned status of ' + xhr.status);
         }
@@ -419,7 +446,7 @@ function GetRandevouzID() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             DocRandevouzJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
         } else if (xhr.status === 403) {
-            alert("An error occured while trying to create your schedule.");
+            console.log(403);
         } else {
             alert('Request failed. Returned status of ' + xhr.status);
         }
@@ -436,20 +463,21 @@ function createDocViewAppointments(patients) {
         //----------
         var html = "";
         let k = 0;
-        for (let i = 1; i < 2; i++) {
+        for (let i = 0; i <DateForRandevouz.length; i++) {
             html += `
             <div class="day day`+ 1 + `"> 
                 <div class="day-pdf">
                     <p>
-                        Day `+ 1 + `
+                        Date : `+ DateForRandevouz[i] + `
                     </p>
                     <div class="pdf">
                         <img src="img/pdf-file.png" alt="">
                     </div>
                 </div> 
                 <div class="users">`
+            k = 0;
             while (DocPatientsJson[k] !== undefined) {
-                if (DocPatientsJson[k].status === "selected") {
+                if (DocPatientsJson[k].status === "selected" && DateForRandevouz[i] === DocPatientsJson[k].date) {
                     one_doctor_patient = DocPatientsJson[k];
                     html += `
                     <div class="user user`+ one_doctor_patient.user_id + `" >
@@ -498,26 +526,26 @@ function createDocViewAppointments(patients) {
                                     See statistics
                                 </div>
                                 <div class="type">
-                                    <div class="all bloodT" onclick="ShowPatientBT(1,all)">
+                                    <div class="all bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'all' , `+one_doctor_patient.amka +`)">
                                         all
                                     </div>
-                                    <div class="iron bloodT" onclick="ShowPatientBT(1,iron)">
+                                    <div class="iron bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'iron',`+one_doctor_patient.amka +`)">
                                         iron
                                     </div>
-                                    <div class="sugar bloodT" onclick="ShowPatientBT(1,sugar)">
+                                    <div class="sugar bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'blood_sugar',`+one_doctor_patient.amka +`)">
                                         sugar
                                     </div>
-                                    <div class="cholesterol bloodT" onclick="ShowPatientBT(1,cholesterol)">
+                                    <div class="cholesterol bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'cholesterol',`+one_doctor_patient.amka +`)">
                                         cholesterol
                                     </div>
-                                    <div class="vitamin-d3 bloodT" onclick="ShowPatientBT(1,vitamin-d3)">
+                                    <div class="vitamin-d3 bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'vitamin_d3',`+one_doctor_patient.amka +`)">
                                         vitamin d3
                                     </div>
-                                    <div class="vitamin-b12 bloodT" onclick="ShowPatientBT(1,vitamin-b12)">
+                                    <div class="vitamin-b12 bloodT" onclick="ShowPatientBT(`+one_doctor_patient.randevouz_id +`,'vitamin_b12',`+one_doctor_patient.amka +`)">
                                         vitamin b12
                                     </div>
                                 </div>
-                                <div class="googleCharts">
+                                <div class="googleCharts-`+one_doctor_patient.randevouz_id+`">
     
                                 </div>
                             </div>
@@ -572,7 +600,7 @@ function CreateNewTreatment(patient_id) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             alert(patient_id);
         } else if (xhr.status === 403) {
-            alert("An error occured while trying to create your schedule.");
+            
         } else {
             alert('Request failed. Returned status of ' + xhr.status);
         }
@@ -591,7 +619,7 @@ function InsertNewBloodTest() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             alert("Your schedule was successfully created.");
         } else if (xhr.status === 403) {
-            alert("An error occured while trying to create your schedule.");
+            console.log(403);
         } else {
             alert('Request failed. Returned status of ' + xhr.status);
         }
@@ -644,12 +672,12 @@ function getPatientTreatments(user_id, randevouz_id, user_amka) {
 
                 /*----------CHARTS------------*/
                 console.log(PatientBTResults);
-                console.log(user_amka);
                 /*----------aLL------------*/
                 var allHTML="";
+                allHTML += `<div class="all-BTs">`
                 for (let testAll = 0; testAll < PatientBTResults.length; testAll++) {
                     let temp = PatientBTResults[testAll];
-                    allHTML += `<div class="all-BTs">`
+                    
                         allHTML += `<div class="all-BT">`
                     if (temp.amka == user_amka) {
                         allHTML += `<div class="all-">`
@@ -679,15 +707,19 @@ function getPatientTreatments(user_id, randevouz_id, user_amka) {
                         allHTML += `</div>`
                     }
                         allHTML += `</div>`
-                    allHTML += `</div> `
-                    document.querySelector(".googleCharts").innerHTML = allHTML;
                 }
+                    allHTML += `<div class="GC" id="google-Charts-BARs-`+randevouz_id+`"> </div>`
+                allHTML += `</div> `
+                document.querySelector(".googleCharts-"+randevouz_id).innerHTML = allHTML;
+                // for (i = 0; i < tempquery.length; i++) {
+                //     tempquery[i].innerHTML = allHTML;
+                // }
                 /*----------end------------*/
             }, 500);
             /*all-iron-sugar-chelesterol-vitamin_d3-vitamin_b12 */
 
         } else if (xhr.status === 403) {
-            alert("An error occured while trying to create your schedule.");
+            console.log(403);
         } else {
             alert('Request failed. Returned status of ' + xhr.status);
         }
@@ -704,7 +736,7 @@ function patientBTinfo() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             PatientBTResults = JSON.parse(xhr.responseText);
         } else if (xhr.status === 403) {
-            alert("An error occured while trying to create your schedule.");
+            console.log(403);
         } else {
             alert('Request failed. Returned status of ' + xhr.status);
         }
@@ -1141,6 +1173,60 @@ function AddAppoint() {
     document.querySelector(".view").style.border = "0px";
 }
 
-function ShowPatientBT(amka, type) {
+function ShowPatientBT(randevouz, type , amka) {
+    var data=[];
+    document.querySelector("#google-Charts-BARs-"+randevouz).style.display="block";
+    var Header= ['Element', 'Density', { role: 'style' }];
+    data.push(Header);
+    for (let i = 0; i < PatientBTResults.length; i++) {
+        let temp = PatientBTResults[i];
+        
+        if (temp.amka == amka) {
+            var temp_arr = [];
+            temp_arr.push(temp.test_date);
+            if(type==="iron"){
+                temp_arr.push(temp.iron);
+            }else if(type==="blood_sugar"){
+                temp_arr.push(temp.blood_sugar);
+            }
+            else if(type==="cholesterol"){
+                temp_arr.push(temp.cholesterol);
+            }
+            else if(type==="vitamin_d3"){
+                temp_arr.push(temp.vitamin_d3);
+            }
+            else if(type==="vitamin_b12"){
+                temp_arr.push(temp.vitamin_b12);
+            }
+            else{
+                document.querySelector("#google-Charts-BARs-"+randevouz).style.display="none";
+                return;
+            }
+            
+            temp_arr.push("blue");
+            data.push(temp_arr);
+        }
+    }
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var chartdata = google.visualization.arrayToDataTable(data);
+      var view = new google.visualization.DataView(chartdata);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
 
+      var options = {
+        title: type,
+        width: 400,
+        height: 650,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.ColumnChart(document.querySelector("#google-Charts-BARs-"+randevouz));
+      chart.draw(view, options);
+  }
 }

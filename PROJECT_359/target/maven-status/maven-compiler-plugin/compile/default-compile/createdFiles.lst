@@ -11,6 +11,7 @@ mainClasses\User.class
 servlets\LogOut.class
 mainClasses\BloodTest.class
 database\tables\EditMessageTable.class
+.netbeans_automatic_build
 database\init\InitDatabase.class
 database\tables\EditDoctorTable.class
 mainClasses\Doctor.class
