@@ -103,7 +103,8 @@ function isLoggedIn() {
 }
 
 
-
+var ALL_DOCTORS;
+var temp_ALL_DOCTORS;
 function DoctorsTable() {
 
     if (UserJson.hasOwnProperty('doctor_id')) {
@@ -118,7 +119,6 @@ function DoctorsTable() {
 
             ALL_DOCTORS = JSON.parse(xhr.responseText);
             temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
-
 
             let i = 0;
             let one_doctor;
