@@ -216,3 +216,9 @@ text-align: center;
     align-items: center;
     justify-content: center;
 }
+
+.GC div{
+
+    display: flex;
+    justify-content: center;
+}

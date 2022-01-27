@@ -85,14 +85,16 @@ public class CreateNewTreatment extends HttpServlet {
         tr.setUser_id(userID);
         tr.setStart_date(startdate);
         tr.setEnd_date(lastdate);
+//        tr.setBloodtest_id(1);
         System.out.println(startdate);
+        System.out.println(lastdate);
         tr.setTreatment_text(treatmentText);
 
         EditTreatmentTable RandTable = new EditTreatmentTable();
         try (PrintWriter out = response.getWriter()) {
             int bloodTestID = RandTable.GetBloodTestID(userID);
             tr.setBloodtest_id(bloodTestID);
-
+System.out.println(bloodTestID);
             RandTable.createNewTreatment(tr);
             response.setStatus(200);
         } catch (ClassNotFoundException ex) {

@@ -10,7 +10,8 @@
     </div>
     <div class="bt-container">
         <div class="addBT-container">
-            <form id="InsertNewBloodTestForm" name="InsertNewBloodTestForm" action="" onsubmit='InsertNewBloodTest();return false;'>
+            <form id="InsertNewBloodTestForm" name="InsertNewBloodTestForm" action=""
+                onsubmit='InsertNewBloodTest();return false;'>
                 <div class="elem">
                     <label for="">Username</label>
                     <label class="bt-username" name="username">Username</label>
@@ -55,92 +56,23 @@
         </div>
         <div class="viewBT-container">
             <h3>BloodTests</h3>
-            <div class="prev-bts">
-                <div class="prev-bt">
-                    <div class="date-center">
-                        <div class="test_date">
-                            Date : 23-56-2345
-                        </div>
-                        <div class="medical_center">
-                            Medical_Center : PAGNH
-                        </div>
-                    </div>
-                    <div class="info">
-                        <div class="bs">
-                            <div class="type">
-                                Blood Sugar :
-                                <div>
-                                    12
-                                </div>
-                            </div>
-                            <div class="level">
-                                Level : normal
-                            </div>
-                        </div>
-                        <div class="chol">
-                            <div class="type">
-                                Cholesterol :
-                                <div>
-                                    12
-                                </div>
-                            </div>
-                            <div class="level">
-                                Level : normal
-                            </div>
-                        </div>
-                        <div class="i">
-                            <div class="type">
-                                Iron :
-                                <div>
-                                    12
-                                </div>
-                            </div>
-                            <div class="level">
-                                Level : normal
-                            </div>
-                        </div>
-                        <div class="vd">
-                            <div class="type">
-                                Vitamin D3 :
-                                <div>
-                                    24
-                                </div>
-                            </div>
-                            <div class="level">
-                                Level : normal
-                            </div>
-                        </div>
-                        <div class="vb12">
-                            <div class="type">
-                                Vitamin B12 :
-                                <div>
-                                    345
-                                </div>
-                            </div>
-                            <div class="level">
-                                Level : normal
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bt-treatment">
-                        <div class="title">
-                            
-                            <h4>Treatment</h4>
-                        </div>
-                        <div class="treat-info">
-                            <div class="start-date">
-                                Start : 10-34-50
-                            </div>
-                            <div class="end-date">
-                                End : 10-34-50
-                            </div>
-                            <div class="info">
-                                kane auto kai auto kai meta uaot 
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="BTs-choice">
+                <div class="chs all" onclick="ShowPatientBT2('all')"> all </div>
+                <div class="chs iron" onclick="ShowPatientBT2('iron')"> iron </div>
+                <div class="chs blood_sugar" onclick="ShowPatientBT2('blood_sugar')">blood sugar </div>
+                <div class="chs cholesterol" onclick="ShowPatientBT2('cholesterol')">cholesterol </div>
+                <div class="chs vitamin_d3" onclick="ShowPatientBT2('vitamin_d3')">vitamin d3</div>
+                <div class="chs vitamin_b12" onclick="ShowPatientBT2('vitamin_b12')">vitamin b12</div>
+
             </div>
+            <div class="prev-bts">
+
+
+            </div><!-- here end the BT-s -->
+            <div class="charts" id="BT-charts">
+            
+            </div>
+            <div class="treatments" id="treatments"></div>
         </div>
     </div>
 </div>
@@ -148,12 +80,6 @@
 <link rel="stylesheet" href="css/userBT.css">
 
 <script>
-    function ViewBT() {
-        document.querySelector(".viewBT-container").style.display = "block";
-        document.querySelector(".addBT-container").style.display = "none";
-        document.querySelector(".view").style.border = "1px solid black";
-        document.querySelector(".add").style.border = "0px";
-    }
     function AddBT() {
         document.querySelector(".viewBT-container").style.display = "none";
         document.querySelector(".addBT-container").style.display = "block";
