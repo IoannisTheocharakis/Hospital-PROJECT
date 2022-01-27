@@ -473,12 +473,13 @@ function createDocViewAppointments(patients) {
                     <p>
                         Date : `+ DateForRandevouz[i] + `
                     </p>
-                    <div class="pdf">
+                    <div class="pdf" onclick="PDFfunction(DocPatientsJson,'` + DateForRandevouz[i] + `')">
                         <img src="img/pdf-file.png" alt="">
                     </div>
                 </div> 
                 <div class="users">`
             k = 0;
+
             while (DocPatientsJson[k] !== undefined) {
                 if (DocPatientsJson[k].status === "selected" && DateForRandevouz[i] === DocPatientsJson[k].date) {
                     one_doctor_patient = DocPatientsJson[k];
@@ -600,6 +601,31 @@ function createDocViewAppointments(patients) {
     html1 += "";
     return html1;
 }
+
+function PDFfunction(patients, date) {
+    var stringer = "";
+    for (let i = 0; i < patients.length; i++) {
+        if (patients[i].date == date) {
+            stringer += "name: " + patients[i].firstname + " " + patients[i].lastname + "          amka: " + patients[i].amka + "       date: " + patients[i].date + "            price: " + patients[i].price + "\n";
+        }
+    }
+    console.log(stringer);
+
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("itworks");
+        } else if (xhr.status === 403) {
+            alert("NOT itworks");
+        } else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.open('POST', 'pdf');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("&stringOfInfo=" + stringer);
+}
+
 
 function CreateNewTreatment(patient_id) {
     var xhr = new XMLHttpRequest();
