@@ -326,7 +326,12 @@ function LogIn() {
     $("#main-menu-body").load("login.html");
 }
 function HomePage() {
-    $("#content").load("homecontent.html");
+    if(document.querySelector("#main-menu-body")){
+        $("#main-menu-body").load("homecontent.html");
+    }else{
+        $("#content").load("homecontent.html");
+    }
+    
 }
 
 function DoctorAppointments() {
@@ -1707,4 +1712,62 @@ function ShowPatientBT2(type) {
         }
         document.querySelector('#treatments').innerHTML=BTs;
     }
+}
+
+function DoctorsTable2(){
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+
+            ALL_DOCTORS = JSON.parse(xhr.responseText);
+            temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
+
+            let i = 0;
+            let one_doctor;
+            let x = "";
+
+            while (temp_ALL_DOCTORS[i] !== undefined) {
+
+                one_doctor = temp_ALL_DOCTORS[i];
+
+                x += createTableFromJSON2(one_doctor);
+                i++;
+            }
+           
+            document.querySelector('#main-menu-body').innerHTML = x;
+            
+        } else if (xhr.status !== 200) {
+            if (document.querySelector('#print-doc').length > 0) {
+                document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
+            } else {
+                document.querySelector('#content').innerHTML = "Failed to show dotors.";
+            }
+        }
+    };
+
+    xhr.open('GET', 'ReturnDoctors');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+function createTableFromJSON2(data){
+    html = "";
+
+    if (data.certified) {
+        var html = "<div id='doctors-table'><div> <table><tr><th>Category</th><th>Value</th></tr>";
+
+        for (const x in data) {
+
+            if (x === "firstname" || x === "lastname" || x === "address" || x === "city" || x === "doctor_info" || x === "specialty" || x === "telephone") {
+                var category = x;
+                var value = data[x];
+
+                html += "<tr><td>" + category + "</td><td>" + value + "</td></tr>";
+            }
+
+        }
+        html += "</table> </div></div>";
+        return html;
+    }
+    html += "";
+    return html;
 }

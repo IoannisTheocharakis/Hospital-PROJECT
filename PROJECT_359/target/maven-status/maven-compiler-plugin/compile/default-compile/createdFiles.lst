@@ -17,6 +17,7 @@ mainClasses\Doctor.class
 database\tables\EditRandevouzTable.class
 servlets\AddAppointment.class
 servlets\GetPatientID.class
+servlets\UpdateRandevouState.class
 servlets\ChangeProfileData.class
 servlets\InsertNewBloodTest.class
 mainClasses\Treatment.class
