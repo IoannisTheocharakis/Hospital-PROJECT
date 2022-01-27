@@ -138,7 +138,7 @@ public class EditRandevouzTable {
 
 
     /*new*/
-    public void updateRandevouzToDone(int randevouzID, String status) throws SQLException, ClassNotFoundException {
+    public void updateRandevouzToDoneORCancel(int randevouzID, String status) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
         String updateQuery = "UPDATE randevouz SET status='" + status + "' WHERE randevouz_id = '" + randevouzID + "'";

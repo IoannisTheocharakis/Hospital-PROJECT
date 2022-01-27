@@ -80,6 +80,10 @@
         <servlet-name>UpdateRandevouState</servlet-name>
         <servlet-class>servlets.UpdateRandevouState</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SelectRandevou</servlet-name>
+        <servlet-class>servlets.SelectRandevou</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>UpdateRandevouState</servlet-name>
         <url-pattern>/UpdateRandevouState</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SelectRandevou</servlet-name>
+        <url-pattern>/SelectRandevou</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

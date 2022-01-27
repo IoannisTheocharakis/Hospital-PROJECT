@@ -7,7 +7,6 @@ package database.tables;
 
 import mainClasses.SimpleUser;
 import com.google.gson.Gson;
-import mainClasses.User;
 import database.DB_Connection;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mainClasses.Randevouz;
 
 /**
  *
@@ -69,6 +67,26 @@ public class EditSimpleUserTable {
             System.err.println(e.getMessage());
         }
     }
+
+    /*new */
+    public int isUser(String username) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        int isUser = 0;
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT user_id FROM users WHERE username = '" + username + "'");
+            if (rs.next()) {
+                isUser = rs.getInt("user_id");
+            }
+            return isUser;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return 0;
+    }
+
     
     public SimpleUser databaseToSimpleUser(String username, String password) throws SQLException, ClassNotFoundException{
         Connection con = DB_Connection.getConnection();

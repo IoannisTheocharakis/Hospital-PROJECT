@@ -268,6 +268,7 @@ function SeeProfileDetails() {
 
 function changeProfileData() {
     var xhr = new XMLHttpRequest();
+
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             UserJson = JSON.parse(xhr.responseText);
@@ -1057,7 +1058,7 @@ function BookAppointment(randevouID) {
     // set the content type
     xhr.open('POST', 'UpdateRandevouState');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&status=selected" + "&randevouID=" + randevouID);
+    xhr.send("&status=selected" + "&randevouID=" + randevouID + "&user_id=" + UserJson.user_id + "&user_info=" + UserJson.firstname);
 }
 
 function AllUserRandevouz(user_id) {

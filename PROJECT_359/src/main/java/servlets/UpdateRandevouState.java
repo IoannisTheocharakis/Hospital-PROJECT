@@ -74,15 +74,20 @@ public class UpdateRandevouState extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int randevouID = (Integer.parseInt(request.getParameter("randevouID")));
         String status = request.getParameter("status");
+
         EditRandevouzTable ERTtoDONE = new EditRandevouzTable();
         String PreviousState = null;
         try {
             PreviousState = ERTtoDONE.RandevouPreviouState(randevouID);
             if (PreviousState.equals("selected") && (status.equals("done") || status.equals("canceled"))) {
-                ERTtoDONE.updateRandevouzToDone(randevouID, status);
+                ERTtoDONE.updateRandevouzToDoneORCancel(randevouID, status);
                 response.setStatus(200);
             } else if (PreviousState.equals("free") && status.equals("selected")) {
-                ERTtoDONE.updateRandevouzToDone(randevouID, status);
+                /*----EXTRA----*/
+                int user_id = (Integer.parseInt(request.getParameter("user_id")));
+                String user_info = request.getParameter("user_info");
+                /*----EXTRA----*/
+                ERTtoDONE.updateRandevouz(randevouID, user_id, user_info, status);
                 response.setStatus(200);
             } else {
                 response.setStatus(403);
