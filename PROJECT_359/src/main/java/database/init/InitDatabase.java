@@ -234,9 +234,6 @@ public class InitDatabase {
         EditSimpleUserTable es = new EditSimpleUserTable();
         es.updateSimpleUser("mountanton", 85.0);
 
-        EditDoctorTable edt = new EditDoctorTable();
-        edt.updateDoctor("mountanton", 190);
-
         EditBloodTestTable ebt = new EditBloodTestTable();
         ebt.updateBloodTest(1, 180);
 

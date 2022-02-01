@@ -42,10 +42,10 @@ public class EditDoctorTable {
         return json;
     }
 
-    public void updateDoctor(String username, int height) throws SQLException, ClassNotFoundException {
+    public void updateDoctor(String username, String email, String password, String firstname, String lastname, String birthdate, double weight, String gender, String country, String city, String address, String telephone, int height, int blooddonor, String bloodtype) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
-        String update = "UPDATE doctors SET height='" + height + "' WHERE username = '" + username + "'";
+        String update = "UPDATE doctors SET email='" + email + "' , password='" + password + "' , firstname='" + firstname + "' ,  lastname='" + lastname + "' , birthdate='" + birthdate + "' , weight='" + weight + "' , gender='" + gender + "' , country='" + country + "' , city='" + city + "' , address='" + address + "' , telephone='" + telephone + "' , height='" + height + "' , blooddonor='" + blooddonor + "' , bloodtype='" + bloodtype + "' WHERE username = '" + username + "'";
         stmt.executeUpdate(update);
     }
 
@@ -234,13 +234,13 @@ public class EditDoctorTable {
 
 
 
-    public Doctor databaseToDoctorEmail(String email) throws SQLException, ClassNotFoundException {
+    public Doctor databaseToDoctorUsername(String username) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
 
         ResultSet rs;
         try {
-            rs = stmt.executeQuery("SELECT * FROM doctors WHERE email = '" + email+"'");
+            rs = stmt.executeQuery("SELECT * FROM doctors WHERE username = '" + username + "'");
             rs.next();
             String json = DB_Connection.getResultsToJSON(rs);
             Gson gson = new Gson();

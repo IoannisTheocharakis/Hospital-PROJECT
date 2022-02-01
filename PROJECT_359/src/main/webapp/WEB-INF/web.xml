@@ -91,6 +91,16 @@
     <servlet>
         <servlet-name>CertifyDoc</servlet-name>
         <servlet-class>servlets.CertifyDoc</servlet-class>
+        <servlet-name>SelectRandevou</servlet-name>
+        <servlet-class>servlets.SelectRandevou</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PDF</servlet-name>
+        <servlet-class>servlets.PDF</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>pdf</servlet-name>
+        <servlet-class>servlets.pdf</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
@@ -183,6 +193,16 @@
     <servlet-mapping>
         <servlet-name>CertifyDoc</servlet-name>
         <url-pattern>/CertifyDoc</url-pattern>
+        <servlet-name>SelectRandevou</servlet-name>
+        <url-pattern>/SelectRandevou</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PDF</servlet-name>
+        <url-pattern>/PDF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pdf</servlet-name>
+        <url-pattern>/pdf</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

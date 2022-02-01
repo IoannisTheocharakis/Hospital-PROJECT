@@ -4,6 +4,7 @@
  */
 package servlets;
 
+import database.tables.EditDoctorTable;
 import database.tables.EditSimpleUserTable;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import mainClasses.Doctor;
 import mainClasses.SimpleUser;
 
 /**
@@ -40,7 +41,7 @@ public class ChangeProfileData extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangeProfileData</title>");            
+            out.println("<title>Servlet ChangeProfileData</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ChangeProfileData at " + request.getContextPath() + "</h1>");
@@ -73,47 +74,59 @@ public class ChangeProfileData extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-                SimpleUser user = new SimpleUser();
-                
-                String firstname=request.getParameter("firstname");
-                String lastname=request.getParameter("lastname");
-                String birthdate=request.getParameter("birthdate");
-                String username=request.getParameter("username");
-                String email=request.getParameter("email");
-                String password=request.getParameter("password");
-                String gender=request.getParameter("gender");
-                String country=request.getParameter("country");
-                String city=request.getParameter("city");
-                String address=request.getParameter("address");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        SimpleUser user = new SimpleUser();
+        Doctor doctor = new Doctor();
 
-                int height=(Integer.parseInt(request.getParameter("height")));
-                double weight=(Double.parseDouble(request.getParameter("weight")));
-                String telephone=request.getParameter("telephone");
-                String bloodtype=request.getParameter("bloodtype");
-                int blooddonor=(Integer.parseInt(request.getParameter("blooddonor")));
+        int isItUser = 0;
 
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
+        String birthdate = request.getParameter("birthdate");
+        String username = request.getParameter("username");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String gender = request.getParameter("gender");
+        String country = request.getParameter("country");
+        String city = request.getParameter("city");
+        String address = request.getParameter("address");
 
-                try (PrintWriter out = response.getWriter()) {
+        int height = (Integer.parseInt(request.getParameter("height")));
+        double weight = (Double.parseDouble(request.getParameter("weight")));
+        String telephone = request.getParameter("telephone");
+        String bloodtype = request.getParameter("bloodtype");
+        int blooddonor = (Integer.parseInt(request.getParameter("blooddonor")));
 
-                    EditSimpleUserTable simpleuser= new EditSimpleUserTable(); 
-                    if(simpleuser.SUDataExist("email", request.getParameter("email"))){
-                        out.println("Email");
-                        response.setStatus(403);
+        try (PrintWriter out = response.getWriter()) {
 
-                        return;
-                    }
-                    simpleuser.updateDataSimpleUser(username,email,password,firstname,lastname,birthdate,weight,gender,country,city,address,telephone,height,blooddonor,bloodtype);
-                    SimpleUser su = simpleuser.databaseToSimpleUserWithUsername(username);
-                    String json = simpleuser.simpleUserToJSON(su);
-                    out.println(json); 
-                    response.setStatus(200);
-                } catch (SQLException ex) {
-                    Logger.getLogger(ChangeProfileData.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(ChangeProfileData.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            EditSimpleUserTable simpleuser = new EditSimpleUserTable();
+            EditDoctorTable EDT = new EditDoctorTable();
+            if (simpleuser.SUDataExist("email", request.getParameter("email")) || EDT.DoctorDataExist("email", request.getParameter("email"))) {
+                out.println("Email");
+                response.setStatus(403);
+
+                return;
+            }
+            isItUser = simpleuser.isUser(username);
+//            System.out.println(username);
+            if (isItUser != 0) {
+                simpleuser.updateDataSimpleUser(username, email, password, firstname, lastname, birthdate, weight, gender, country, city, address, telephone, height, blooddonor, bloodtype);
+                SimpleUser su = simpleuser.databaseToSimpleUserWithUsername(username);
+                String json = simpleuser.simpleUserToJSON(su);
+                out.println(json);
+            } else {
+                EDT.updateDoctor(username, email, password, firstname, lastname, birthdate, weight, gender, country, city, address, telephone, height, blooddonor, bloodtype);
+                Doctor du = EDT.databaseToDoctorUsername(username);
+                String json = EDT.doctorToJSON(du);
+                out.println(json);
+            }
+
+            response.setStatus(200);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChangeProfileData.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ChangeProfileData.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -70,7 +70,6 @@ public class patientBTinfo extends HttpServlet {
             bloodTestResults = EBTT.IronBloodTest2();
 
             if (bloodTestResults.isEmpty()) {
-                System.out.println("FAILED");
                 response.setStatus(403);
             } else {
                 GsonBuilder gsonBuilder = new GsonBuilder();

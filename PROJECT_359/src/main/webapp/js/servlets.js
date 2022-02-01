@@ -277,6 +277,7 @@ function SeeProfileDetails() {
 
 function changeProfileData() {
     var xhr = new XMLHttpRequest();
+
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             UserJson = JSON.parse(xhr.responseText);
@@ -446,9 +447,9 @@ function GetPatientID() {
             alert('Request failed. Returned status of ' + xhr.status);
         }
     };
-    xhr.open('POST', 'GetPatientID');
+    xhr.open('GET', 'GetPatientID?&doctor_id=' + UserJson.doctor_id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&doctor_id=" + UserJson.doctor_id);
+    xhr.send();
 }
 
 function GetRandevouzID() {
@@ -462,9 +463,9 @@ function GetRandevouzID() {
             alert('Request failed. Returned status of ' + xhr.status);
         }
     };
-    xhr.open('POST', 'GetRandevouzID');
+    xhr.open('GET', 'GetRandevouzID?&doctor_id=' + UserJson.doctor_id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&doctor_id=" + UserJson.doctor_id);
+    xhr.send();
 }
 //--------------
 
@@ -481,12 +482,13 @@ function createDocViewAppointments(patients) {
                     <p>
                         Date : `+ DateForRandevouz[i] + `
                     </p>
-                    <div class="pdf">
+                    <div class="pdf" onclick="PDFfunction(DocPatientsJson,'` + DateForRandevouz[i] + `')">
                         <img src="img/pdf-file.png" alt="">
                     </div>
                 </div> 
                 <div class="users">`
             k = 0;
+
             while (DocPatientsJson[k] !== undefined) {
                 if (DocPatientsJson[k].status === "selected" && DateForRandevouz[i] === DocPatientsJson[k].date) {
                     one_doctor_patient = DocPatientsJson[k];
@@ -607,6 +609,23 @@ function createDocViewAppointments(patients) {
     }
     html1 += "";
     return html1;
+}
+
+function PDFfunction(patients, date) {
+    var something = document.getElementById("pdftable");
+    var stringer = "Names:                               Amka:                          Date:                             Price: \n\n\n";
+
+    for (let i = 0; i < patients.length; i++) {
+        if (patients[i].date == date) {
+            stringer += "name: " + patients[i].firstname + " " + patients[i].lastname + "          amka: " + patients[i].amka + "       date: " + patients[i].date + "            price: " + patients[i].price + "\n\n";
+        }
+    }
+    /*create jspdf*/
+    var doc = new jsPDF();
+    doc.setFontSize(8);
+    doc.text(stringer, 10, 10);
+    /*save pdf file*/
+    doc.save("Patients.pdf");
 }
 
 function CreateNewTreatment(patient_id) {
@@ -760,7 +779,7 @@ function UpdateRandevouToDone(randevouID) {
     // set the content type
     xhr.open('POST', 'UpdateRandevouState');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&status=Done" + "&randevouID=" + randevouID);
+    xhr.send("&status=done" + "&randevouID=" + randevouID);
 }
 
 
@@ -806,7 +825,7 @@ function UpdateRandevouToCanceled(randevouID) {
     // set the content type
     xhr.open('POST', 'UpdateRandevouState');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&status=Canceled" + "&randevouID=" + randevouID);
+    xhr.send("&status=canceled" + "&randevouID=" + randevouID);
 }
 
 
@@ -1114,7 +1133,7 @@ function BookAppointment(randevouID) {
     // set the content type
     xhr.open('POST', 'UpdateRandevouState');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&status=Canceled" + "&randevouID=" + randevouID);
+    xhr.send("&status=selected" + "&randevouID=" + randevouID + "&user_id=" + UserJson.user_id + "&user_info=" + UserJson.firstname);
 }
 
 function AllUserRandevouz(user_id) {
@@ -1168,7 +1187,7 @@ function AllUserRandevouz(user_id) {
                                `+ userR.price + ` &euro;
                             </p>
                         </div>
-                        <div class="cancel">
+                        <div class="cancel" onclick="UpdateRandevouToCanceled(` + userR.randevouz_id + `)">
                             <image class="image" src="img/remove.png"> </image>
                         </div>
                         
