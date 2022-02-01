@@ -271,5 +271,18 @@ public class EditDoctorTable {
         }
         return false;
     }
-
+    public void deleteDOC(int Doc) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        String deleteQuery = "DELETE FROM doctors WHERE doctor_id='" + Doc + "'";
+        stmt.executeUpdate(deleteQuery);
+        stmt.close();
+        con.close();
+    }
+public void updateDocCertify(int doctor_id) throws SQLException, ClassNotFoundException{
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        String update="UPDATE doctors SET certified='1' WHERE doctor_id = '"+doctor_id+"'";
+        stmt.executeUpdate(update);
+    }
 }

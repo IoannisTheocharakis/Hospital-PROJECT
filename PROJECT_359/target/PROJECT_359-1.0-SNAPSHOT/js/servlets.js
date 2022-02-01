@@ -34,7 +34,12 @@ function sendAjaxPost2() {
             if (UserJson.hasOwnProperty('doctor_id')) {
                 $("#ajaxContent").load("htmlpaths/doc/docpage.html");
             } else {
-                $("#ajaxContent").load("htmlpaths/user/userpage.html");
+                if(UserJson.username === "admin"){
+                    $("#ajaxContent").load("htmlpaths/admin/admin.html");
+                }else{
+                    $("#ajaxContent").load("htmlpaths/user/userpage.html");
+                }
+               
             }
             setTimeout(function () {
                 document.querySelector('.user-name label').innerText = UserJson.username;
@@ -86,7 +91,11 @@ function isLoggedIn() {
             if (UserJson.hasOwnProperty('doctor_id')) {
                 $("#ajaxContent").load("htmlpaths/doc/docpage.html");
             } else {
-                $("#ajaxContent").load("htmlpaths/user/userpage.html");
+                if(UserJson.username === "admin"){
+                    $("#ajaxContent").load("htmlpaths/admin/admin.html");
+                }else{
+                    $("#ajaxContent").load("htmlpaths/user/userpage.html");
+                }
             }
             setTimeout(function () {
 
@@ -517,13 +526,13 @@ function createDocViewAppointments(patients) {
 
                     html += `
                                     <div class="start-date">
-                                        `+ 20 + `
+                                       
                                     </div>
                                     <div class="final-date">
-                                        `+ 1 + `
+                                        none
                                     </div>
                                     <div class="info">
-                                        `+ 1 + `
+                                    
                                     </div>
                                     `
 
@@ -1770,4 +1779,213 @@ function createTableFromJSON2(data){
     }
     html += "";
     return html;
+}
+
+function DoctorsTable3(){
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+
+            ALL_DOCTORS = JSON.parse(xhr.responseText);
+            temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
+            console.log(temp_ALL_DOCTORS)
+            setTimeout(function(){
+                var html = '';
+                html += `
+                    <div class="doctors">
+                    
+                    `
+                for(i=0; i<temp_ALL_DOCTORS.length;i++){
+                    if(temp_ALL_DOCTORS[i].certified === 0){
+                        html += `
+                        <div class="doc">
+                            <div>
+                                Name : `+temp_ALL_DOCTORS[i].username+`
+                            </div>
+                            <div>
+                                amka : `+temp_ALL_DOCTORS[i].amka+`
+                            </div>
+                            <div class="certify" onclick="certifydoc(`+temp_ALL_DOCTORS[i].doctor_id+`);return false;">
+                                Certify 
+                            </div>
+                        </div>
+                    
+                        `
+                    }
+                    
+                }
+                html+=` </div>`
+                document.querySelector('#content').innerHTML=html;
+            },200 );
+            
+        } else if (xhr.status !== 200) {
+            if (document.querySelector('#print-doc').length > 0) {
+                document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
+            } else {
+                document.querySelector('#content').innerHTML = "Failed to show dotors.";
+            }
+        }
+    };
+
+    xhr.open('GET', 'ReturnDoctors');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+
+/*gia to certify ton doc */
+function certifydoc(doctor_id){
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            location.reload();
+        } else if (xhr.status !== 200) {
+            if (document.querySelector('#print-doc')) {
+                document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
+            } else {
+                document.querySelector('#content').innerHTML = "Failed to show dotors.";
+            }
+        }
+    };
+
+    xhr.open('POST', 'CertifyDoc');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send('doctor_id='+doctor_id);
+}
+/*delete*/
+function deleteUser(id,type){
+    if(type==="doctor_id"){
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                location.reload();
+            } else if (xhr.status !== 200) {
+                if (document.querySelector('#print-doc')) {
+                    document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
+                } else {
+                    document.querySelector('#content').innerHTML = "Failed to show dotors.";
+                }
+            }
+        };
+    
+        xhr.open('POST', 'DeleteUserDoc');
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send('doctor_id='+id+'&type='+type);
+    }else{
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+    
+                location.reload();
+    
+            } else if (xhr.status !== 200) {
+                if (document.querySelector('#print-doc').length > 0) {
+                    document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
+                } else {
+                    document.querySelector('#content').innerHTML = "Failed to show dotors.";
+                }
+            }
+        };
+    
+        xhr.open('POST', 'DeleteUserDoc');
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send('user_id='+id+'&type='+type);
+    }
+}
+/*Show*/
+function USERANDDOC(){
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            GETALLUSERS();
+            ALL_DOCTORS = JSON.parse(xhr.responseText);
+            temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
+            console.log(temp_ALL_DOCTORS)
+            
+            setTimeout(function(){
+                var html = '';
+                console.log(alluser)
+                html += `
+                    <div class="doctors">
+                    
+                    `
+                for(i=0; i<temp_ALL_DOCTORS.length;i++){
+                        html += `
+                        <div class="doc">
+                            <div>
+                                Name : `+temp_ALL_DOCTORS[i].username+`
+                            </div>
+                            <div>
+                                amka : `+temp_ALL_DOCTORS[i].amka+`
+                            </div>
+                            <div>
+                               doctor
+                            </div>
+                            <div class="Delete" onclick="deleteUser(`+temp_ALL_DOCTORS[i].doctor_id+`,'doctor_id');return false;">
+                                Delete 
+                            </div>
+                        </div>`;
+                }
+                html+=` </div>`
+
+                html += `
+                <div class="users">
+                
+                `
+                for(i=0; i<alluser.length;i++){
+                        html += `
+                        <div class="user">
+                            <div>
+                                Name : `+alluser[i].username+`
+                            </div>
+                            <div>
+                                amka : `+alluser[i].amka+`
+                            </div>
+                            <div>
+                               user
+                            </div>
+                            <div class="Delete" onclick="deleteUser(`+alluser[i].user_id+`,'user_id');return false;">
+                                Delete 
+                            </div>
+                        </div>`;
+                }
+                html+=` </div>`
+
+
+
+                document.querySelector('#content').innerHTML=html;
+            },400 );
+            
+        } else if (xhr.status !== 200) {
+            if (document.querySelector('#print-doc').length > 0) {
+                document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
+            } else {
+                document.querySelector('#content').innerHTML = "Failed to show dotors.";
+            }
+        }
+    };
+
+    xhr.open('GET', 'ReturnDoctors');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+var alluser;
+function GETALLUSERS(){
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+
+            alluser = JSON.parse(xhr.responseText);
+
+        } else if (xhr.status !== 200) {
+            if (document.querySelector('#print-doc').length > 0) {
+                document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
+            } else {
+                document.querySelector('#content').innerHTML = "Failed to show dotors.";
+            }
+        }
+    };
+
+    xhr.open('GET', 'AllUSERS');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
 }

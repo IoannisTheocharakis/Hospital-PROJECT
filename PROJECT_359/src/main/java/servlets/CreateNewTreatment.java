@@ -94,7 +94,7 @@ public class CreateNewTreatment extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             int bloodTestID = RandTable.GetBloodTestID(userID);
             tr.setBloodtest_id(bloodTestID);
-System.out.println(bloodTestID);
+            System.out.println(bloodTestID);
             RandTable.createNewTreatment(tr);
             response.setStatus(200);
         } catch (ClassNotFoundException ex) {

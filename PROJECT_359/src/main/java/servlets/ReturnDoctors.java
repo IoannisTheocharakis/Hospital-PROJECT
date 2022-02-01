@@ -88,10 +88,6 @@ public class ReturnDoctors extends HttpServlet {
                 response.setStatus(200);
             }
         }
-        
-        
-        
-        
               
     }
 

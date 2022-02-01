@@ -1,0 +1,28 @@
+<div class="navbar">
+    <div class="nav-menu">
+        <div onclick="HomePage();return false;">
+            <label >Menu</label>
+        </div>
+        <div onclick="USERANDDOC();return false;">
+            <label>USERS</label>
+        </div>
+        <div onclick="DoctorsTable3();return false;">
+            <label >VERIFY DOCTORS</label>
+        </div>
+    </div>
+    <div class="profile" onclick="SeeProfileDetails()">
+        <div class="user-name" onclick="getUserName()">
+            <label>name</label>
+        </div>
+        <div class="logout" onclick="LogOut()">
+            <label>Log Out</label>
+        </div>
+        
+    </div>
+</div>
+<div id="content">
+
+    <div id='doctors-table'></div>
+</div>
+<br>
+<link rel="stylesheet" href="css/adminpage.css">

@@ -80,6 +80,18 @@
         <servlet-name>UpdateRandevouState</servlet-name>
         <servlet-class>servlets.UpdateRandevouState</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AllUSERS</servlet-name>
+        <servlet-class>servlets.AllUSERS</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteUserDoc</servlet-name>
+        <servlet-class>servlets.DeleteUserDoc</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CertifyDoc</servlet-name>
+        <servlet-class>servlets.CertifyDoc</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
@@ -159,6 +171,18 @@
     <servlet-mapping>
         <servlet-name>UpdateRandevouState</servlet-name>
         <url-pattern>/UpdateRandevouState</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AllUSERS</servlet-name>
+        <url-pattern>/AllUSERS</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteUserDoc</servlet-name>
+        <url-pattern>/DeleteUserDoc</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CertifyDoc</servlet-name>
+        <url-pattern>/CertifyDoc</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
