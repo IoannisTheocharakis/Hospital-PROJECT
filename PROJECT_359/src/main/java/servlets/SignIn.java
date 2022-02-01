@@ -4,16 +4,11 @@
  */
 package servlets;
 
-import com.google.gson.Gson;
-import database.DB_Connection;
 import database.tables.EditDoctorTable;
 import database.tables.EditSimpleUserTable;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -138,7 +133,7 @@ public class SignIn extends HttpServlet {
                     user.setBlooddonor(Integer.parseInt(request.getParameter("blooddonor")));
                     EditSimpleUserTable simpleuser= new EditSimpleUserTable();                
                     simpleuser.addNewSimpleUser(user);
-System.out.println("SimpleUser");
+                    System.out.println("SimpleUser");
                    out.println("SimpleUser");
                     response.setStatus(200);
                 }else{

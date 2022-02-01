@@ -438,9 +438,9 @@ function GetPatientID() {
             alert('Request failed. Returned status of ' + xhr.status);
         }
     };
-    xhr.open('POST', 'GetPatientID');
+    xhr.open('GET', 'GetPatientID?&doctor_id=' + UserJson.doctor_id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&doctor_id=" + UserJson.doctor_id);
+    xhr.send();
 }
 
 function GetRandevouzID() {
@@ -454,9 +454,9 @@ function GetRandevouzID() {
             alert('Request failed. Returned status of ' + xhr.status);
         }
     };
-    xhr.open('POST', 'GetRandevouzID');
+    xhr.open('GET', 'GetRandevouzID?&doctor_id=' + UserJson.doctor_id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&doctor_id=" + UserJson.doctor_id);
+    xhr.send();
 }
 //--------------
 
@@ -602,30 +602,45 @@ function createDocViewAppointments(patients) {
     return html1;
 }
 
+//function PDFfunction(patients, date) {
+//    var stringer = "";
+//    for (let i = 0; i < patients.length; i++) {
+//        if (patients[i].date == date) {
+//            stringer += "name: " + patients[i].firstname + " " + patients[i].lastname + "          amka: " + patients[i].amka + "       date: " + patients[i].date + "            price: " + patients[i].price + "\n";
+//        }
+//    }
+//    console.log(stringer);
+//
+//    var xhr = new XMLHttpRequest();
+//    xhr.onload = function () {
+//        if (xhr.readyState === 4 && xhr.status === 200) {
+//            alert("itworks");
+//        } else if (xhr.status === 403) {
+//            alert("NOT itworks");
+//        } else {
+//            alert('Request failed. Returned status of ' + xhr.status);
+//        }
+//    };
+//    xhr.open('POST', 'pdf');
+//    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+//    xhr.send("&stringOfInfo=" + stringer);
+//}
 function PDFfunction(patients, date) {
-    var stringer = "";
+    var something = document.getElementById("pdftable");
+    var stringer = "Names:                               Amka:                          Date:                             Price: \n\n\n";
+
     for (let i = 0; i < patients.length; i++) {
         if (patients[i].date == date) {
-            stringer += "name: " + patients[i].firstname + " " + patients[i].lastname + "          amka: " + patients[i].amka + "       date: " + patients[i].date + "            price: " + patients[i].price + "\n";
+            stringer += "name: " + patients[i].firstname + " " + patients[i].lastname + "          amka: " + patients[i].amka + "       date: " + patients[i].date + "            price: " + patients[i].price + "\n\n";
         }
     }
-    console.log(stringer);
-
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            alert("itworks");
-        } else if (xhr.status === 403) {
-            alert("NOT itworks");
-        } else {
-            alert('Request failed. Returned status of ' + xhr.status);
-        }
-    };
-    xhr.open('POST', 'pdf');
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("&stringOfInfo=" + stringer);
+    /*create jspdf*/
+    var doc = new jsPDF();
+    doc.setFontSize(8);
+    doc.text(stringer, 10, 10);
+    /*save pdf file*/
+    doc.save("output.pdf");
 }
-
 
 function CreateNewTreatment(patient_id) {
     var xhr = new XMLHttpRequest();

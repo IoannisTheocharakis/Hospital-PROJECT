@@ -61,22 +61,7 @@ public class GetRandevouzID extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        System.out.println("HI");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int docID = (Integer.parseInt(request.getParameter("doctor_id")));
         EditRandevouzTable ERTUserID = new EditRandevouzTable();
         try (PrintWriter out = response.getWriter()) {
@@ -99,6 +84,19 @@ public class GetRandevouzID extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(GetRandevouzID.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        System.out.println("HI");
     }
 
     /**
