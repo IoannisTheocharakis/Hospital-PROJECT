@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package mainClasses;
 
 import mainClasses.User;
@@ -12,9 +11,18 @@ import mainClasses.User;
  *
  * @author Mike
  */
-public class Doctor extends User{
-    int doctor_id;
+public class Doctor extends User {
+
+    int doctor_id, stars;
     String specialty, doctor_info;
+
+    public void setDoctor_stars(int stars) {
+        this.stars = stars;
+    }
+
+    public int getDoctor_star() {
+        return stars;
+    }
 
     public int getDoctor_id() {
         return doctor_id;
@@ -32,8 +40,6 @@ public class Doctor extends User{
         this.doctor_info = doctor_info;
     }
 
-    
-    
     int certified;
 
     public int getCertified() {
@@ -44,8 +50,6 @@ public class Doctor extends User{
         this.certified = certified;
     }
 
-   
-
     public String getSpecialty() {
         return specialty;
     }
@@ -54,5 +58,4 @@ public class Doctor extends User{
         this.specialty = specialty;
     }
 
-  
 }

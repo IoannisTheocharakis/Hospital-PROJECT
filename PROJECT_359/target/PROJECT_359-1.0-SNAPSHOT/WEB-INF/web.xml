@@ -91,6 +91,8 @@
     <servlet>
         <servlet-name>CertifyDoc</servlet-name>
         <servlet-class>servlets.CertifyDoc</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SelectRandevou</servlet-name>
         <servlet-class>servlets.SelectRandevou</servlet-class>
     </servlet>
@@ -101,6 +103,30 @@
     <servlet>
         <servlet-name>pdf</servlet-name>
         <servlet-class>servlets.pdf</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReturnDocUserForMSG</servlet-name>
+        <servlet-class>servlets.ReturnDocUserForMSG</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MESSAGES</servlet-name>
+        <servlet-class>servlets.MESSAGES</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewMess</servlet-name>
+        <servlet-class>servlets.NewMess</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MESSAGES_BT</servlet-name>
+        <servlet-class>servlets.MESSAGES_BT</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Return1doc</servlet-name>
+        <servlet-class>servlets.Return1doc</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SetStars</servlet-name>
+        <servlet-class>servlets.SetStars</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
@@ -193,6 +219,8 @@
     <servlet-mapping>
         <servlet-name>CertifyDoc</servlet-name>
         <url-pattern>/CertifyDoc</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SelectRandevou</servlet-name>
         <url-pattern>/SelectRandevou</url-pattern>
     </servlet-mapping>
@@ -203,6 +231,30 @@
     <servlet-mapping>
         <servlet-name>pdf</servlet-name>
         <url-pattern>/pdf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReturnDocUserForMSG</servlet-name>
+        <url-pattern>/ReturnDocUserForMSG</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MESSAGES</servlet-name>
+        <url-pattern>/MESSAGES</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewMess</servlet-name>
+        <url-pattern>/NewMess</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MESSAGES_BT</servlet-name>
+        <url-pattern>/MESSAGES_BT</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Return1doc</servlet-name>
+        <url-pattern>/Return1doc</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetStars</servlet-name>
+        <url-pattern>/SetStars</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

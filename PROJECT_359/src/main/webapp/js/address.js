@@ -91,7 +91,7 @@ function getLanLon(){
     let address = getAddress();
     xhr.open("GET", "https://forward-reverse-geocoding.p.rapidapi.com/v1/search?q="+address+"&accept-language=en&polygon_threshold=0.0");
     xhr.setRequestHeader("x-rapidapi-host", "forward-reverse-geocoding.p.rapidapi.com");
-    var key="2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212";
+    var key=config.my_key;
     xhr.setRequestHeader("x-rapidapi-key", key);
     xhr.send();
     
@@ -267,7 +267,7 @@ function showPosition(position) {
     
     xhr.open("GET", "https://forward-reverse-geocoding.p.rapidapi.com/v1/reverse?lat="+lat+"&lon="+lon+"&accept-language=en&polygon_threshold=0.0");
     xhr.setRequestHeader("x-rapidapi-host", "forward-reverse-geocoding.p.rapidapi.com");
-    var key="2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212";
+    var key=config.my_key;
     xhr.setRequestHeader("x-rapidapi-key", key);
     xhr.send();
    

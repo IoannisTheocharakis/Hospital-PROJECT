@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mainClasses.BloodTest;
@@ -117,5 +118,49 @@ public class EditMessageTable {
         } catch (SQLException ex) {
             Logger.getLogger(EditBloodTestTable.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public ArrayList<Message> ReturnMSGS(int user_id,int doctor_id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        ArrayList<Message> msgs = new ArrayList<Message>();
+        ResultSet rs;
+        
+        try {
+            rs = stmt.executeQuery("SELECT * FROM message WHERE user_id= '" + user_id + "' AND doctor_id= '" + doctor_id +"'");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                Gson gson = new Gson();
+                System.out.println(json);
+                Message msg = gson.fromJson(json, Message.class);
+                msgs.add(msg);
+            }
+            return msgs;
+        } catch (Exception e) {
+            System.err.println("Got an exception!");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+    public ArrayList<Message> ReturnMSGS_BT(int user_id) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        ArrayList<Message> msgs = new ArrayList<Message>();
+        ResultSet rs;
+        
+        try {
+            rs = stmt.executeQuery("SELECT * FROM message WHERE user_id= '" + user_id + "' AND blood_donation= '1'");
+            while (rs.next()) {
+                String json = DB_Connection.getResultsToJSON(rs);
+                Gson gson = new Gson();
+                System.out.println(json);
+                Message msg = gson.fromJson(json, Message.class);
+                msgs.add(msg);
+            }
+            return msgs;
+        } catch (Exception e) {
+            System.err.println("Got an exception!");
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 }

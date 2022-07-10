@@ -1,0 +1,38 @@
+<div class="users-names">
+    none
+</div>
+
+<div class="msg">
+    <div class="messages">
+none
+    </div>
+    <form id="send-mess"action="" onsubmit="sendUserDocMsg('doc');return false;">
+        <input type="text" name="message" id="inpt1" required>
+        <input type="submit" value="send"  id="submt">
+    </form>
+</div>
+<div class="msgToallBT">
+    <h3>Blood Donation</h3>
+    <form id="messToAll"action="" onsubmit="SendBTtoALL();return false;">
+        TXT : 
+        <input type="text" name="message" id="inpt2" required>
+        <div class="bd">
+            
+            BT : 
+            <select id="user-blood" name="bloodtype" >
+                <option value="null">null</option>
+                <option value="A-">A-</option>
+                <option value="A+">A+</option>
+                <option value="B-">B-</option>
+                <option value="B+">B+</option>
+                <option value="AB-">AB-</option>
+                <option value="AB+">AB+</option>
+                <option value="0-">0-</option>
+                <option value="0+">0+</option>
+                <option value="Unknown">Unknown</option>
+            </select>
+        </div>
+        <input type="submit" value="send"  id="submt">
+    </form>
+</div>
+<link rel="stylesheet" href="css/docMess.css">

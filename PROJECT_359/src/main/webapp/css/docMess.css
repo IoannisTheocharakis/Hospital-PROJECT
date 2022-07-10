@@ -1,0 +1,80 @@
+.users-names{
+    width: 100%;
+    height: 100%;
+}
+.users-names .user{
+    width: 100%;
+    margin: 1vh 0;
+    padding: 0.5vh 0;
+    border:  1px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.users-names .user .click{
+    background-color: green;
+    color: white;
+    margin-right: 0.3vh;
+    padding: 0.3vh;
+    border-radius: 5px;
+}
+
+.msg{
+    width: 100%;
+    height: 100%;
+    margin : 0 auto;
+    border:  1px solid black;
+    display: none;
+}
+.msg .messages{
+    width: 100%;
+}
+.msg .messages div{
+    width: 100%;
+
+}
+.msg .messages .doc-msg{
+    display: flex;
+    justify-content: flex-end;
+}
+.msg form{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1vh 0;
+}
+.msg #send-mess #submt{
+    width: 30%;
+    background-color: green;
+    color: white;
+    padding: 0.3vh;
+    border-radius: 5px;
+    border : 0;
+}
+.msg #send-mess #inpt1{
+    width: 68%;
+}
+.msgToallBT{
+    width: 100%;
+}
+.msgToallBT h3{
+text-align: center;
+}
+.msgToallBT form{
+    border:  1px solid black;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1vh 0;
+    padding: 1vh 0;
+}
+.msgToallBT form #submt{
+    width: 20%;
+    background-color: green;
+    color: white;
+    padding: 0.3vh;
+    border-radius: 5px;
+    border : 0;
+}

@@ -34,12 +34,12 @@ function sendAjaxPost2() {
             if (UserJson.hasOwnProperty('doctor_id')) {
                 $("#ajaxContent").load("htmlpaths/doc/docpage.html");
             } else {
-                if(UserJson.username === "admin"){
+                if (UserJson.username === "admin") {
                     $("#ajaxContent").load("htmlpaths/admin/admin.html");
-                }else{
+                } else {
                     $("#ajaxContent").load("htmlpaths/user/userpage.html");
                 }
-               
+
             }
             setTimeout(function () {
                 document.querySelector('.user-name label').innerText = UserJson.username;
@@ -91,9 +91,9 @@ function isLoggedIn() {
             if (UserJson.hasOwnProperty('doctor_id')) {
                 $("#ajaxContent").load("htmlpaths/doc/docpage.html");
             } else {
-                if(UserJson.username === "admin"){
+                if (UserJson.username === "admin") {
                     $("#ajaxContent").load("htmlpaths/admin/admin.html");
-                }else{
+                } else {
                     $("#ajaxContent").load("htmlpaths/user/userpage.html");
                 }
             }
@@ -128,7 +128,7 @@ function DoctorsTable() {
 
             ALL_DOCTORS = JSON.parse(xhr.responseText);
             temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
-
+            console.log(temp_ALL_DOCTORS);
             let i = 0;
             let one_doctor;
             let x = "";
@@ -336,12 +336,12 @@ function LogIn() {
     $("#main-menu-body").load("login.html");
 }
 function HomePage() {
-    if(document.querySelector("#main-menu-body")){
+    if (document.querySelector("#main-menu-body")) {
         $("#main-menu-body").load("homecontent.html");
-    }else{
+    } else {
         $("#content").load("homecontent.html");
     }
-    
+
 }
 
 function DoctorAppointments() {
@@ -363,7 +363,22 @@ function goBloodTest() {
 
 function AddAppointment() {
     var today = new Date();
-    var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+    var date;
+    if (today.getDate() < 10) {
+        if ((today.getMonth() + 1) < 10) {
+            date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-0' + today.getDate();
+        } else {
+            date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-0' + today.getDate();
+        }
+
+    } else {
+        if ((today.getMonth() + 1) < 10) {
+            date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+        } else {
+            date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-' + today.getDate();
+        }
+    }
+
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + " " + time;
 
@@ -371,9 +386,10 @@ function AddAppointment() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            alert("Your schedule was successfully created.", dateTime);
+            location.reload();
         } else if (xhr.status === 403) {
             console.log(403);
+            alert("Choose another date.")
         } else {
 
             alert('Request failed. Returned status of ' + xhr.status);
@@ -397,6 +413,7 @@ function GetPatientID() {
             DocPatientsJson = JSON.parse(xhr.responseText);/*here it gets all the doctors patients*/
             GetRandevouzID();
             setTimeout(function () {
+                DateForRandevouz = [];
                 let DT;
                 for (let j = 0; j < DocPatientsJson.length; j++) {
                     let text = DocRandevouzJson[j].date_time;
@@ -432,10 +449,11 @@ function GetPatientID() {
                     DocPatientsJson[j].user_info = DocRandevouzJson[j].user_info;
                 }
                 DateForRandevouz.sort();
-                let x = "";
-                x += createDocViewAppointments(DocPatientsJson);
+                var x1 = "";
+
+                x1 = createDocViewAppointments(DocPatientsJson);
                 if (document.querySelector('.days')) {
-                    document.querySelector('.days').innerHTML = x;
+                    document.querySelector('.days').innerHTML = x1;
                 } else {
                     console.log("den brethike")
                     //document.querySelector('#content').innerHTML = x;
@@ -477,7 +495,7 @@ function createDocViewAppointments(patients) {
         let k = 0;
         for (let i = 0; i < DateForRandevouz.length; i++) {
             html += `
-            <div class="day day`+ 1 + `"> 
+            <div class="day day`+ i + `"> 
                 <div class="day-pdf">
                     <p>
                         Date : `+ DateForRandevouz[i] + `
@@ -510,10 +528,10 @@ function createDocViewAppointments(patients) {
                                 </div>
                             </div>
                             <div class="choices">
-                                <div class="done" onclick="getPatientTreatments(`+ one_doctor_patient.user_id + `,` + one_doctor_patient.randevouz_id + `,` + one_doctor_patient.amka + `)">
+                                <div class="done done-`+ one_doctor_patient.randevouz_id + `" onclick="getPatientTreatments(` + one_doctor_patient.user_id + `,` + one_doctor_patient.randevouz_id + `,` + one_doctor_patient.amka + `)">
                                     <img src="img/check.png" alt="">
                                 </div>
-                                <div class="cancel" onclick="showless(`+ one_doctor_patient.user_id + `,` + one_doctor_patient.randevouz_id + `)">
+                                <div class="cancel cancel-`+ one_doctor_patient.randevouz_id + `" onclick="showless(` + one_doctor_patient.user_id + `,` + one_doctor_patient.randevouz_id + `)">
                                     <img src="img/remove.png" alt="">
                                 </div>
                             </div>
@@ -670,11 +688,13 @@ var PatientTreatments;
 function getPatientTreatments(user_id, randevouz_id, user_amka) {
     document.querySelector(".user-info-" + randevouz_id).style.display = "block";
     UpdateRandevouToDone(randevouz_id);
+    document.querySelector('.cancel-' + randevouz_id).style.display = "none";
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             PatientTreatments = JSON.parse(xhr.responseText);
             patientBTinfo();
+
             let htmlTreat = " ";
 
             setTimeout(function () {
@@ -765,11 +785,11 @@ function getPatientTreatments(user_id, randevouz_id, user_amka) {
 }
 
 function UpdateRandevouToDone(randevouID) {
-//    console.log(randevouID);
+    //    console.log(randevouID);
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            alert("Updated.");
+            console.log("done");
         } else if (xhr.status === 403) {
             alert("An error occured while trying to create your schedule.");
         } else {
@@ -808,14 +828,20 @@ function patientBTinfo() {
 
 function showless(user_id, randevouz_id) {
     UpdateRandevouToCanceled(randevouz_id);
-    document.querySelector(".user-info-" + randevouz_id).style.display = "none";
+    GENERAL_MESSAGES(user_id, UserJson.doctor_id, "AKURWTHIKE TO RANTEBOU", "doctor");
+    //document.querySelector(".user-info-" + randevouz_id).style.display = "none";
+}
+function userdeleteRadevou(randevouID, doc_id) {
+    console.log("user - delete randevou")
+    UpdateRandevouToCanceled(randevouID);
+    GENERAL_MESSAGES(UserJson.user_id, doc_id, "AKURWTHIKE TO RANTEBOU doc", "user");
 }
 function UpdateRandevouToCanceled(randevouID) {
-    console.log(randevouID);
+
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            alert("Canceled.");
+            // location.reload();
         } else if (xhr.status === 403) {
             alert("This Randevou Value has changed. Try Refreshing the page.");
         } else {
@@ -832,52 +858,52 @@ function UpdateRandevouToCanceled(randevouID) {
 
 
 
-function API_doctors_dest() { }
-// function API_doctors_dest() {
-//     const data = null;
+// function API_doctors_dest() { }
+function API_doctors_dest() {
+    const data = null;
 
-//     const xhr = new XMLHttpRequest();
-//     xhr.withCredentials = true;
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
 
-//     xhr.addEventListener("readystatechange", function () {
-//         if (this.readyState === this.DONE) {
-//             DOC_DEST = JSON.parse(this.responseText);
-//             let temp_doc = ALL_DOCTORS;
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            DOC_DEST = JSON.parse(this.responseText);
+            let temp_doc = ALL_DOCTORS;
 
-//             for (let doc = 0; doc < temp_doc.length; doc++) {
-//                 if (DOC_DEST.distances[0][doc] !== null) {
-//                     temp_doc[doc].distances_foruser = DOC_DEST.distances[0][doc];
-//                 } else {
-//                     temp_doc[doc].distances_foruser = 1000000000000;
-//                 }
-//                 if (DOC_DEST.durations[0][doc] !== null) {
-//                     temp_doc[doc].car_duration_foruser = DOC_DEST.durations[0][doc];
-//                 } else {
-//                     temp_doc[doc].car_duration_foruser = 1000000000000;
-//                 }
-//             }
+            for (let doc = 0; doc < temp_doc.length; doc++) {
+                if (DOC_DEST.distances[0][doc] !== null) {
+                    temp_doc[doc].distances_foruser = DOC_DEST.distances[0][doc];
+                } else {
+                    temp_doc[doc].distances_foruser = 1000000000000;
+                }
+                if (DOC_DEST.durations[0][doc] !== null) {
+                    temp_doc[doc].car_duration_foruser = DOC_DEST.durations[0][doc];
+                } else {
+                    temp_doc[doc].car_duration_foruser = 1000000000000;
+                }
+            }
 
-//             temp_doc.sort(rankingSorter("distances_foruser"));
-//             temp_ALL_DOCTORS = temp_doc;
-//         }
-//     });
-//     var others_doc = "";
-//     for (var i = 0; i < ALL_DOCTORS.length; i++) {
-//         if (i < 25) {
-//             let lat = ALL_DOCTORS[i].lat;
-//             let lon = ALL_DOCTORS[i].lon;
-//             others_doc += lat + "%2C" + lon;
-//             if ((i + 1) != ALL_DOCTORS.length && (i + 1) < 25) {
-//                 others_doc += "%3B";
-//             }
-//         }
+            temp_doc.sort(rankingSorter("distances_foruser"));
+            temp_ALL_DOCTORS = temp_doc;
+        }
+    });
+    var others_doc = "";
+    for (var i = 0; i < ALL_DOCTORS.length; i++) {
+        if (i < 25) {
+            let lat = ALL_DOCTORS[i].lat;
+            let lon = ALL_DOCTORS[i].lon;
+            others_doc += lat + "%2C" + lon;
+            if ((i + 1) != ALL_DOCTORS.length && (i + 1) < 25) {
+                others_doc += "%3B";
+            }
+        }
 
-//     }
-//     xhr.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=" + UserJson.lat + "%2C" + UserJson.lon + "&destinations=" + others_doc);
-//     xhr.setRequestHeader("x-rapidapi-host", "trueway-matrix.p.rapidapi.com");
-//     xhr.setRequestHeader("x-rapidapi-key", "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212");
-//     xhr.send(data);
-// }
+    }
+    xhr.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=" + UserJson.lat + "%2C" + UserJson.lon + "&destinations=" + others_doc);
+    xhr.setRequestHeader("x-rapidapi-host", "trueway-matrix.p.rapidapi.com");
+    xhr.setRequestHeader("x-rapidapi-key", "2c6ac35988mshb9e10354146868fp18074ejsn4d35dfef1212");
+    xhr.send(data);
+}
 
 
 
@@ -897,6 +923,7 @@ function sort_doc_by_val(select) {
     API_doctors_dest();
     setTimeout(function () {
         let selected_val = select.options[select.selectedIndex].getAttribute("value");
+        console.log(selected_val);
         if (selected_val === "distance-by-car") {
             temp_ALL_DOCTORS.sort(rankingSorter("distances_foruser"));
             let i = 0;
@@ -925,7 +952,65 @@ function sort_doc_by_val(select) {
                 }
                 createDocMap();
             }, 350);
-        } else {
+        } else if (selected_val === "stars") {
+            temp_ALL_DOCTORS.sort(rankingSorter("stars"));
+            console.log(temp_ALL_DOCTORS);
+            let i = 0;
+            let one_doctor;
+            let x = "";
+            setTimeout(function () {
+                while (temp_ALL_DOCTORS[i] !== undefined) {
+
+                    one_doctor = temp_ALL_DOCTORS[i];
+
+                    x += createTableFromJSON(one_doctor);
+                    i++;
+                }
+
+                x += `
+                    <div class="size-map">
+                        <div class="doc-map" id="doc-map">
+                        
+                        </div>
+                    </div>`;
+
+                if (document.querySelector('#print-doc')) {
+                    document.querySelector('#print-doc').innerHTML = x;
+                } else {
+                    document.querySelector('#content').innerHTML = x;
+                }
+                createDocMap();
+            }, 350);
+        } else if (selected_val === "default") {
+            temp_ALL_DOCTORS.sort(rankingSorter("doctor_id"));
+            let i = 0;
+            let one_doctor;
+            let x = "";
+            setTimeout(function () {
+                while (temp_ALL_DOCTORS[i] !== undefined) {
+
+                    one_doctor = temp_ALL_DOCTORS[i];
+
+                    x += createTableFromJSON(one_doctor);
+                    i++;
+                }
+
+                x += `
+            <div class="size-map">
+                <div class="doc-map" id="doc-map">
+                
+                </div>
+            </div>`;
+
+                if (document.querySelector('#print-doc')) {
+                    document.querySelector('#print-doc').innerHTML = x;
+                } else {
+                    document.querySelector('#content').innerHTML = x;
+                }
+                createDocMap();
+            }, 350);
+        }
+        else {
             temp_ALL_DOCTORS.sort(rankingSorter("car_duration_foruser"));
             let i = 0;
             let one_doctor;
@@ -992,16 +1077,30 @@ function User_ActiveTreatments() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let treatments;
             treatments = JSON.parse(xhr.responseText);
-
             var x = "";
             var today = new Date();
-            var date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+            var date;
+            if (today.getDate() < 10) {
+                if ((today.getMonth() + 1) < 10) {
+                    date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-0' + today.getDate();
+                } else {
+                    date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-0' + today.getDate();
+                }
+
+            } else {
+                if ((today.getMonth() + 1) < 10) {
+                    date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+                } else {
+                    date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-' + today.getDate();
+                }
+            }
             setTimeout(function () {
                 let i = 0;
                 while (treatments[i] !== undefined) {
                     trtmnt = treatments[i];
 
                     if (date < trtmnt.end_date) {
+
                         x += `<div class="treatment">`;
 
                         x += ` 
@@ -1035,7 +1134,7 @@ function User_ActiveTreatments() {
 
         } else if (xhr.status === 403) {
             console.log(403)
-        }else{
+        } else {
             alert("alert Treatments !200");
         }
     };
@@ -1044,7 +1143,7 @@ function User_ActiveTreatments() {
     xhr.send();
 }
 
-
+var SelectForSorting;
 function AllDocRandevouz(doc_id) {
     $("#content").load("htmlpaths/user/userAppSelect.html");
     var xhr = new XMLHttpRequest();
@@ -1052,7 +1151,7 @@ function AllDocRandevouz(doc_id) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             // let doctors_toJson = JSON.parse(xhr.responseText);
             let AllRandevouz;
-
+            SelectForSorting = JSON.parse(xhr.responseText);
             AllRandevouz = JSON.parse(xhr.responseText);
             var x = "";
             setTimeout(function () {
@@ -1109,7 +1208,7 @@ function AllDocRandevouz(doc_id) {
 
         } else if (xhr.status === 403) {
             console.log(403)
-        }else{
+        } else {
             alert("alert Treatments !200");
         }
     };
@@ -1187,13 +1286,14 @@ function AllUserRandevouz(user_id) {
                                `+ userR.price + ` &euro;
                             </p>
                         </div>
-                        <div class="cancel" onclick="UpdateRandevouToCanceled(` + userR.randevouz_id + `)">
+                        <div class="cancel" onclick="userdeleteRadevou(` + userR.randevouz_id + ` , ` + userR.doctor_id + `)">
                             <image class="image" src="img/remove.png"> </image>
                         </div>
                         
                         `
                         x += `</div>`
                     } else if (userR.status === "done") {
+                        console.log(userR);
                         y += `<div class="done">`;
 
                         y += `
@@ -1224,7 +1324,17 @@ function AllUserRandevouz(user_id) {
                         <div class="done-img">
                             <image class="image" src="img/check.png"> </image>
                         </div>
-                        
+                        <form class="form`+ userR.randevouz_id + `" action="" onsubmit="giveStars(` + userR.randevouz_id + `,` + userR.doctor_id + `);return false;">
+                                <select id="user-blood-`+ userR.randevouz_id + `" name="bloodtype" >
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <input type="submit" value="stars"  class="smbt">
+                        </form>
                         
                         `
 
@@ -1738,11 +1848,11 @@ function ShowPatientBT2(type) {
                                      `
             }
         }
-        document.querySelector('#treatments').innerHTML=BTs;
+        document.querySelector('#treatments').innerHTML = BTs;
     }
 }
 
-function DoctorsTable2(){
+function DoctorsTable2() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -1761,9 +1871,9 @@ function DoctorsTable2(){
                 x += createTableFromJSON2(one_doctor);
                 i++;
             }
-           
+
             document.querySelector('#main-menu-body').innerHTML = x;
-            
+
         } else if (xhr.status !== 200) {
             if (document.querySelector('#print-doc').length > 0) {
                 document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
@@ -1777,7 +1887,7 @@ function DoctorsTable2(){
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send();
 }
-function createTableFromJSON2(data){
+function createTableFromJSON2(data) {
     html = "";
 
     if (data.certified) {
@@ -1800,7 +1910,7 @@ function createTableFromJSON2(data){
     return html;
 }
 
-function DoctorsTable3(){
+function DoctorsTable3() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -1808,35 +1918,35 @@ function DoctorsTable3(){
             ALL_DOCTORS = JSON.parse(xhr.responseText);
             temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
             console.log(temp_ALL_DOCTORS)
-            setTimeout(function(){
+            setTimeout(function () {
                 var html = '';
                 html += `
                     <div class="doctors">
                     
                     `
-                for(i=0; i<temp_ALL_DOCTORS.length;i++){
-                    if(temp_ALL_DOCTORS[i].certified === 0){
+                for (i = 0; i < temp_ALL_DOCTORS.length; i++) {
+                    if (temp_ALL_DOCTORS[i].certified === 0) {
                         html += `
                         <div class="doc">
                             <div>
-                                Name : `+temp_ALL_DOCTORS[i].username+`
+                                Name : `+ temp_ALL_DOCTORS[i].username + `
                             </div>
                             <div>
-                                amka : `+temp_ALL_DOCTORS[i].amka+`
+                                amka : `+ temp_ALL_DOCTORS[i].amka + `
                             </div>
-                            <div class="certify" onclick="certifydoc(`+temp_ALL_DOCTORS[i].doctor_id+`);return false;">
+                            <div class="certify" onclick="certifydoc(`+ temp_ALL_DOCTORS[i].doctor_id + `);return false;">
                                 Certify 
                             </div>
                         </div>
                     
                         `
                     }
-                    
+
                 }
-                html+=` </div>`
-                document.querySelector('#content').innerHTML=html;
-            },200 );
-            
+                html += ` </div>`
+                document.querySelector('#content').innerHTML = html;
+            }, 200);
+
         } else if (xhr.status !== 200) {
             if (document.querySelector('#print-doc').length > 0) {
                 document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
@@ -1852,7 +1962,7 @@ function DoctorsTable3(){
 }
 
 /*gia to certify ton doc */
-function certifydoc(doctor_id){
+function certifydoc(doctor_id) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -1868,11 +1978,11 @@ function certifydoc(doctor_id){
 
     xhr.open('POST', 'CertifyDoc');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send('doctor_id='+doctor_id);
+    xhr.send('doctor_id=' + doctor_id);
 }
 /*delete*/
-function deleteUser(id,type){
-    if(type==="doctor_id"){
+function deleteUser(id, type) {
+    if (type === "doctor_id") {
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -1885,17 +1995,17 @@ function deleteUser(id,type){
                 }
             }
         };
-    
+
         xhr.open('POST', 'DeleteUserDoc');
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.send('doctor_id='+id+'&type='+type);
-    }else{
+        xhr.send('doctor_id=' + id + '&type=' + type);
+    } else {
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-    
+
                 location.reload();
-    
+
             } else if (xhr.status !== 200) {
                 if (document.querySelector('#print-doc').length > 0) {
                     document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
@@ -1904,14 +2014,14 @@ function deleteUser(id,type){
                 }
             }
         };
-    
+
         xhr.open('POST', 'DeleteUserDoc');
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.send('user_id='+id+'&type='+type);
+        xhr.send('user_id=' + id + '&type=' + type);
     }
 }
 /*Show*/
-function USERANDDOC(){
+function USERANDDOC() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -1919,61 +2029,61 @@ function USERANDDOC(){
             ALL_DOCTORS = JSON.parse(xhr.responseText);
             temp_ALL_DOCTORS = JSON.parse(xhr.responseText);
             console.log(temp_ALL_DOCTORS)
-            
-            setTimeout(function(){
+
+            setTimeout(function () {
                 var html = '';
                 console.log(alluser)
                 html += `
                     <div class="doctors">
                     
                     `
-                for(i=0; i<temp_ALL_DOCTORS.length;i++){
-                        html += `
+                for (i = 0; i < temp_ALL_DOCTORS.length; i++) {
+                    html += `
                         <div class="doc">
                             <div>
-                                Name : `+temp_ALL_DOCTORS[i].username+`
+                                Name : `+ temp_ALL_DOCTORS[i].username + `
                             </div>
                             <div>
-                                amka : `+temp_ALL_DOCTORS[i].amka+`
+                                amka : `+ temp_ALL_DOCTORS[i].amka + `
                             </div>
                             <div>
                                doctor
                             </div>
-                            <div class="Delete" onclick="deleteUser(`+temp_ALL_DOCTORS[i].doctor_id+`,'doctor_id');return false;">
+                            <div class="Delete" onclick="deleteUser(`+ temp_ALL_DOCTORS[i].doctor_id + `,'doctor_id');return false;">
                                 Delete 
                             </div>
                         </div>`;
                 }
-                html+=` </div>`
+                html += ` </div>`
 
                 html += `
                 <div class="users">
                 
                 `
-                for(i=0; i<alluser.length;i++){
-                        html += `
+                for (i = 0; i < alluser.length; i++) {
+                    html += `
                         <div class="user">
                             <div>
-                                Name : `+alluser[i].username+`
+                                Name : `+ alluser[i].username + `
                             </div>
                             <div>
-                                amka : `+alluser[i].amka+`
+                                amka : `+ alluser[i].amka + `
                             </div>
                             <div>
                                user
                             </div>
-                            <div class="Delete" onclick="deleteUser(`+alluser[i].user_id+`,'user_id');return false;">
+                            <div class="Delete" onclick="deleteUser(`+ alluser[i].user_id + `,'user_id');return false;">
                                 Delete 
                             </div>
                         </div>`;
                 }
-                html+=` </div>`
+                html += ` </div>`
 
 
 
-                document.querySelector('#content').innerHTML=html;
-            },400 );
-            
+                document.querySelector('#content').innerHTML = html;
+            }, 400);
+
         } else if (xhr.status !== 200) {
             if (document.querySelector('#print-doc').length > 0) {
                 document.querySelector('.sorting #print-doc').innerHTML = "Failed to show dotors.";
@@ -1988,7 +2098,7 @@ function USERANDDOC(){
     xhr.send();
 }
 var alluser;
-function GETALLUSERS(){
+function GETALLUSERS() {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -2005,6 +2115,585 @@ function GETALLUSERS(){
     };
 
     xhr.open('GET', 'AllUSERS');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+
+
+var MSGusers;
+function returnDocOrUser(user) {
+    if (user == "doc") {//kalei o doc thn sunarthsh gia na tou deiksei tous users p exei rantebou
+        var xhr = new XMLHttpRequest();
+        $("#content").load("htmlpaths/doc/docMess.html");
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let randevouz;
+                randevouz = JSON.parse(xhr.responseText);
+                console.log(randevouz);
+                var UserRandevouz = [];
+                var userid = [];
+                var HtmlCode = ``;
+                for (let i = 0; i < randevouz.length; i++) {
+                    if (randevouz[i].status === "done") {
+                        if (UserRandevouz.length === 0) {
+                            UserRandevouz.push(randevouz[i]);
+                            userid.push(randevouz[i].user_id);
+                        } else {
+                            if (!userid.includes(randevouz[i].user_id)) {
+                                UserRandevouz.push(randevouz[i]);
+                                userid.push(randevouz[i].user_id);
+                            }
+                        }
+                    }
+                }
+                console.log(UserRandevouz)
+                for (let i = 0; i < UserRandevouz.length; i++) {
+                    HtmlCode += `<div class="user">
+                                    <div class="id"> user Id : `+ UserRandevouz[i].user_id + `  </div>
+                                    <div class="date">date time : `+ UserRandevouz[i].date_time + `</div>
+                                    <div class="click" onclick="setUSER(`+ UserRandevouz[i].user_id + `)">Messages</div>
+                                </div>`;
+                }
+                document.querySelector(".users-names").innerHTML = HtmlCode;
+            } else if (xhr.status !== 200) {
+                console.log(xhr.status)
+            }
+        };
+
+        xhr.open('GET', 'ReturnDocUserForMSG?type=doc&doctor_id=' + UserJson.doctor_id);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send();
+
+    } else { //kalei o xristis thn sunarthsh gia na tou deiksei tous giatrous p exei rantebou
+        var xhr = new XMLHttpRequest();
+        $("#content").load("htmlpaths/user/userMess.html");
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let randevouz;
+                randevouz = JSON.parse(xhr.responseText);
+                var docsRandevouz = [];
+                var docsid = [];
+                var HtmlCode = ``;
+                for (let i = 0; i < randevouz.length; i++) {
+                    if (randevouz[i].status === "done") {
+                        if (docsRandevouz.length === 0) {
+                            docsRandevouz.push(randevouz[i]);
+                            docsid.push(randevouz[i].doctor_id);
+                        } else {
+                            if (!docsid.includes(randevouz[i].doctor_id)) {
+                                docsRandevouz.push(randevouz[i]);
+                                docsid.push(randevouz[i].doctor_id);
+                            }
+                        }
+                    }
+                }
+                console.log(docsRandevouz)
+                for (let i = 0; i < docsRandevouz.length; i++) {
+                    HtmlCode += `<div class="doc">
+                                    <div class="id"> doctor Id : `+ docsRandevouz[i].doctor_id + `  </div>
+                                    <div class="date">date time : `+ docsRandevouz[i].date_time + `</div>
+                                    <div class="click" onclick="setDOC(`+ docsRandevouz[i].doctor_id + `)">Messages</div>
+                                </div>`;
+                }
+                document.querySelector(".docs-names").innerHTML = HtmlCode;
+            } else if (xhr.status !== 200) {
+                console.log(xhr.status)
+            }
+        };
+        console.log('ReturnDocUserForMSG?type=user&user_id=' + UserJson.user_id)
+        xhr.open('GET', 'ReturnDocUserForMSG?type=user&user_id=' + UserJson.user_id);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send();
+    }
+}
+
+var DOC_MSG;
+var USER_MSG;
+function setDOC(id) {
+    DOC_MSG = id;
+    document.querySelector(".msg").style.display = "block";
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let msgs;
+            msgs = JSON.parse(xhr.responseText);
+            var HtmlCode = ``;
+            for (let i = 0; i < msgs.length; i++) {
+                if (msgs[i].sender === "user") {
+                    HtmlCode += `<div class="user-msg">
+                                     You : `+ msgs[i].message + ` 
+                                </div>`;
+                } else {
+                    HtmlCode += `<div class="doc-msg">
+                                     Doctor : `+ msgs[i].message + ` 
+                                </div>`;
+                }
+            }
+
+            document.querySelector(".messages").innerHTML = HtmlCode;
+        } else if (xhr.status === 403) {
+            document.querySelector(".messages").innerHTML = "dont have msgs";
+        } else {
+            alert("error");
+        }
+    };
+    xhr.open('GET', 'MESSAGES?user_id=' + UserJson.user_id + '&doctor_id=' + id);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+//fix
+function setUSER(id) {
+    USER_MSG = id;
+    document.querySelector(".msg").style.display = "block";
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let msgs;
+            msgs = JSON.parse(xhr.responseText);
+            var HtmlCode = ``;
+            for (let i = 0; i < msgs.length; i++) {
+                if (msgs[i].sender === "user") {
+                    HtmlCode += `<div class="user-msg">
+                                     User : `+ msgs[i].message + `  
+                                </div>`;
+                } else {
+                    HtmlCode += `<div class="doc-msg">
+                                     You : `+ msgs[i].message + `  
+                                </div>`;
+                }
+            }
+
+            document.querySelector(".messages").innerHTML = HtmlCode;
+        } else if (xhr.status === 403) {
+            document.querySelector(".messages").innerHTML = "dont have msgs";
+        } else {
+            alert("error");
+        }
+    };
+    xhr.open('GET', 'MESSAGES?user_id=' + id + '&doctor_id=' + UserJson.doctor_id);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+function GENERAL_MESSAGES(user_id, doctor_id, message, type) {
+    var today = new Date();
+    var date;
+    if (today.getDate() < 10) {
+        if ((today.getMonth() + 1) < 10) {
+            date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-0' + today.getDate();
+        } else {
+            date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-0' + today.getDate();
+        }
+
+    } else {
+        if ((today.getMonth() + 1) < 10) {
+            date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+        } else {
+            date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-' + today.getDate();
+        }
+    }
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    date = date + " " + time;
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("message sent");
+        } else if (xhr.status !== 200) {
+            console.log("doest sent")
+        }
+    };
+    xhr.open('POST', 'NewMess');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send("message=" + message + "&sender=" + type + "&blood_donation=0&user_id=" + user_id + "&doctor_id=" + doctor_id + "&date_time=" + date + "&bloodtype=null");
+}
+function sendUserDocMsg(type) {
+    if (type === "user") {
+        var today = new Date();
+        var date;
+        if (today.getDate() < 10) {
+            if ((today.getMonth() + 1) < 10) {
+                date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-0' + today.getDate();
+            } else {
+                date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-0' + today.getDate();
+            }
+
+        } else {
+            if ((today.getMonth() + 1) < 10) {
+                date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+            } else {
+                date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-' + today.getDate();
+            }
+        }
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        date = date + " " + time;
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("message sent");
+                setDOC(DOC_MSG);
+
+            } else if (xhr.status !== 200) {
+                console.log("doest sent")
+            }
+        };
+        var data = $('#send-mess').serialize();
+        xhr.open('POST', 'NewMess');
+        console.log(DOC_MSG);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send(data + "&sender=" + type + "&blood_donation=0&user_id=" + UserJson.user_id + "&doctor_id=" + DOC_MSG + "&date_time=" + date + "&bloodtype=null");
+    } else {
+        var today = new Date();
+        var date;
+        if (today.getDate() < 10) {
+            if ((today.getMonth() + 1) < 10) {
+                date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-0' + today.getDate();
+            } else {
+                date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-0' + today.getDate();
+            }
+
+        } else {
+            if ((today.getMonth() + 1) < 10) {
+                date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+            } else {
+                date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-' + today.getDate();
+            }
+        }
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        date = date + " " + time;
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("message sent");
+                setUSER(USER_MSG);
+
+            } else if (xhr.status !== 200) {
+                console.log("doest sent")
+            }
+        };
+        var data = $('#send-mess').serialize();
+        xhr.open('POST', 'NewMess');
+        console.log(USER_MSG);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send(data + "&sender=" + type + "&blood_donation=0&user_id=" + USER_MSG + "&doctor_id=" + UserJson.doctor_id + "&date_time=" + date + "&bloodtype=null");
+    }
+
+}
+
+
+
+SelectForSorting;
+function sort_randevou(select) {
+    setTimeout(function () {
+        let selected_val = select.options[select.selectedIndex].getAttribute("value");
+        if (selected_val === "default") {
+            SelectForSorting.sort(rankingSorter("randevouz_id"));
+            var x = "";
+            setTimeout(function () {
+                let i = 0;
+                while (SelectForSorting[i] !== undefined) {
+
+                    allR = SelectForSorting[i];
+                    if (allR.status === "free") {
+                        let doc_name = true;
+                        let j = 0;
+                        while (doc_name) {
+
+                            if (allR.doctor_id === ALL_DOCTORS[j].doctor_id) {
+                                doc_name = false;
+                                allR.doc_name = ALL_DOCTORS[j].firstname + ALL_DOCTORS[j].lastname;
+                            }
+
+                            j++;
+                        }
+                        x += `<div class="rantevou">`
+                        x += `    
+                            <div class="elem">
+                                <label for="">Doctor Name: </label>
+                                <label class="dc-name" name="name">`+ allR.doc_name + `</label>
+                            </div>
+                            <div class="elem date">
+                                <label for="">Date : </label>
+                                <label class="dc-date" name="date">`+ allR.date_time + `</label>
+                            </div>
+                            <div class="elem">
+                                <label for="">Appointment price :</label>
+                                
+                                <label class="dc-date" name="appointment_price">`+ allR.price + ` 	&euro;</label>
+                            </div>
+                            <div class="elem close" onclick="BookAppointment(` + allR.randevouz_id + `)">
+                                <label data="" type=""> Book</label>
+                            </div>`
+                        x += `</div>`
+
+                    }
+
+
+                    i++;
+                }
+
+                if (document.querySelector('.all-R')) {
+                    document.querySelector('.all-R').innerHTML = x;
+                } else {
+                    alert("Doesnt exist");
+                }
+            }, 70);
+        } else {
+            SelectForSorting.sort(rankingSorter("price"));
+            var x = "";
+            setTimeout(function () {
+                let i = 0;
+                while (SelectForSorting[i] !== undefined) {
+
+                    allR = SelectForSorting[i];
+                    if (allR.status === "free") {
+                        let doc_name = true;
+                        let j = 0;
+                        while (doc_name) {
+
+                            if (allR.doctor_id === ALL_DOCTORS[j].doctor_id) {
+                                doc_name = false;
+                                allR.doc_name = ALL_DOCTORS[j].firstname + ALL_DOCTORS[j].lastname;
+                            }
+
+                            j++;
+                        }
+                        x += `<div class="rantevou">`
+                        x += `    
+                            <div class="elem">
+                                <label for="">Doctor Name: </label>
+                                <label class="dc-name" name="name">`+ allR.doc_name + `</label>
+                            </div>
+                            <div class="elem date">
+                                <label for="">Date : </label>
+                                <label class="dc-date" name="date">`+ allR.date_time + `</label>
+                            </div>
+                            <div class="elem">
+                                <label for="">Appointment price :</label>
+                                
+                                <label class="dc-date" name="appointment_price">`+ allR.price + ` 	&euro;</label>
+                            </div>
+                            <div class="elem close" onclick="BookAppointment(` + allR.randevouz_id + `)">
+                                <label data="" type=""> Book</label>
+                            </div>`
+                        x += `</div>`
+
+                    }
+
+
+                    i++;
+                }
+
+                if (document.querySelector('.all-R')) {
+                    document.querySelector('.all-R').innerHTML = x;
+                } else {
+                    alert("Doesnt exist");
+                }
+            }, 70);
+        }
+    }, 200);
+
+}
+var is4 = false;
+
+setInterval(function () {
+    if (UserJson != undefined) {
+        if (!UserJson.hasOwnProperty('doctor_id')) {
+            var today = new Date();
+            var date;
+            if (today.getDate() < 10) {
+                if ((today.getMonth() + 1) < 10) {
+                    date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-0' + today.getDate();
+                } else {
+                    date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-0' + today.getDate();
+                }
+
+            } else {
+                if ((today.getMonth() + 1) < 10) {
+                    date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+                } else {
+                    date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-' + today.getDate();
+                }
+            }
+
+            var time = today.getHours();
+            var dateTime = date + " " + time;
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var Rand = JSON.parse(xhr.responseText);
+                    let date1;
+                    let time1;
+                    let temp;
+                    for (let i = 0; i < Rand.length; i++) {
+                        temp = Rand[i].date_time.split(" ")
+                        date1 = temp[0];
+                        time1 = parseInt(temp[1].substring(0, 2));
+
+                        if (date1 === date) {
+                            if ((time - time1) <= 4 && (time - time1) >= 0)
+                                is4 = true;
+                        }
+                    }
+                    if (is4) {
+                        if (document.querySelector(".wres4")) {
+                            document.querySelector(".wres4").innerHTML = "<h2> u have randevou soon (less than 4 hours) </h2>"
+                        }
+                    } else {
+                        if (document.querySelector(".wres4")) {
+                            document.querySelector(".wres4").innerHTML = ""
+                        }
+                    }
+                } else if (xhr.status === 403) {
+                    console.log("failed");
+                } else {
+
+                    console.log(xhr.status)
+                }
+            };
+            xhr.open('GET', 'UserRandevouz?&user_id=' + UserJson.user_id);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send();
+        }
+    }
+
+
+}, 10000);
+
+
+
+function SendBTtoALL() {
+    GETALLUSERS();
+    setTimeout(function () {
+        var TEMP_BT = document.querySelector("#user-blood").value;
+
+        for (let j = 0; j < alluser.length; j++) {
+
+            if (TEMP_BT === alluser[j].bloodtype) {
+                var today = new Date();
+                var date;
+                if (today.getDate() < 10) {
+                    if ((today.getMonth() + 1) < 10) {
+                        date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-0' + today.getDate();
+                    } else {
+                        date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-0' + today.getDate();
+                    }
+
+                } else {
+                    if ((today.getMonth() + 1) < 10) {
+                        date = today.getFullYear() + "-0" + (today.getMonth() + 1) + '-' + today.getDate();
+                    } else {
+                        date = today.getFullYear() + "-" + (today.getMonth() + 1) + '-' + today.getDate();
+                    }
+                }
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                date = date + " " + time;
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        console.log("messages sent"); console.log("AIMA EINAI : " + TEMP_BT)
+
+                    } else if (xhr.status !== 200) {
+                        console.log("doest sent")
+                    }
+                };
+                var data = $('#send-mess').serialize();
+                xhr.open('POST', 'NewMess');
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                var tempINPUT = document.querySelector("#inpt2").value;
+                xhr.send("message=" + tempINPUT + "&sender=doc&blood_donation=1&user_id=" + alluser[j].user_id + "&doctor_id=" + UserJson.doctor_id + "&date_time=" + date + "&bloodtype=" + TEMP_BT);
+            }
+
+        }
+    }, 400)
+}
+
+
+
+setInterval(function () {
+    if (UserJson != undefined) {
+        if (!UserJson.hasOwnProperty('doctor_id')) {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var Rand = JSON.parse(xhr.responseText);
+                    var x = "";
+
+                    for (let i = 0; i < Rand.length; i++) {
+                        if (Rand[i].bloodtype === UserJson.bloodtype) {
+                            x = "EMERGENCY BLOOD DONATION , TYPE : " + Rand[i].bloodtype;
+                        } else {
+                            if (Rand[i].bloodtype.length === 2) {
+                                if (Rand[i].bloodtype[0] === "A" && Rand[i].bloodtype[1] === " ") {
+                                    if ("A+" === UserJson.bloodtype) {
+                                        x = "EMERGENCY BLOOD DONATION , TYPE : A+";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (document.querySelector(".BDT")) {
+                        document.querySelector(".BDT").innerHTML = x;
+                    }
+
+                } else if (xhr.status === 403) {
+                    console.log("failed");
+                } else {
+
+                    console.log(xhr.status)
+                }
+            };
+            xhr.open('GET', 'MESSAGES_BT?&user_id=' + UserJson.user_id);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send();
+        }
+    }
+
+
+}, 10000);
+
+
+
+function giveStars(randevou, doctor_id) {
+    Return1Doc(doctor_id);
+    setTimeout(function () {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+
+            } else if (xhr.status === 403) {
+                console.log(403);
+            } else {
+
+                alert('Request failed. Returned status of ' + xhr.status);
+            }
+        };
+        // set the content type
+        xhr.open('POST', 'SetStars');
+        let getstar = document.querySelector("#user-blood-" + randevou).value;
+        let completestar = parseInt(stars) + parseInt(getstar);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        console.log("stars=" + completestar + "&doctor_id=" + doctor_id)
+        xhr.send("stars=" + completestar + "&doctor_id=" + doctor_id);
+    }, 400);
+
+}
+var stars = 0;
+function Return1Doc(doctor_id) {
+
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            x = JSON.parse(xhr.responseText);
+
+            stars = x.stars;
+        } else if (xhr.status === 403) {
+            document.querySelector('.user-already-exist').innerText = xhr.responseText + " already exists.";
+        } else {
+
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    // set the content type
+    xhr.open('GET', 'Return1doc?doctor_id=' + doctor_id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send();
 }

@@ -1,0 +1,57 @@
+.docs-names{
+    width: 100%;
+    height: 100%;
+}
+.docs-names .doc{
+    width: 100%;
+    margin: 1vh 0;
+    padding: 0.5vh 0;
+    border:  1px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.docs-names .doc .click{
+    background-color: green;
+    color: white;
+    margin-right: 0.3vh;
+    padding: 0.3vh;
+    border-radius: 5px;
+}
+
+.msg{
+    width: 100%;
+    height: 100%;
+    margin : 0 auto;
+    border:  1px solid black;
+    display: none;
+}
+.msg .messages{
+    width: 100%;
+}
+.msg .messages div{
+    width: 100%;
+
+}
+.msg .messages .user-msg{
+    display: flex;
+    justify-content: flex-end;
+}
+.msg form{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1vh 0;
+}
+.msg form #submt{
+    width: 30%;
+    background-color: green;
+    color: white;
+    padding: 0.3vh;
+    border-radius: 5px;
+    border : 0;
+}
+.msg form #inpt{
+    width: 68%
+}

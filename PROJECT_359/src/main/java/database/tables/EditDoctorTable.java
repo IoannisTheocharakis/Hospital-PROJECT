@@ -87,7 +87,6 @@ public class EditDoctorTable {
         return null;
     }
 
-
     public Doctor databaseToDoctor(String username, String password) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
@@ -110,7 +109,7 @@ public class EditDoctorTable {
     public ArrayList<Doctor> databaseToDoctors() throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
-        ArrayList<Doctor> doctors=new ArrayList<Doctor>();
+        ArrayList<Doctor> doctors = new ArrayList<Doctor>();
         ResultSet rs;
         try {
             rs = stmt.executeQuery("SELECT * FROM doctors");
@@ -229,11 +228,6 @@ public class EditDoctorTable {
         }
     }
 
-
-
-
-
-
     public Doctor databaseToDoctorUsername(String username) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
@@ -252,16 +246,16 @@ public class EditDoctorTable {
         }
         return null;
     }
-    public boolean DoctorDataExist(String data, String input) throws SQLException, ClassNotFoundException{
+
+    public boolean DoctorDataExist(String data, String input) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
-       
 
         ResultSet rs;
         try {
-            rs = stmt.executeQuery("SELECT * FROM doctors WHERE "+data +"= '" + input + "'");
+            rs = stmt.executeQuery("SELECT * FROM doctors WHERE " + data + "= '" + input + "'");
             rs.next();
-            String json=DB_Connection.getResultsToJSON(rs);
+            String json = DB_Connection.getResultsToJSON(rs);
             Gson gson = new Gson();
             SimpleUser user = gson.fromJson(json, SimpleUser.class);
             return true;
@@ -271,6 +265,7 @@ public class EditDoctorTable {
         }
         return false;
     }
+
     public void deleteDOC(int Doc) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
@@ -279,10 +274,36 @@ public class EditDoctorTable {
         stmt.close();
         con.close();
     }
-public void updateDocCertify(int doctor_id) throws SQLException, ClassNotFoundException{
+
+    public void updateDocCertify(int doctor_id) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
-        String update="UPDATE doctors SET certified='1' WHERE doctor_id = '"+doctor_id+"'";
+        String update = "UPDATE doctors SET certified='1' WHERE doctor_id = '" + doctor_id + "'";
+        stmt.executeUpdate(update);
+    }
+
+    public String Doctor1Info(int docID) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT * FROM doctors WHERE doctor_id = '" + docID + "'");
+            rs.next();
+            String json = DB_Connection.getResultsToJSON(rs);
+            return json;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public void UpdateSTARS(int doc, int stars) throws SQLException, ClassNotFoundException {
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        System.out.println("UPDATE doctors SET stars='" + stars + "' WHERE doctor_id = '" + doc + "'");
+        String update = "UPDATE doctors SET stars='" + stars + "'WHERE doctor_id = '" + doc + "'";
         stmt.executeUpdate(update);
     }
 }
