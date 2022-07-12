@@ -1,0 +1,210 @@
+.rantevou{
+    width: 80%;
+    height: 80%;
+}
+.add-view{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+}
+.add , .view{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.add{
+    border: 1px solid black;
+}
+.rantevou-container{
+    margin-top: 2vh;
+}
+.login-submit{
+    margin-top: 1vh;
+}
+
+#time{
+    width: 100%;
+}
+.elements .element-box{
+    width: 100%;
+    margin: 1.5vh 0 ;
+}
+.elements .date-of-birth{
+    width: 100%;
+}
+.add-rantevou .elements .element-box input{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.add-rantevou .elements .element-box input{
+    width: 100%;
+
+}
+.elements .element-box select,.add-rantevou .elements .element-box .hour-min input{
+    width: 15%;
+}
+.elements{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.hour-min{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.app-type-label{
+    display: flex;
+    justify-content: center;
+    margin: 3vh 0;
+}
+.view-rantevou{
+    display: none;
+}
+.done img,.cancel img,.pdf img{
+    width: 4vh;
+    height: 4vh;
+    cursor: pointer;
+}
+
+.days{
+    width: 100%;
+    height: 100%;
+}
+.day{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.day-pdf{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 2vh;
+}
+.day-pdf p{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pdf{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.day-pdf .pdf img{
+    width: 4vh;
+    height: 4vh;
+}
+
+.users{
+    width: 100%;
+    height:auto;
+
+}
+.user{
+    margin:1vh 0.5vh;
+    padding: 1vh 0.3vh;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+.info-choices{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.patient-info{
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.choices{
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:0 1vh;
+}
+.choices .done,.choices .cancel{
+    margin : 0 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-info{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    display: none;
+}
+.treatment{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5vh 1vh;
+}
+.bloodtest .type{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5vh 1vh;
+}
+.new-treatment form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5vh 1vh;
+}
+.new-treatment form div{
+    width: 21%;
+}
+.new-treatment form div input{
+    width: 100%;
+    border : 1px solid green;
+    border-radius: 5px;
+}
+.sbmt{
+    display: flex;
+    align-self: flex-end;
+
+}
+.sbmt input{
+    background-color: green;
+    color:white;
+}
+.bloodtest{
+    display: flex;
+    flex-direction: column;
+}
+.title{
+text-align: center;
+    align-items: center;
+    font-weight: bold;
+    margin:1vh;
+}
+.bloodT{
+    width: 17%;
+    text-align: center;
+    padding: 0.5vh;
+    background-color: rgb(0, 202, 175);;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+}

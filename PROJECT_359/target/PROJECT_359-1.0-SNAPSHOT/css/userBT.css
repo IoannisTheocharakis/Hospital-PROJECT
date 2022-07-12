@@ -1,0 +1,126 @@
+
+.bt{
+    width: 80%;
+    height: 80%;
+}
+
+.add-view{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+}
+
+.add , .view{
+    width: calc(100% / 2 - 20px); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add{
+    border: 1px solid black;
+}
+
+.elem{
+    margin : 0.5vh 0;
+    width: calc(100% / 2 - 20px);
+}
+
+.addBT-container form {
+    margin-top:1.5vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.sbmt{
+    
+    width: 100%;
+}
+
+.date{
+    width: 100%;
+   
+}
+
+.date input{
+    text-align: center;
+}
+
+.sbmt input{
+    width: 100%;
+    background-color: green;
+    color:white;
+    border-radius: 5px;
+}
+
+.addBT-container form div input{
+    border :1px solid green;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.viewBT-container h3{
+    text-align: center;
+    margin: 0.7vh 0 ;;
+}
+
+.viewBT-container{
+    display: none;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.prev-bts{
+    width: 100%;
+
+}
+
+.prev-bt{
+    border: 1px solid black; 
+    padding: 0.3vh;
+}
+
+.date-center{
+    display: flex;
+    justify-content: space-between;
+}
+
+.info div{
+    margin : 0.3vh 0;
+    display: flex;
+    justify-content: space-between;
+}
+.info{  
+    width: 90%;
+    margin: 1vh auto;
+}
+.info .type{
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+}
+.info .type div{
+    width: 20%;
+    display: flex;
+    justify-content:flex-start;
+}
+.bt-treatment{
+    width: 90%;
+    margin: 0 auto;
+}
+.bt-treatment .title{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.bt-treatment .treat-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.bt-treatment .treat-info .info{
+    width: 100%;
+}

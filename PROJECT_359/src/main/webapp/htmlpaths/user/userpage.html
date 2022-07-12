@@ -1,0 +1,41 @@
+
+        <div class="navbar">
+            <div class="nav-menu">
+                <!-- <div onclick="GetBmi();return false;">
+                    <label class="">BMI & Health</label>
+                </div> -->
+                <div onclick="HomePage();return false;">
+                    <label >Menu</label>
+                </div>
+                <div onclick="DoctorsTable();return false;">
+                    <label class="">Appointment</label>
+                </div>
+                <div class="blood-test" onclick="goBloodTest()">
+                    <label class="">Blood Test</label>
+                </div>
+                <div class="active-treatments" onclick="goTreatments()">
+                    <label class="">Treatments</label>
+                </div>
+            </div>
+            <div class="profile" onclick="SeeProfileDetails()">
+                <div class="user-name" onclick="getUserName()">
+                    <label>name</label>
+                </div>
+                <div class="logout" onclick="LogOut()">
+                    <label>Log Out</label>
+                </div>
+                
+            </div>
+        </div>
+        <div id="content">
+    
+            <div id='doctors-table'></div>
+        </div>
+        <br>
+        <link rel="stylesheet" href="css/userpage.css">
+
+        <script>
+            function goTreatments(){
+                $("#content").load("htmlpaths/user/userTreatments.html");
+            }
+        </script>
